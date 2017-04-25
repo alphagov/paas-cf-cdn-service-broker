@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+#
+# CDN Broker properties
+#
+
+
+# Directory to store the CDN Broker configuration files
+export CDN_BROKER_CONF_DIR=${JOB_DIR}/config
+
+# Directory to store the CDN Broker log files
+export CDN_BROKER_LOG_DIR=${LOG_DIR}
+
+# Directory to store the CDN Broker process IDs
+export CDN_BROKER_PID_DIR=${RUN_DIR}
+
+# Directory to store the CDN Broker data files
+export CDN_BROKER_STORE_DIR=${STORE_DIR}
+
+# Directory to store the CDN Broker temp files
+export CDN_BROKER_TMP_DIR=${TMP_DIR}
+
+# Broker Listen Port
+export BROKER_PORT="<%= p('cdn-broker.port') %>"
+
+# Broker username
+export BROKER_USERNAME="<%= p('cdn-broker.username') %>"
+
+# An email for generating the cert
+export EMAIL="<%= p('cdn-broker.email') %>"
+
+# ACME url
+export ACME_URL="<%= p('cdn-broker.acme_url') %>"
+
+# Broker bucket, used to store certstrap HTTP challenges
+export BUCKET="<%= p('cdn-broker.bucket') %>"
+
+# IAM path prefix
+export IAM_PATH_PREFIX="<%= p('cdn-broker.iam_path_prefix') %>"
+
+# AWS Access Key ID
+export AWS_ACCESS_KEY_ID="<%= p('cdn-broker.aws_access_key_id') %>"
+
+# AWS Secret Access Key
+export AWS_SECRET_ACCESS_KEY="<%= p('cdn-broker.aws_secret_access_key') %>"
+
+# AWS RDS Region
+export AWS_DEFAULT_REGION="<%= p('cdn-broker.aws_region') %>"
+
+# Server side encryption
+export SERVER_SIDE_ENCRYPTION="<%= p('cdn-broker.server_side_encryption') %>"
+
+# API address for the CLI
+export API_ADDRESS="<%= p('cdn-broker.api_address') %>"
+
+# Client ID
+export CLIENT_ID="<%= p('cdn-broker.client_id') %>"
+
+# Client secret
+export CLIENT_SECRET="<%= p('cdn-broker.client_secret') %>"
+
+# Default origin. e.g. example.com
+export DEFAULT_ORIGIN="<%= p('cdn-broker.default_origin') %>"
+
+# Cron schedlue
+export SCHEDULE="<%= p('cdn-broker.schedule') %>"
