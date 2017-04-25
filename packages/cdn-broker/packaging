@@ -7,11 +7,10 @@ export PATH=${GOROOT}/bin:${PATH}
 
 # Build AWS CDN Service Broker package
 echo "Building CDN Service Broker..."
-PACKAGE_NAME=github.com/alphagov/cdn-broker
+PACKAGE_NAME=github.com/alphagov/paas-cdn-broker
 mkdir -p ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
 cp -a ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}/* ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
-#export GOPATH=${BOSH_INSTALL_TARGET}:${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/Godeps/_workspace
-export GOPATH=${BOSH_INSTALL_TARGET}
+export GOPATH=${BOSH_INSTALL_TARGET}:${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/src/cdn-broker/
 go install ${PACKAGE_NAME}
 
 # Clean up pkg artifacts
