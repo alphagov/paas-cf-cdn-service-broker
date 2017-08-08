@@ -11,7 +11,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/cloudfront"
 	"github.com/aws/aws-sdk-go/service/iam"
-	"github.com/aws/aws-sdk-go/service/s3"
 
 	"github.com/18F/cf-cdn-service-broker/config"
 	"github.com/18F/cf-cdn-service-broker/models"
@@ -27,19 +26,24 @@ func main() {
 		logger.Fatal("new-settings", err)
 	}
 
+	session := session.New(aws.NewConfig().WithRegion(settings.AwsDefaultRegion))
+
 	db, err := config.Connect(settings)
 	if err != nil {
 		logger.Fatal("connect", err)
 	}
 
-	session := session.New(aws.NewConfig().WithRegion(settings.AwsDefaultRegion))
-	manager := models.RouteManager{
-		Logger:     logger,
-		Iam:        &utils.Iam{settings, iam.New(session)},
-		CloudFront: &utils.Distribution{settings, cloudfront.New(session)},
-		Acme:       &utils.Acme{settings, s3.New(session)},
-		DB:         db,
+	if err := db.AutoMigrate(&models.Route{}, &models.Certificate{}, &models.UserData{}).Error; err != nil {
+		logger.Fatal("migrate", err)
 	}
+
+	manager := models.NewManager(
+		logger,
+		&utils.Iam{settings, iam.New(session)},
+		&utils.Distribution{settings, cloudfront.New(session)},
+		settings,
+		db,
+	)
 
 	c := cron.New()
 

@@ -14,14 +14,16 @@ import (
 	"github.com/18F/cf-cdn-service-broker/cf"
 	"github.com/18F/cf-cdn-service-broker/config"
 	"github.com/18F/cf-cdn-service-broker/models"
+	"github.com/18F/cf-cdn-service-broker/utils"
 )
 
 type Options struct {
-	Domain         string `json:"domain"`
-	Origin         string `json:"origin"`
-	Path           string `json:"path"`
-	InsecureOrigin bool   `json:"insecure_origin"`
-	Cookies        bool   `json:"cookies"`
+	Domain         string   `json:"domain"`
+	Origin         string   `json:"origin"`
+	Path           string   `json:"path"`
+	InsecureOrigin bool     `json:"insecure_origin"`
+	Cookies        bool     `json:"cookies"`
+	Headers        []string `json:"headers"`
 }
 
 type CdnServiceBroker struct {
@@ -80,7 +82,10 @@ func (b *CdnServiceBroker) Provision(
 		return spec, brokerapi.ErrInstanceAlreadyExists
 	}
 
-	headers := b.getHeaders(options)
+	headers, err := b.getHeaders(options)
+	if err != nil {
+		return spec, err
+	}
 
 	tags := map[string]string{
 		"Organization": details.OrganizationGUID,
@@ -119,27 +124,36 @@ func (b *CdnServiceBroker) LastOperation(
 
 	switch route.State {
 	case models.Provisioning:
+		instructions, err := b.manager.GetDNSInstructions(route)
+		if err != nil {
+			return brokerapi.LastOperation{}, err
+		}
+		if len(instructions) != len(route.GetDomains()) {
+			return brokerapi.LastOperation{}, fmt.Errorf("Expected to find %d tokens; found %d", len(route.GetDomains()), len(instructions))
+		}
+		description := fmt.Sprintf(
+			"Provisioning in progress [%s => %s]; CNAME or ALIAS domain %s to %s or create TXT record(s): \n%s",
+			route.DomainExternal, route.Origin, route.DomainExternal, route.DomainInternal,
+			strings.Join(instructions, "\n"),
+		)
 		return brokerapi.LastOperation{
-			State: brokerapi.InProgress,
-			Description: fmt.Sprintf(
-				"Provisioning in progress [%s => %s]; CNAME domain %s to %s.",
-				route.DomainExternal, route.Origin, route.DomainExternal, route.DomainInternal,
-			),
+			State:       brokerapi.InProgress,
+			Description: description,
 		}, nil
 	case models.Deprovisioning:
 		return brokerapi.LastOperation{
 			State: brokerapi.InProgress,
 			Description: fmt.Sprintf(
-				"Deprovisioning in progress [%s => %s]",
-				route.DomainExternal, route.Origin,
+				"Deprovisioning in progress [%s => %s]; CDN domain %s",
+				route.DomainExternal, route.Origin, route.DomainInternal,
 			),
 		}, nil
 	default:
 		return brokerapi.LastOperation{
 			State: brokerapi.Succeeded,
 			Description: fmt.Sprintf(
-				"Service instance provisioned [%s => %s]",
-				route.DomainExternal, route.Origin,
+				"Service instance provisioned [%s => %s]; CDN domain %s",
+				route.DomainExternal, route.Origin, route.DomainInternal,
 			),
 		}, nil
 	}
@@ -199,7 +213,10 @@ func (b *CdnServiceBroker) Update(
 		return brokerapi.UpdateServiceSpec{}, err
 	}
 
-	headers := b.getHeaders(options)
+	headers, err := b.getHeaders(options)
+	if err != nil {
+		return brokerapi.UpdateServiceSpec{}, err
+	}
 
 	err = b.manager.Update(instanceID, options.Domain, options.Origin, options.Path, options.InsecureOrigin, headers, options.Cookies)
 	if err != nil {
@@ -218,6 +235,7 @@ func (b *CdnServiceBroker) createBrokerOptions(details []byte) (options Options,
 	options = Options{
 		Origin:  b.settings.DefaultOrigin,
 		Cookies: true,
+		Headers: []string{},
 	}
 	err = json.Unmarshal(details, &options)
 	if err != nil {
@@ -243,17 +261,17 @@ func (b *CdnServiceBroker) parseProvisionDetails(details brokerapi.ProvisionDeta
 			return
 		}
 	}
+	if len(options.Headers) > 9 {
+		err = errors.New("must pass no more than 9 custom headers to forward")
+		return
+	}
 	return
 }
 
 // parseUpdateDetails will attempt to parse the update details and then verify that at least "domain" or "origin"
 // are provided.
 func (b *CdnServiceBroker) parseUpdateDetails(details brokerapi.UpdateDetails) (options Options, err error) {
-	rawJSON, err := json.Marshal(details.Parameters)
-	if err != nil {
-		return
-	}
-	options, err = b.createBrokerOptions(rawJSON)
+	options, err = b.createBrokerOptions(details.RawParameters)
 	if err != nil {
 		return
 	}
@@ -266,6 +284,10 @@ func (b *CdnServiceBroker) parseUpdateDetails(details brokerapi.UpdateDetails) (
 		if err != nil {
 			return
 		}
+	}
+	if len(options.Headers) > 9 {
+		err = errors.New("must pass no more than 9 custom headers to forward")
+		return
 	}
 	return
 }
@@ -302,9 +324,26 @@ func (b *CdnServiceBroker) checkDomain(domain, orgGUID string) error {
 	return nil
 }
 
-func (b *CdnServiceBroker) getHeaders(options Options) []string {
-	if options.Origin == b.settings.DefaultOrigin {
-		return []string{"Host"}
+func (b *CdnServiceBroker) getHeaders(options Options) (headers utils.Headers, err error) {
+	headers = utils.Headers{}
+	for _, header := range options.Headers {
+		if headers.Contains(header) {
+			err = fmt.Errorf("must not pass duplicated header '%s'", header)
+			return
+		}
+		headers.Add(header)
 	}
-	return []string{}
+
+	// Forbid accompanying a wildcard with specific headers.
+	if headers.Contains("*") && len(headers) > 1 {
+		err = fmt.Errorf("must not pass whitelisted headers alongside wildcard")
+		return
+	}
+
+	// Ensure the Host header is forwarded if using a CloudFoundry origin.
+	if options.Origin == b.settings.DefaultOrigin && !headers.Contains("*") {
+		headers.Add("Host")
+	}
+
+	return
 }
