@@ -422,21 +422,18 @@ func (m *RouteManager) stillActive(r *Route) error {
 }
 
 func (m *RouteManager) Renew(r *Route) error {
-	err := m.stillActive(r)
-	if err != nil {
-		return fmt.Errorf("Route is not active, skipping renewal: %v", err)
-	}
-
 	var certRow Certificate
-	err = m.db.Model(r).Related(&certRow, "Certificate").Error
+	err := m.db.Model(r).Related(&certRow, "Certificate").Error
 	if err != nil {
-		return err
+		return fmt.Errorf("could not find certificate for route")
 	}
 
 	user, err := r.loadUser(m.db)
 	if err != nil {
-		return err
+		return fmt.Errorf("could not find user")
 	}
+
+	return nil
 
 	clients, err := m.getClients(&user, m.settings)
 	if err != nil {
@@ -501,15 +498,7 @@ func (m *RouteManager) RenewAll() {
 
 	m.logger.Info("Looking for routes that are expiring soon")
 
-	m.db.Having(
-		"max(expires) < now() + interval '30 days'",
-	).Group(
-		"routes.id",
-	).Where(
-		"state = ?", string(Provisioned),
-	).Joins(
-		"join certificates on routes.id = certificates.route_id",
-	).Find(&routes)
+	m.db.Find(&routes)
 
 	m.logger.Info("Found routes that need renewal", lager.Data{
 		"num-routes": len(routes),
