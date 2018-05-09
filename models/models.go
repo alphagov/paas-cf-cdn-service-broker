@@ -469,6 +469,9 @@ func (m *RouteManager) DeleteOrphanedCerts() {
 
 	m.cloudFront.ListDistributions(func(distro cloudfront.DistributionSummary) bool {
 		if distro.ViewerCertificate.IAMCertificateId != nil {
+			m.logger.Info("adding distribution", lager.Data{
+				"distro": distro,
+			})
 			activeCerts[*distro.ViewerCertificate.IAMCertificateId] = *distro.ARN
 		}
 		return true
@@ -484,12 +487,12 @@ func (m *RouteManager) DeleteOrphanedCerts() {
 				"cert": cert,
 			})
 
-			err := m.iam.DeleteCertificate(*cert.ServerCertificateName)
-			if err != nil {
-				m.logger.Error("Error deleting certificate", err, lager.Data{
-					"cert": cert,
-				})
-			}
+			/*		err := m.iam.DeleteCertificate(*cert.ServerCertificateName)
+					if err != nil {
+						m.logger.Error("Error deleting certificate", err, lager.Data{
+							"cert": cert,
+						})
+					}    */
 		}
 
 		return true

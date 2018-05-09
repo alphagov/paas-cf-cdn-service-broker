@@ -5,7 +5,6 @@ import (
 	"os/signal"
 
 	"code.cloudfoundry.org/lager"
-	"github.com/robfig/cron"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -33,9 +32,9 @@ func main() {
 		logger.Fatal("connect", err)
 	}
 
-	if err := db.AutoMigrate(&models.Route{}, &models.Certificate{}, &models.UserData{}).Error; err != nil {
-		logger.Fatal("migrate", err)
-	}
+	//if err := db.AutoMigrate(&models.Route{}, &models.Certificate{}, &models.UserData{}).Error; err != nil {
+	//	logger.Fatal("migrate", err)
+	//}
 
 	manager := models.NewManager(
 		logger,
@@ -45,22 +44,14 @@ func main() {
 		db,
 	)
 
-	c := cron.New()
+	//c := cron.New()
 
-	c.AddFunc(settings.Schedule, func() {
-		logger.Info("Running renew")
-		manager.RenewAll()
-	})
+	//c.AddFunc(settings.Schedule, func() {
+	//logger.Info("Running renew")
+	//manager.RenewAll()
+	//})
 
-	c.AddFunc(settings.Schedule, func() {
-		logger.Info("Running cert cleanup")
-		manager.DeleteOrphanedCerts()
-	})
-
-	logger.Info("Starting cron")
-	c.Start()
-
-	waitForExit()
+	manager.DeleteOrphanedCerts()
 }
 
 func waitForExit() os.Signal {
