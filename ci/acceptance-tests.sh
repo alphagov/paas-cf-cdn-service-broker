@@ -55,7 +55,7 @@ if [ -z "${domain_internal:-}" ] || [ -z "${txt_name:-}" ]; then
 fi
 
 # Create DNS record(s)
-cat << EOF > ./create-cname.json
+cat << EOF > ./create-records.json
 {
   "Changes": [
     {
@@ -68,40 +68,25 @@ cat << EOF > ./create-cname.json
           {"Value": "${domain_internal}"}
         ]
       }
+    },
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": {
+        "Name": "${txt_name}",
+        "Type": "TXT",
+        "TTL": ${txt_ttl},
+        "ResourceRecords": [
+          {"Value": "\"${txt_value}\""}
+        ]
+      }
     }
   ]
 }
 EOF
 
-if [ "${CHALLENGE_TYPE}" = "DNS-01" ]; then
-  cat << EOF > ./create-txt.json
-  {
-    "Changes": [
-      {
-        "Action": "CREATE",
-        "ResourceRecordSet": {
-          "Name": "${txt_name}",
-          "Type": "TXT",
-          "TTL": ${txt_ttl},
-          "ResourceRecords": [
-            {"Value": "\"${txt_value}\""}
-          ]
-        }
-      }
-    ]
-  }
-EOF
-fi
-
-if [ "${CHALLENGE_TYPE}" = "HTTP-01" ]; then
-  aws route53 change-resource-record-sets \
-    --hosted-zone-id "${HOSTED_ZONE_ID}" \
-    --change-batch file://./create-cname.json
-elif [ "${CHALLENGE_TYPE}" = "DNS-01" ]; then
-  aws route53 change-resource-record-sets \
-    --hosted-zone-id "${HOSTED_ZONE_ID}" \
-    --change-batch file://./create-txt.json
-fi
+aws route53 change-resource-record-sets \
+  --hosted-zone-id "${HOSTED_ZONE_ID}" \
+  --change-batch file://./create-records.json
 
 # Wait for provision to complete
 elapsed="${CDN_TIMEOUT}"
@@ -122,18 +107,11 @@ if [ "${updated}" != "true" ]; then
   exit 1
 fi
 
-# Create CNAME after provisioning if using DNS-01 challenge
-if [ "${CHALLENGE_TYPE}" = "DNS-01" ]; then
-  aws route53 change-resource-record-sets \
-    --hosted-zone-id "${HOSTED_ZONE_ID}" \
-    --change-batch file://./create-cname.json
-fi
-
 # Push test app
 cat << EOF > "${path}/app/manifest.yml"
 ---
 applications:
-- name: cdn-broker-test-${CHALLENGE_TYPE}
+- name: cdn-broker-test
   buildpack: staticfile_buildpack
   domain: ${DOMAIN}
   no-hostname: true
@@ -159,7 +137,7 @@ fi
 cf delete-domain -f "${DOMAIN}"
 
 # Delete DNS record(s)
-cat << EOF > ./delete-cname.json
+cat << EOF > ./delete-records.json
 {
   "Changes": [
     {
@@ -172,13 +150,7 @@ cat << EOF > ./delete-cname.json
           {"Value": "${domain_internal}"}
         ]
       }
-    }
-  ]
-}
-EOF
-if [ "${CHALLENGE_TYPE}" = "DNS-01" ]; then
-  cat << EOF > ./delete-txt.json
-  {
+    },
     "Changes": [
       {
         "Action": "DELETE",
@@ -197,12 +169,7 @@ EOF
 
 aws route53 change-resource-record-sets \
   --hosted-zone-id "${HOSTED_ZONE_ID}" \
-  --change-batch file://./delete-cname.json
-elif [ "${CHALLENGE_TYPE}" = "DNS-01" ]; then
-  aws route53 change-resource-record-sets \
-    --hosted-zone-id "${HOSTED_ZONE_ID}" \
-    --change-batch file://./delete-txt.json
-fi
+  --change-batch file://./delete-records.json
 
 # Delete service
 cf delete-service -f "${SERVICE_INSTANCE_NAME}"

@@ -283,8 +283,8 @@ func (m *RouteManager) Create(instanceId, domain, origin, path string, insecureO
 
 	route.UserData = userData
 
-	if err := m.ensureChallenges(route, clients[acme.HTTP01], false); err != nil {
-		lsession.Error("ensure-challenges-http-01", err)
+	if err := m.ensureChallenges(route, clients[acme.DNS01], false); err != nil {
+		lsession.Error("ensure-challenges-dns-01", err)
 		return nil, err
 	}
 
@@ -381,8 +381,8 @@ func (m *RouteManager) Update(instanceId, domain, origin string, path string, in
 		}
 
 		route.ChallengeJSON = []byte("")
-		if err := m.ensureChallenges(route, clients[acme.HTTP01], false); err != nil {
-			lsession.Error("ensure-challenges", err)
+		if err := m.ensureChallenges(route, clients[acme.DNS01], false); err != nil {
+			lsession.Error("ensure-challenges-dns-01", err)
 			return err
 		}
 	}
@@ -672,7 +672,7 @@ func (m *RouteManager) updateProvisioning(r *Route) error {
 
 	// Handle provisioning instances created before DNS challenge
 	if err := m.ensureChallenges(r, clients[acme.HTTP01], true); err != nil {
-		lsession.Error("ensure-challenges", err)
+		lsession.Error("ensure-challenges-http-01", err)
 		return err
 	}
 
