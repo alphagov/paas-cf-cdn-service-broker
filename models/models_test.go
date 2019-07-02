@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"code.cloudfoundry.org/lager"
+	"github.com/go-acme/lego/certificate"
 	"github.com/jinzhu/gorm"
-	"github.com/xenolf/lego/acme"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/request"
@@ -32,7 +32,7 @@ type MockUtilsIam struct {
 }
 
 // test doesn't execute this method
-func (_f MockUtilsIam) UploadCertificate(name string, cert acme.CertificateResource) (string, error) {
+func (_f MockUtilsIam) UploadCertificate(name string, cert certificate.Resource) (string, error) {
 	return "", nil
 }
 
@@ -67,31 +67,31 @@ func TestDeleteOrphanedCerts(t *testing.T) {
 
 			list := []*iam.ServerCertificateMetadata{
 				&iam.ServerCertificateMetadata{
-					Arn: aws.String("an-active-certificate"),
+					Arn:                   aws.String("an-active-certificate"),
 					ServerCertificateName: aws.String("an-active-certificate"),
 					ServerCertificateId:   aws.String("an-active-certificate"),
 					UploadDate:            &old,
 				},
 				&iam.ServerCertificateMetadata{
-					Arn: aws.String("some-other-active-certificate"),
+					Arn:                   aws.String("some-other-active-certificate"),
 					ServerCertificateName: aws.String("some-other-active-certificate"),
 					ServerCertificateId:   aws.String("some-other-active-certificate"),
 					UploadDate:            &old,
 				},
 				&iam.ServerCertificateMetadata{
-					Arn: aws.String("orphaned-but-not-old-enough"),
+					Arn:                   aws.String("orphaned-but-not-old-enough"),
 					ServerCertificateName: aws.String("orphaned-but-not-old-enough"),
 					ServerCertificateId:   aws.String("this-cert-should-not-be-deleted"),
 					UploadDate:            &current,
 				},
 				&iam.ServerCertificateMetadata{
-					Arn: aws.String("some-orphaned-cert"),
+					Arn:                   aws.String("some-orphaned-cert"),
 					ServerCertificateName: aws.String("some-orphaned-cert"),
 					ServerCertificateId:   aws.String("this-cert-should-be-deleted"),
 					UploadDate:            &old,
 				},
 				&iam.ServerCertificateMetadata{
-					Arn: aws.String("some-other-orphaned-cert"),
+					Arn:                   aws.String("some-other-orphaned-cert"),
 					ServerCertificateName: aws.String("some-other-orphaned-cert"),
 					ServerCertificateId:   aws.String("this-cert-should-also-be-deleted"),
 					UploadDate:            &old,
@@ -175,7 +175,7 @@ func TestDeleteOrphanedCertsDeleteFails(t *testing.T) {
 
 			list := []*iam.ServerCertificateMetadata{
 				&iam.ServerCertificateMetadata{
-					Arn: aws.String("some-orphaned-cert"),
+					Arn:                   aws.String("some-orphaned-cert"),
 					ServerCertificateName: aws.String("some-orphaned-cert"),
 					ServerCertificateId:   aws.String("this-cert-should-be-deleted"),
 					UploadDate:            &old,
@@ -326,7 +326,7 @@ func TestDeleteOrphanedCertsWhenListingCloudFrontDistsFail(t *testing.T) {
 
 			list := []*iam.ServerCertificateMetadata{
 				&iam.ServerCertificateMetadata{
-					Arn: aws.String("some-orphaned-cert"),
+					Arn:                   aws.String("some-orphaned-cert"),
 					ServerCertificateName: aws.String("some-orphaned-cert"),
 					ServerCertificateId:   aws.String("this-cert-should-be-deleted"),
 					UploadDate:            &old,

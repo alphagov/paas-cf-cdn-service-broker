@@ -19,6 +19,7 @@ import (
 	"time"
 
 	"code.cloudfoundry.org/lager"
+	"github.com/go-acme/lego/certificate"
 	"github.com/jinzhu/gorm"
 	"github.com/pivotal-cf/brokerapi"
 	"github.com/xenolf/lego/acme"
@@ -795,7 +796,13 @@ func (m *RouteManager) deployCertificate(route Route, cert acme.CertificateResou
 
 	m.logger.Info("Uploading certificate to IAM", lager.Data{"name": name})
 
-	certId, err := m.iam.UploadCertificate(name, cert)
+	certId, err := m.iam.UploadCertificate(
+		name,
+		certificate.Resource{
+			Certificate: cert.Certificate,
+			PrivateKey:  cert.PrivateKey,
+		},
+	)
 	if err != nil {
 		lsession.Error("iam-upload-certificate", err)
 		return err

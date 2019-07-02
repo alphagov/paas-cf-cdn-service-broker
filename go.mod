@@ -5,6 +5,7 @@ go 1.12
 require (
 	code.cloudfoundry.org/lager v0.0.0-20170223024724-de8e9c6c6e47
 	github.com/aws/aws-sdk-go v1.6.27
+	github.com/cenkalti/backoff v2.1.1+incompatible // indirect
 	github.com/cloudfoundry-community/go-cfclient v0.0.0-20170502130034-23156ed0e73b
 	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0 // indirect
 	github.com/denisenkom/go-mssqldb v0.0.0-20190515213511-eb9f6a1743f3 // indirect
@@ -34,6 +35,7 @@ require (
 	github.com/xenolf/lego v2.6.0+incompatible
 	golang.org/x/sync v0.0.0-20190423024810-112230192c58 // indirect
 	gopkg.in/square/go-jose.v1 v1.1.0 // indirect
+	gopkg.in/square/go-jose.v2 v2.3.1 // indirect
 )
 
 replace github.com/xenolf/lego => github.com/jmcarp/lego v0.3.2-0.20170424160445-b4deb96f1082

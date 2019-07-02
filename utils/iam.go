@@ -6,13 +6,13 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/iam"
 
-	"github.com/xenolf/lego/acme"
+	"github.com/go-acme/lego/certificate"
 
 	"github.com/18F/cf-cdn-service-broker/config"
 )
 
 type IamIface interface {
-	UploadCertificate(name string, cert acme.CertificateResource) (string, error)
+	UploadCertificate(name string, cert certificate.Resource) (string, error)
 	DeleteCertificate(name string) error
 	ListCertificates(callback func(iam.ServerCertificateMetadata) bool) error
 }
@@ -22,12 +22,12 @@ type Iam struct {
 	Service  *iam.IAM
 }
 
-func (i *Iam) UploadCertificate(name string, cert acme.CertificateResource) (string, error) {
+func (i *Iam) UploadCertificate(name string, cert certificate.Resource) (string, error) {
 	resp, err := i.Service.UploadServerCertificate(&iam.UploadServerCertificateInput{
 		CertificateBody:       aws.String(string(cert.Certificate)),
 		PrivateKey:            aws.String(string(cert.PrivateKey)),
 		ServerCertificateName: aws.String(name),
-		Path: aws.String(fmt.Sprintf("/cloudfront/%s/", i.Settings.IamPathPrefix)),
+		Path:                  aws.String(fmt.Sprintf("/cloudfront/%s/", i.Settings.IamPathPrefix)),
 	})
 	if err != nil {
 		return "", err
