@@ -118,8 +118,12 @@ func (p *DNSProvider) Timeout() (time.Duration, time.Duration) {
 	return 10 * time.Second, 2 * time.Second
 }
 
+func NewAcmeClient(settings config.Settings, user *User) (*acme.Client, error) {
+	return acme.NewClient(settings.AcmeUrl, user, acme.RSA2048)
+}
+
 func NewClient(settings config.Settings, user *User, s3Service *s3.S3, excludes []acme.Challenge) (*acme.Client, error) {
-	client, err := acme.NewClient(settings.AcmeUrl, user, acme.RSA2048)
+	client, err := NewAcmeClient(settings, user)
 	if err != nil {
 		return &acme.Client{}, err
 	}
