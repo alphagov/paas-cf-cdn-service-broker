@@ -1,24 +1,23 @@
-package broker_test
+package broker
 
 import (
 	"context"
-	"testing"
 
-	"github.com/stretchr/testify/assert"
-
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 	"github.com/pivotal-cf/brokerapi"
-
-	"github.com/18F/cf-cdn-service-broker/broker"
 )
 
-func TestBind(t *testing.T) {
-	b := broker.CdnServiceBroker{}
-	_, err := b.Bind(context.Background(), "", "", brokerapi.BindDetails{})
-	assert.NotNil(t, err)
-}
+var _ = Describe("Bind", func() {
+	It("returns an error when attempting to bind", func() {
+		b := CdnServiceBroker{}
+		_, err := b.Bind(context.Background(), "", "", brokerapi.BindDetails{})
+		Expect(err).To(HaveOccurred())
+	})
 
-func TestUnbind(t *testing.T) {
-	b := broker.CdnServiceBroker{}
-	err := b.Unbind(context.Background(), "", "", brokerapi.UnbindDetails{})
-	assert.NotNil(t, err)
-}
+	It("returns an error when attempting to unbind", func() {
+		b := CdnServiceBroker{}
+		err := b.Unbind(context.Background(), "", "", brokerapi.UnbindDetails{})
+		Expect(err).To(HaveOccurred())
+	})
+})
