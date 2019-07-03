@@ -1,14 +1,36 @@
 package models
 
 import (
+	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
 	"encoding/json"
 
 	"github.com/jinzhu/gorm"
-
-	"github.com/18F/cf-cdn-service-broker/utils"
+	"github.com/xenolf/lego/acme"
 )
+
+type User struct {
+	Email        string
+	Registration *acme.RegistrationResource
+	key          crypto.PrivateKey
+}
+
+func (u *User) GetEmail() string {
+	return u.Email
+}
+
+func (u *User) GetRegistration() *acme.RegistrationResource {
+	return u.Registration
+}
+
+func (u *User) GetPrivateKey() crypto.PrivateKey {
+	return u.key
+}
+
+func (u *User) SetPrivateKey(key crypto.PrivateKey) {
+	u.key = key
+}
 
 type UserData struct {
 	gorm.Model
@@ -17,8 +39,8 @@ type UserData struct {
 	Key   []byte
 }
 
-func CreateUser(email string) (utils.User, error) {
-	user := utils.User{Email: email}
+func CreateUser(email string) (User, error) {
+	user := User{Email: email}
 
 	key, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
@@ -30,7 +52,7 @@ func CreateUser(email string) (utils.User, error) {
 	return user, nil
 }
 
-func SaveUser(db *gorm.DB, user utils.User) (UserData, error) {
+func SaveUser(db *gorm.DB, user User) (UserData, error) {
 	var err error
 	userData := UserData{Email: user.GetEmail()}
 
@@ -55,8 +77,8 @@ func SaveUser(db *gorm.DB, user utils.User) (UserData, error) {
 	return userData, nil
 }
 
-func LoadUser(userData UserData) (utils.User, error) {
-	var user utils.User
+func LoadUser(userData UserData) (User, error) {
+	var user User
 
 	lsession := helperLogger.Session("load-user")
 

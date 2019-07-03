@@ -1,7 +1,6 @@
-package utils
+package models
 
 import (
-	"crypto"
 	"crypto/tls"
 	"fmt"
 	"io/ioutil"
@@ -31,28 +30,6 @@ func preCheckDNS(fqdn, value string) (bool, error) {
 
 func init() {
 	acme.PreCheckDNS = preCheckDNS
-}
-
-type User struct {
-	Email        string
-	Registration *acme.RegistrationResource
-	key          crypto.PrivateKey
-}
-
-func (u *User) GetEmail() string {
-	return u.Email
-}
-
-func (u *User) GetRegistration() *acme.RegistrationResource {
-	return u.Registration
-}
-
-func (u *User) GetPrivateKey() crypto.PrivateKey {
-	return u.key
-}
-
-func (u *User) SetPrivateKey(key crypto.PrivateKey) {
-	u.key = key
 }
 
 type HTTPProvider struct {
@@ -118,12 +95,8 @@ func (p *DNSProvider) Timeout() (time.Duration, time.Duration) {
 	return 10 * time.Second, 2 * time.Second
 }
 
-func NewAcmeClient(settings config.Settings, user *User) (*acme.Client, error) {
-	return acme.NewClient(settings.AcmeUrl, user, acme.RSA2048)
-}
-
-func NewClient(settings config.Settings, user *User, s3Service *s3.S3, excludes []acme.Challenge) (*acme.Client, error) {
-	client, err := NewAcmeClient(settings, user)
+func NewAcmeClient(settings config.Settings, user *User, s3Service *s3.S3, excludes []acme.Challenge) (*acme.Client, error) {
+	client, err := acme.NewClient(settings.AcmeUrl, user, acme.RSA2048)
 	if err != nil {
 		return &acme.Client{}, err
 	}

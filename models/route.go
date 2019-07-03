@@ -3,8 +3,6 @@ package models
 import (
 	"github.com/jinzhu/gorm"
 	"strings"
-
-	"github.com/18F/cf-cdn-service-broker/utils"
 )
 
 type Route struct {
@@ -35,11 +33,11 @@ func (r *Route) GetDomains() []string {
 	return domains
 }
 
-func (r *Route) loadUser(db *gorm.DB) (utils.User, error) {
+func (r *Route) loadUser(db *gorm.DB) (User, error) {
 	var userData UserData
 	if err := db.Model(r).Related(&userData).Error; err != nil {
 		helperLogger.Session("route-load-user").Error("load-user-data", err)
-		return utils.User{}, err
+		return User{}, err
 	}
 
 	return LoadUser(userData)

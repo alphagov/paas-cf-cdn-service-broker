@@ -428,11 +428,11 @@ func (m *RouteManager) RenewAll() {
 	}
 }
 
-func (m *RouteManager) getDNS01Client(user *utils.User, settings config.Settings) (*acme.Client, error) {
+func (m *RouteManager) getDNS01Client(user *User, settings config.Settings) (*acme.Client, error) {
 	session := session.New(aws.NewConfig().WithRegion(settings.AwsDefaultRegion))
 	lsession := m.logger.Session("route-manager-get-dns-01-client")
 
-	client, err := utils.NewClient(settings, user, s3.New(session), []acme.Challenge{acme.TLSSNI01, acme.HTTP01})
+	client, err := NewAcmeClient(settings, user, s3.New(session), []acme.Challenge{acme.TLSSNI01, acme.HTTP01})
 
 	if err != nil {
 		lsession.Error("new-client", err)
@@ -442,11 +442,11 @@ func (m *RouteManager) getDNS01Client(user *utils.User, settings config.Settings
 	return client, nil
 }
 
-func (m *RouteManager) getHTTP01Client(user *utils.User, settings config.Settings) (*acme.Client, error) {
+func (m *RouteManager) getHTTP01Client(user *User, settings config.Settings) (*acme.Client, error) {
 	session := session.New(aws.NewConfig().WithRegion(settings.AwsDefaultRegion))
 	lsession := m.logger.Session("route-manager-get-http-01-client")
 
-	client, err := utils.NewClient(settings, user, s3.New(session), []acme.Challenge{acme.TLSSNI01, acme.DNS01})
+	client, err := NewAcmeClient(settings, user, s3.New(session), []acme.Challenge{acme.TLSSNI01, acme.DNS01})
 
 	if err != nil {
 		lsession.Error("new-client", err)
