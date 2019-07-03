@@ -9,10 +9,11 @@ func LetsEncrypt(settings config.Settings) error {
 	user := utils.User{}
 	user.SetPrivateKey("cheese")
 
-	_, err := utils.NewAcmeClient(
-		config.Settings{AcmeUrl: "https://acme-v01.api.letsencrypt.org/directory"},
-		&user,
-	)
+	if settings.AcmeUrl == "" {
+		settings.AcmeUrl = "https://acme-v01.api.letsencrypt.org/directory"
+	}
+
+	_, err := utils.NewAcmeClient(settings, &user)
 
 	return err
 }
