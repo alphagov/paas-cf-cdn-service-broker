@@ -1,19 +1,20 @@
 package healthchecks
 
 import (
+	"context"
+
 	"github.com/18F/cf-cdn-service-broker/config"
-	"github.com/18F/cf-cdn-service-broker/utils"
+	"golang.org/x/crypto/acme"
 )
 
 func LetsEncrypt(settings config.Settings) error {
-	user := utils.User{}
-	user.SetPrivateKey("cheese")
+	acmeClient := acme.Client{}
 
-	if settings.AcmeUrl == "" {
-		settings.AcmeUrl = "https://acme-v01.api.letsencrypt.org/directory"
+	if settings.AcmeUrl != "" {
+		acmeClient.DirectoryURL = settings.AcmeUrl
 	}
 
-	_, err := utils.NewAcmeClient(settings, &user)
+	_, err := acmeClient.Discover(context.Background())
 
 	return err
 }

@@ -34,6 +34,7 @@ require (
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a // indirect
 	github.com/stretchr/testify v1.3.0
 	github.com/xenolf/lego v2.6.0+incompatible
+	golang.org/x/crypto v0.0.0-20190325154230-a5d413f7728c
 	golang.org/x/sync v0.0.0-20190423024810-112230192c58 // indirect
 	gopkg.in/square/go-jose.v1 v1.1.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.3.1 // indirect

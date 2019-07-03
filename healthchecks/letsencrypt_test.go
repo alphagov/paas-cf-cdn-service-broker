@@ -11,24 +11,22 @@ import (
 
 var _ = Describe("LetsEncrypt", func() {
 
+	var (
+		acmeURL = "https://acme-v01.api.mock-le.org/directory"
+	)
+
 	BeforeSuite(func() {
 		httpmock.Activate()
 	})
 
 	BeforeEach(func() {
 		httpmock.Reset()
-	})
 
-	AfterSuite(func() {
-		httpmock.DeactivateAndReset()
-	})
-
-	It("Can new up a client", func() {
 		httpmock.RegisterResponder(
-			"GET", "https://acme-v01.api.letsencrypt.org/directory",
+			"GET",
+			acmeURL,
 			httpmock.NewStringResponder(
 				200, `{
-                "foo-bar-baz": "https://community.letsencrypt.org/t/adding-random-entries-to-the-directory/1",
                 "key-change": "https://acme-v01.api.letsencrypt.org/acme/key-change",
                 "meta": {
                   "caaIdentities": ["letsencrypt.org"],
@@ -42,8 +40,14 @@ var _ = Describe("LetsEncrypt", func() {
               }`,
 			),
 		)
+	})
 
-		err := LetsEncrypt(config.Settings{})
+	AfterSuite(func() {
+		httpmock.DeactivateAndReset()
+	})
+
+	It("Can new up a client", func() {
+		err := LetsEncrypt(config.Settings{AcmeUrl: acmeURL})
 
 		Expect(err).NotTo(HaveOccurred())
 	})
