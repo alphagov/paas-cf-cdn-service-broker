@@ -11,7 +11,6 @@ import (
 	"time"
 
 	"code.cloudfoundry.org/lager"
-	"github.com/go-acme/lego/certificate"
 	"github.com/jinzhu/gorm"
 	"github.com/pivotal-cf/brokerapi"
 	"github.com/xenolf/lego/acme"
@@ -23,6 +22,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 
 	"github.com/18F/cf-cdn-service-broker/config"
+	"github.com/18F/cf-cdn-service-broker/pki"
 	"github.com/18F/cf-cdn-service-broker/utils"
 )
 
@@ -594,7 +594,7 @@ func (m *RouteManager) deployCertificate(route Route, cert acme.CertificateResou
 
 	certId, err := m.iam.UploadCertificate(
 		name,
-		certificate.Resource{
+		pki.KeyPair{
 			Certificate: cert.Certificate,
 			PrivateKey:  cert.PrivateKey,
 		},

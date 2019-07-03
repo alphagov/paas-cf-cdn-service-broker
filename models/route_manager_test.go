@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"code.cloudfoundry.org/lager"
-	"github.com/go-acme/lego/certificate"
 	"github.com/jinzhu/gorm"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -18,6 +17,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/iam"
 
 	"github.com/18F/cf-cdn-service-broker/config"
+	"github.com/18F/cf-cdn-service-broker/pki"
 	"github.com/18F/cf-cdn-service-broker/utils"
 
 	"github.com/stretchr/testify/mock"
@@ -332,7 +332,7 @@ type MockUtilsIam struct {
 	Service  *iam.IAM
 }
 
-func (_f MockUtilsIam) UploadCertificate(name string, cert certificate.Resource) (string, error) {
+func (_f MockUtilsIam) UploadCertificate(name string, pair pki.KeyPair) (string, error) {
 	return "", nil
 }
 
