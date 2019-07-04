@@ -95,21 +95,40 @@ func (p *DNSProvider) Timeout() (time.Duration, time.Duration) {
 	return 10 * time.Second, 2 * time.Second
 }
 
-func NewAcmeClient(settings config.Settings, user *User, s3Service *s3.S3, excludes []acme.Challenge) (*acme.Client, error) {
+func NewAcmeUserRegistration(settings config.Settings, user *User) error {
 	client, err := acme.NewClient(settings.AcmeUrl, user, acme.RSA2048)
+
 	if err != nil {
-		return &acme.Client{}, err
+		return err
 	}
 
 	if user.GetRegistration() == nil {
 		reg, err := client.Register()
+
 		if err != nil {
-			return client, err
+			return err
 		}
+
 		user.Registration = reg
 	}
 
 	if err := client.AgreeToTOS(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func NewAcmeClient(settings config.Settings, user *User, s3Service *s3.S3, excludes []acme.Challenge) (*acme.Client, error) {
+	client, err := acme.NewClient(settings.AcmeUrl, user, acme.RSA2048)
+
+	if err != nil {
+		return client, err
+	}
+
+	err = NewAcmeUserRegistration(settings, user)
+
+	if err != nil {
 		return client, err
 	}
 
