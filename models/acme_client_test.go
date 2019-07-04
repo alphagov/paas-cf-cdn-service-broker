@@ -4,9 +4,8 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	"crypto/ecdsa"
-	"crypto/elliptic"
 	"crypto/rand"
+	"crypto/rsa"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -42,7 +41,7 @@ var _ = Describe("AcmeClient", func() {
 
 	It("Can new up a client", func() {
 		settings := config.Settings{AcmeUrl: acmeDirectoryURL}
-		ecTestKey256, _ := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+		rsaTestKey, _ := rsa.GenerateKey(rand.Reader, 2048)
 
 		httpmock.RegisterResponder(
 			"GET",
@@ -77,7 +76,7 @@ var _ = Describe("AcmeClient", func() {
 			}),
 		)
 
-		jwk := jose.JSONWebKey{Key: ecTestKey256}
+		jwk := jose.JSONWebKey{Key: rsaTestKey}
 		thumbprint, _ := jwk.MarshalJSON()
 
 		httpmock.RegisterResponder(
@@ -100,7 +99,7 @@ var _ = Describe("AcmeClient", func() {
 			}),
 		)
 
-		user := User{key: ecTestKey256}
+		user := User{key: rsaTestKey}
 
 		client, err := NewAcmeClient(
 			settings, &user,
