@@ -37,7 +37,7 @@ require (
 	golang.org/x/crypto v0.0.0-20190325154230-a5d413f7728c
 	golang.org/x/sync v0.0.0-20190423024810-112230192c58 // indirect
 	gopkg.in/square/go-jose.v1 v1.1.0 // indirect
-	gopkg.in/square/go-jose.v2 v2.3.1 // indirect
+	gopkg.in/square/go-jose.v2 v2.3.1
 )
 
 replace github.com/xenolf/lego => github.com/jmcarp/lego v0.3.2-0.20170424160445-b4deb96f1082
