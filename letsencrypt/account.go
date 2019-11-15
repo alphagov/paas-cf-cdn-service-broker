@@ -3,29 +3,34 @@ package letsencrypt
 import (
 	"code.cloudfoundry.org/lager"
 	"context"
+	"fmt"
 	"github.com/18F/cf-cdn-service-broker/utils"
 	"golang.org/x/crypto/acme"
 )
 
 type AccountCreatorInterface interface {
-	EnsureAccount(ctx context.Context, user utils.User) (*acme.Account, *acme.Client, error)
+	EnsureAccount(ctx context.Context, user utils.User) (*acme.Account, *ClientInterface, error)
 }
 
 type AccountCreator struct {
 	logger lager.Logger
 }
 
+func NewAccountCreator(logger lager.Logger) AccountCreatorInterface {
+	return AccountCreator{logger: logger}
+}
+
 // EnsureAccount creates/retrieves an acme registration from Let's Encrypt.
 // Submitting a registration to LE with a key that already exists merely retrieves the account.
 // See: https://letsencrypt.org/docs/account-id/
-func (a AccountCreator) EnsureAccount(ctx context.Context, user utils.User) (*acme.Account, *acme.Client, error) {
+func (a AccountCreator) EnsureAccount(ctx context.Context, user utils.User) (*acme.Account, *ClientInterface, error) {
 	logSess := a.logger.Session("ensure-account")
 	k := user.GetPrivateKey()
 	client := &acme.Client{
 		Key: &k,
 	}
 	account := &acme.Account{
-		Contact: []string{user.Email},
+		Contact: []string{fmt.Sprintf("mailto:%s", user.Email)},
 	}
 
 	logSess.Info("register")
@@ -36,6 +41,7 @@ func (a AccountCreator) EnsureAccount(ctx context.Context, user utils.User) (*ac
 	}
 
 	logSess.Info("register-success")
-	return account, client, nil
+	decoratedClient := decorateClient(*client)
+	return account, &decoratedClient, nil
 }
 

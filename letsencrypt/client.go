@@ -48,6 +48,9 @@ type ClientInterface interface {
 type Client struct {
 	acmeClient acme.Client
 }
+func decorateClient(client acme.Client) ClientInterface {
+	return Client{acmeClient: client}
+}
 
 func (c Client) Discover(ctx context.Context) (acme.Directory, error) {
 	return c.acmeClient.Discover(ctx)
