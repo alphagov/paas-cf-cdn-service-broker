@@ -10,8 +10,6 @@ import (
 	"fmt"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/acme"
-	"net"
-	"time"
 )
 
 const ErrorOrderExpired = "order has expired"
@@ -25,15 +23,19 @@ type CertificateObtainerInterface interface {
 }
 
 type DNSCertificateObtainer struct {
-	logger lager.Logger
+	Logger          lager.Logger
+	ChallengeSolver ChallengeSolverInterface
 }
 
 func NewDNSCertificateObtainer(logger lager.Logger) CertificateObtainerInterface {
-	return DNSCertificateObtainer{logger: logger}
+	return DNSCertificateObtainer{
+		Logger:          logger,
+		ChallengeSolver: NewDNS01ChallengeSolver(logger),
+	}
 }
 
 func (d DNSCertificateObtainer) BeginCertificateOrder(ctx context.Context, client ClientInterface, domains []string) (*acme.Order, error) {
-	logSess := d.logger.Session("begin-certificate-order", lager.Data{"domains": domains})
+	logSess := d.Logger.Session("begin-certificate-order", lager.Data{"domains": domains})
 
 	ids := acme.DomainIDs(domains...)
 	orderOpts := []acme.OrderOption{}
@@ -46,7 +48,6 @@ func (d DNSCertificateObtainer) BeginCertificateOrder(ctx context.Context, clien
 		return nil, err
 	}
 	logSess.Info("authorize-order-success")
-
 
 	records := map[string]string{}
 	for _, authURL := range order.AuthzURLs {
@@ -68,7 +69,7 @@ func (d DNSCertificateObtainer) BeginCertificateOrder(ctx context.Context, clien
 }
 
 func (d DNSCertificateObtainer) SolveAuthorizations(ctx context.Context, client ClientInterface, orderURL string) (*x509.Certificate, *rsa.PrivateKey, bool, error) {
-	logSess := d.logger.Session("solve-authorizations")
+	logSess := d.Logger.Session("solve-authorizations")
 
 	logSess.Info("get-order")
 	order, err := client.GetOrder(ctx, orderURL)
@@ -86,16 +87,9 @@ func (d DNSCertificateObtainer) SolveAuthorizations(ctx context.Context, client 
 	logSess.WithData(lager.Data{"domains": domains})
 
 	if order.Status == acme.StatusPending {
-		logSess.Info(
-			"authorization-pending",
-			lager.Data{
-				"status":  order.Status,
-				"message": "status is 'pending', indicating that one or more authorizations are not yet complete",
-				"help":    "https://tools.ietf.org/html/rfc8555#section-7.1.6",
-			},
-		)
+		logSess.Info("order-pending", LogDataOrderPending)
 
-		satisfied, unsatisfied, err := attemptToSatisfyAuthorizations(ctx, client, order, logSess)
+		satisfied, unsatisfied, err := attemptToSatisfyAuthorizations(ctx, client, d.ChallengeSolver, order, logSess)
 		if err != nil {
 			logSess.Error("try-satisfy-authorizations-error", err)
 			return nil, nil, false, nil
@@ -187,6 +181,7 @@ func (d DNSCertificateObtainer) SolveAuthorizations(ctx context.Context, client 
 func attemptToSatisfyAuthorizations(
 	ctx context.Context,
 	client ClientInterface,
+	challengeSolver ChallengeSolverInterface,
 	order *acme.Order,
 	logger lager.Logger,
 ) (*[]acme.Authorization, *[]acme.Authorization, error) {
@@ -215,75 +210,58 @@ func attemptToSatisfyAuthorizations(
 
 		switch auth.Status {
 		case acme.StatusRevoked, acme.StatusDeactivated, acme.StatusExpired, acme.StatusInvalid:
-			authLogSess.Info(
-				"invalid-status",
-				lager.Data{
-					"message": "the authorization is not in a state where challenges can be solved",
-					"help":    "https://tools.ietf.org/html/rfc8555#section-7.1.6",
-				},
-			)
-
+			authLogSess.Info("invalid-status", LogDataAuthorizationInvalidStatus)
 			continue
 
 		case acme.StatusValid:
-			authLogSess.Info(
-				"valid-authorization",
-				lager.Data{"message": "the authorization is in the valid state and does not need its challenges solving"},
-			)
-
+			authLogSess.Info("valid-authorization", LogDataAuthorizationValid)
 			continue
 
 		case acme.StatusPending:
 			fallthrough
 		default:
-			authLogSess.Info(
-				"pending-authorization",
-				lager.Data{"message": "the authorization is pending and needs its challenges solving"},
-			)
+			authLogSess.Info("pending-authorization", LogDataAuthorizationPending)
 		}
 
 		for _, challenge := range auth.Challenges {
 			authLogSess.Info("challenge", lager.Data{"status": challenge.Status, "challenge": challenge.Token, "type": challenge.Type})
 
-			switch challenge.Type {
-			case ChallengeTypeTLS, ChallengeTypeHTTP:
-				authLogSess.Info("skip", lager.Data{"message": "only handling dns-01 challenges"})
+			if !challengeSolver.Accept(challenge) {
+				authLogSess.Info("skip", lager.Data{"message": "challenge solver does not accept challenges of this type", "type": challenge.Type})
 				continue
 			}
 
-			if challenge.Status == acme.StatusValid {
-				continue
-			}
-
-			if challenge.Status == acme.StatusInvalid {
+			if challenge.Status == acme.StatusValid || challenge.Status == acme.StatusInvalid {
 				continue
 			}
 
 			logSess.Info("validate-challenge")
-			ok, err := tryValidateChallenge(auth, challenge, client, logSess)
+			ok, err := challengeSolver.TrySolveChallenge(auth, challenge, client)
 
 			if err != nil {
 				authLogSess.Error("validate-challenge-error", err)
 				continue
 			}
+			authLogSess.Info("validate-challenge-success")
 
 			if !ok {
 				authLogSess.Info("challenge-not-ready")
 				continue
 			}
 
-			authLogSess.Info("try-satisfy-challenge")
+			authLogSess.Info("try-accept-challenge")
 			ch, err := client.Accept(ctx, challenge)
 			if err != nil {
 				return nil, nil, errors.Wrap(err, "failed to accept challenge in an unexpected way")
 			}
 
 			if ch.Error != nil {
-				authLogSess.Info("try-satisfy-challenge-error", lager.Data{"error": ch.Error})
+				authLogSess.Info("try-accept-challenge-error", lager.Data{"error": ch.Error})
 			} else {
-				authLogSess.Info("challenge-updated", lager.Data{"status": ch.Status, "challenge": ch.Token, "type": ch.Type})
+				authLogSess.Info("challenge-accepted", lager.Data{"status": ch.Status, "challenge": ch.Token, "type": ch.Type})
 
 				if ch.Status == acme.StatusValid {
+					authLogSess.Info("challenge-valid", lager.Data{"message": "found a challenge which is valid. Not trying any others."})
 					return &satisfiedAuths, &unsatisfiedAuths, nil
 				}
 			}
@@ -294,105 +272,14 @@ func attemptToSatisfyAuthorizations(
 	return &satisfiedAuths, &unsatisfiedAuths, nil
 }
 
-func tryValidateChallenge(authorization *acme.Authorization, challenge *acme.Challenge, client ClientInterface, logger lager.Logger) (bool, error) {
-	logSess := logger.Session("dns-record-validation")
-	successes := 0
-	requiredSuccesses := 5
-
-	logSess.Info("begin", lager.Data{"message": fmt.Sprintf("dns check must succeed %d times in a row", requiredSuccesses)})
-StartDNSCheck:
-	for {
-		logSess.Info("test-record")
-		dnsRecordValue, err := client.DNS01ChallengeRecord(challenge.Token)
-
-		if err != nil {
-			return false, err
-		}
-
-		domain := fmt.Sprintf("_acme-challenge.%s", authorization.Identifier.Value)
-
-		records, err := net.LookupTXT(domain)
-
-		if err != nil {
-			return false, err
-		}
-
-		for _, r := range records {
-			if r == dnsRecordValue {
-				successes++
-				logSess.Info(
-				"record-present",
-					lager.Data{
-						"message": "now sleeping for 1 minute, or resolving if the required successes have been met",
-						"success": successes,
-						"required_successes": requiredSuccesses,
-					},
-				)
-
-				if successes >= requiredSuccesses {
-					logSess.Info("record-is-valid")
-					return true, nil
-				}
-
-				time.Sleep(1 * time.Minute)
-				continue StartDNSCheck
-			}
-		}
-
-		return false, nil
-	}
+var LogDataAuthorizationPending = lager.Data{"message": "the authorization is pending and needs its challenges solving"}
+var LogDataAuthorizationValid = lager.Data{"message": "the authorization is in the valid state and does not need its challenges solving"}
+var LogDataAuthorizationInvalidStatus = lager.Data{
+	"message": "the authorization is not in a state where challenges can be solved",
+	"help":    "https://tools.ietf.org/html/rfc8555#section-7.1.6",
 }
-
-func acceptAuthorizationChallenges(
-	ctx context.Context,
-	client ClientInterface,
-	order *acme.Order,
-	challengeType string,
-	logger lager.Logger,
-) (*[]acme.Challenge, error) {
-	logSess := logger.Session("accept-challenges")
-	acceptedChallenges := []acme.Challenge{}
-
-	for _, authURL := range order.AuthzURLs {
-		logSess.Info("get-auth", lager.Data{"auth_url": authURL})
-		auth, err := client.GetAuthorization(ctx, authURL)
-
-		if err != nil {
-			logSess.Error("get-auth-error", err)
-			return nil, err
-		}
-
-		logSess.Info("available-challenges", lager.Data{"challenges": auth.Challenges})
-
-		for _, challenge := range auth.Challenges {
-			if challenge.Type != challengeType {
-				logSess.Info(
-					"skip",
-					lager.Data{"message": fmt.Sprintf("skipping because only %s challenges are accepted", challengeType)},
-				)
-				continue
-			}
-
-			if challenge.Status != acme.StatusPending {
-				logSess.Info(
-					"skip",
-					lager.Data{"message": fmt.Sprintf("skipping because the challenge status is %s", challenge.Status)},
-				)
-				continue
-			}
-
-			logSess.Info("accept", lager.Data{"challenge": challenge})
-			updatedChallenge, err := client.Accept(ctx, challenge)
-
-			if err != nil {
-				logSess.Error("accept-error", err)
-				return nil, err
-			}
-
-			logSess.Info("accepted", lager.Data{"challenge": updatedChallenge})
-			acceptedChallenges = append(acceptedChallenges, *updatedChallenge)
-		}
-	}
-
-	return &acceptedChallenges, nil
+var LogDataOrderPending = lager.Data{
+	"status":  acme.StatusPending,
+	"message": "status is 'pending', indicating that one or more authorizations are not yet complete",
+	"help":    "https://tools.ietf.org/html/rfc8555#section-7.1.6",
 }
