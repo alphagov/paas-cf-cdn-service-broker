@@ -8,8 +8,9 @@ import (
 	"golang.org/x/crypto/acme"
 )
 
+//go:generate go run github.com/maxbrunsfeld/counterfeiter/v6 -o fakes/FakeAccountCreator.go --fake-name FakeAccountCreator . AccountCreatorInterface
 type AccountCreatorInterface interface {
-	EnsureAccount(ctx context.Context, user utils.User) (*acme.Account, *ClientInterface, error)
+	EnsureAccount(ctx context.Context, user utils.User) (*acme.Account, ClientInterface, error)
 }
 
 type AccountCreator struct {
@@ -23,11 +24,11 @@ func NewAccountCreator(logger lager.Logger) AccountCreatorInterface {
 // EnsureAccount creates/retrieves an acme registration from Let's Encrypt.
 // Submitting a registration to LE with a key that already exists merely retrieves the account.
 // See: https://letsencrypt.org/docs/account-id/
-func (a AccountCreator) EnsureAccount(ctx context.Context, user utils.User) (*acme.Account, *ClientInterface, error) {
+func (a AccountCreator) EnsureAccount(ctx context.Context, user utils.User) (*acme.Account, ClientInterface, error) {
 	logSess := a.logger.Session("ensure-account")
 	k := user.GetPrivateKey()
 	client := &acme.Client{
-		Key: &k,
+		Key: k,
 	}
 	account := &acme.Account{
 		Contact: []string{fmt.Sprintf("mailto:%s", user.Email)},
@@ -42,6 +43,6 @@ func (a AccountCreator) EnsureAccount(ctx context.Context, user utils.User) (*ac
 
 	logSess.Info("register-success")
 	decoratedClient := decorateClient(*client)
-	return account, &decoratedClient, nil
+	return account, decoratedClient, nil
 }
 

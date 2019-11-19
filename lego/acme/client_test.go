@@ -1,7 +1,6 @@
 package acme
 
 import (
-	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
 	"encoding/json"
@@ -266,4 +265,4 @@ type mockUser struct {
 
 func (u mockUser) GetEmail() string                       { return u.email }
 func (u mockUser) GetRegistration() *RegistrationResource { return u.regres }
-func (u mockUser) GetPrivateKey() crypto.PrivateKey       { return u.privatekey }
+func (u mockUser) GetPrivateKey() *rsa.PrivateKey       { return u.privatekey }

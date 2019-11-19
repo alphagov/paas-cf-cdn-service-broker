@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/18F/cf-cdn-service-broker/letsencrypt"
 	"net/http"
 	"os"
 
@@ -50,13 +51,18 @@ func main() {
 		logger.Fatal("migrate", err)
 	}
 
-	manager := models.NewManager(
-		logger,
-		&utils.Iam{settings, iam.New(session)},
-		&utils.Distribution{settings, cloudfront.New(session)},
+	accountCreator := letsencrypt.NewAccountCreator(logger)
+	certObtainer := letsencrypt.NewDNSCertificateObtainer(logger)
+	manager := models.NewManager(logger,
+		&utils.Iam{settings,
+			iam.New(session)},
+		&utils.Distribution{settings,
+			cloudfront.New(session)},
 		settings,
 		db,
 		models.NewAcmeClientProvider(logger),
+		accountCreator,
+		certObtainer,
 	)
 	broker := broker.New(
 		&manager,

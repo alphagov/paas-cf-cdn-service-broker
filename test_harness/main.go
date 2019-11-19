@@ -39,7 +39,7 @@ func main() {
 	}
 
 	obtainer := letsencrypt.NewDNSCertificateObtainer(logger)
-	order, err := obtainer.BeginCertificateOrder(ctx, *client, []string{domain})
+	order, err := obtainer.BeginCertificateOrder(ctx, client, []string{domain})
 
 	if err != nil {
 		logger.Fatal("begin-certificate-order", err)
@@ -48,7 +48,7 @@ func main() {
 	for {
 		select {
 		case <-timer.C:
-			cert, pk, triedChallenges, err := trySolveAuthorizations(obtainer, ctx, *client, order)
+			cert, pk, triedChallenges, err := trySolveAuthorizations(obtainer, ctx, client, order)
 			if triedChallenges == true && err == nil {
 				fmt.Printf("%v", cert)
 				fmt.Printf("%v", pk)

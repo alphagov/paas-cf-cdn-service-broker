@@ -17,6 +17,7 @@ const ChallengeTypeDNS = "dns-01"
 const ChallengeTypeHTTP = "http-01"
 const ChallengeTypeTLS = "tls-alpn-01"
 
+//go:generate go run github.com/maxbrunsfeld/counterfeiter/v6 -o fakes/FakeCertificateObtainer.go --fake-name FakeCertificateObtainer . CertificateObtainerInterface
 type CertificateObtainerInterface interface {
 	BeginCertificateOrder(ctx context.Context, client ClientInterface, domains []string) (*acme.Order, error)
 	SolveAuthorizations(ctx context.Context, client ClientInterface, orderURL string) (*x509.Certificate, *rsa.PrivateKey, bool, error)

@@ -21,6 +21,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/iam"
 
 	"github.com/18F/cf-cdn-service-broker/config"
+	LEFakes "github.com/18F/cf-cdn-service-broker/letsencrypt/fakes"
 	"github.com/18F/cf-cdn-service-broker/models"
 	"github.com/18F/cf-cdn-service-broker/models/mocks"
 	"github.com/18F/cf-cdn-service-broker/utils"
@@ -30,6 +31,8 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+
+	goacme "golang.org/x/crypto/acme"
 )
 
 type MockUtilsIam struct {
@@ -193,15 +196,10 @@ var _ = Describe("Models", func() {
 		mui.On("DeleteCertificate", "some-other-orphaned-cert").Return(nil)
 
 		acmeProviderMock := StubAcmeClientProvider()
+		accountCreator := LEFakes.FakeAccountCreator{}
+		certObtainer := &LEFakes.FakeCertificateObtainer{}
 
-		m := models.NewManager(
-			logger,
-			mui,
-			&utils.Distribution{settings, fakecf},
-			settings,
-			&gorm.DB{},
-			acmeProviderMock,
-		)
+		m := models.NewManager(logger, mui, &utils.Distribution{settings, fakecf}, settings, &gorm.DB{}, acmeProviderMock, &accountCreator, certObtainer)
 
 		//run the test
 		m.DeleteOrphanedCerts()
@@ -265,15 +263,10 @@ var _ = Describe("Models", func() {
 		mui.On("DeleteCertificate", "some-orphaned-cert").Return(errors.New("DeleteCertificate error"))
 
 		acmeProviderMock := StubAcmeClientProvider()
+		accountCreator := LEFakes.FakeAccountCreator{}
+		certObtainer := &LEFakes.FakeCertificateObtainer{}
 
-		m := models.NewManager(
-			logger,
-			mui,
-			&utils.Distribution{settings, fakecf},
-			settings,
-			&gorm.DB{},
-			acmeProviderMock,
-		)
+		m := models.NewManager(logger, mui, &utils.Distribution{settings, fakecf}, settings, &gorm.DB{}, acmeProviderMock, &accountCreator, certObtainer)
 
 		//run the test
 		m.DeleteOrphanedCerts()
@@ -338,15 +331,10 @@ var _ = Describe("Models", func() {
 		mui.Service = fakeiam
 
 		acmeProviderMock := StubAcmeClientProvider()
+		accountCreator := LEFakes.FakeAccountCreator{}
+		certObtainer := &LEFakes.FakeCertificateObtainer{}
 
-		m := models.NewManager(
-			logger,
-			mui,
-			&utils.Distribution{settings, fakecf},
-			settings,
-			&gorm.DB{},
-			acmeProviderMock,
-		)
+		m := models.NewManager(logger, mui, &utils.Distribution{settings, fakecf}, settings, &gorm.DB{}, acmeProviderMock, &accountCreator, certObtainer)
 
 		//run the test
 		m.DeleteOrphanedCerts()
@@ -405,15 +393,10 @@ var _ = Describe("Models", func() {
 		mui.Service = fakeiam
 
 		acmeProviderMock := StubAcmeClientProvider()
+		accountCreator := LEFakes.FakeAccountCreator{}
+		certObtainer := &LEFakes.FakeCertificateObtainer{}
 
-		m := models.NewManager(
-			logger,
-			mui,
-			&utils.Distribution{settings, fakecf},
-			settings,
-			&gorm.DB{},
-			acmeProviderMock,
-		)
+		m := models.NewManager(logger, mui, &utils.Distribution{settings, fakecf}, settings, &gorm.DB{}, acmeProviderMock, &accountCreator, certObtainer)
 
 		//run the test
 		m.DeleteOrphanedCerts()
@@ -429,24 +412,26 @@ var _ = Describe("Models", func() {
 	})
 
 	Context("Create", func() {
-		It("should perform only DNS01 challenges", func() {
-			logger := lager.NewLogger("dns-01-test-only")
-			logger.RegisterSink(lager.NewWriterSink(GinkgoWriter, lager.ERROR))
+		var (
+			instanceID       = "cloudfoundry-instance-id"
+			domain           = "foo.paas.gov.uk"
+			origin           = "foo.cloudapps.digital"
+			path             = "/"
+			defaultTTL       = int64(0)
+			insecureOrigin   = false
+			forwardedHeaders = utils.Headers{}
+			forwardCookies   = false
+			tags             = map[string]string{}
+			settings, _      = config.NewSettings()
 
-			instanceID := "cloudfoundry-instance-id"
-			domain := "foo.paas.gov.uk"
-			origin := "foo.cloudapps.digital"
-			path := "/"
-			defaultTTL := int64(0)
-			insecureOrigin := false
-			forwardedHeaders := utils.Headers{}
-			forwardCookies := false
-			tags := map[string]string{}
+			awsSession = session.New(nil)
+			fakecf     *cloudfront.CloudFront
+			fakeiam    *iam.IAM
+			mui        *MockUtilsIam
+		)
 
-			settings, _ := config.NewSettings()
-			awsSession := session.New(nil)
-
-			fakecf := cloudfront.New(awsSession)
+		BeforeEach(func(){
+			fakecf = cloudfront.New(awsSession)
 			fakecf.Handlers.Clear()
 			fakecf.Handlers.Send.PushBack(func(r *request.Request) {
 				switch r.Operation.Name {
@@ -459,12 +444,15 @@ var _ = Describe("Models", func() {
 				}
 			})
 
-			fakeiam := iam.New(awsSession)
-			mui := new(MockUtilsIam)
+			fakeiam = iam.New(awsSession)
+			mui = new(MockUtilsIam)
 			mui.Settings = settings
 			mui.Service = fakeiam
-
-			acmeProviderMock := StubAcmeClientProvider()
+		})
+		
+		It("should register a new user", func(){
+			logger := lager.NewLogger("register-new-user-test-only")
+			logger.RegisterSink(lager.NewWriterSink(GinkgoWriter, lager.ERROR))
 
 			mockDB.ExpectExec(
 				`INSERT INTO "user_data"`,
@@ -476,14 +464,56 @@ var _ = Describe("Models", func() {
 				`INSERT INTO "routes"`,
 			).WillReturnResult(sqlmock.NewResult(1, 1))
 
-			manager := models.NewManager(
-				logger,
-				mui,
-				&utils.Distribution{settings, fakecf},
-				settings,
-				gormDB,
-				acmeProviderMock,
+			acmeProviderMock := StubAcmeClientProvider()
+
+			accountCreator := LEFakes.FakeAccountCreator{}
+			client := &LEFakes.FakeClientInterface{}
+			accountCreator.EnsureAccountReturns(&goacme.Account{URI: "account url"}, client, nil)
+
+			certObtainer := &LEFakes.FakeCertificateObtainer{}
+			certObtainer.BeginCertificateOrderReturns(&goacme.Order{URI: "order url"}, nil)
+			manager := models.NewManager(logger, mui, &utils.Distribution{settings, fakecf}, settings, gormDB, acmeProviderMock, &accountCreator, certObtainer)
+
+			_, err := manager.Create(
+				instanceID, domain, origin, path, defaultTTL,
+				insecureOrigin, forwardedHeaders, forwardCookies, tags,
 			)
+			Expect(err).ToNot(HaveOccurred())
+
+			Expect(accountCreator.EnsureAccountCallCount()).To(
+				Equal(1),
+				"EnsureAccount should have been called exactly once",
+			)
+
+			_ , user := accountCreator.EnsureAccountArgsForCall(0)
+			Expect(user.Email).To(Equal(settings.Email))
+		})
+
+		It("should begin a new certificate order", func() {
+			logger := lager.NewLogger("dns-01-test-only")
+			logger.RegisterSink(lager.NewWriterSink(GinkgoWriter, lager.ERROR))
+
+
+			acmeProviderMock := StubAcmeClientProvider()
+
+			accountCreator := LEFakes.FakeAccountCreator{}
+			client := &LEFakes.FakeClientInterface{}
+			accountCreator.EnsureAccountReturns(&goacme.Account{URI: "account url"}, client, nil)
+
+			certObtainer := &LEFakes.FakeCertificateObtainer{}
+			certObtainer.BeginCertificateOrderReturns(&goacme.Order{URI: "order url"}, nil)
+
+			mockDB.ExpectExec(
+				`INSERT INTO "user_data"`,
+			).WillReturnResult(sqlmock.NewResult(1, 1))
+			mockDB.ExpectExec(
+				`UPDATE "user_data"`,
+			).WillReturnResult(sqlmock.NewResult(1, 1))
+			mockDB.ExpectExec(
+				`INSERT INTO "routes"`,
+			).WillReturnResult(sqlmock.NewResult(1, 1))
+
+			manager := models.NewManager(logger, mui, &utils.Distribution{settings, fakecf}, settings, gormDB, acmeProviderMock, &accountCreator, certObtainer)
 
 			_, err := manager.Create(
 				instanceID, domain, origin, path, defaultTTL,
@@ -497,6 +527,11 @@ var _ = Describe("Models", func() {
 			)
 			// We are just testing the newing up of the correct client
 			Expect(err).NotTo(HaveOccurred())
+
+			Expect(certObtainer.BeginCertificateOrderCallCount()).To(
+				Equal(1),
+				"BeginCertificateOrder should ahve been called exactly once",
+			)
 		})
 	})
 
@@ -562,14 +597,10 @@ var _ = Describe("Models", func() {
 			acmeProviderMock.GetHTTP01ClientReturns(&mocks.FakeAcmeClient{}, nil)
 			acmeProviderMock.GetDNS01ClientReturns(fakeDNS01Client, nil)
 
-			manager := models.NewManager(
-				logger,
-				mui,
-				&utils.Distribution{settings, fakecf},
-				settings,
-				gormDB,
-				&acmeProviderMock,
-			)
+			accountCreator := LEFakes.FakeAccountCreator{}
+			certObtainer := &LEFakes.FakeCertificateObtainer{}
+
+			manager := models.NewManager(logger, mui, &utils.Distribution{settings, fakecf}, settings, gormDB, &acmeProviderMock, &accountCreator, certObtainer)
 
 			route := &models.Route{
 				InstanceId:     instanceID,
@@ -686,14 +717,7 @@ var _ = Describe("Models", func() {
 			mui.Settings = settings
 			mui.Service = fakeiam
 
-			manager = models.NewManager(
-				logger,
-				mui,
-				&utils.Distribution{settings, fakecf},
-				settings,
-				gormDB,
-				StubAcmeClientProvider(),
-			)
+			manager = models.NewManager(logger, mui, &utils.Distribution{settings, fakecf}, settings, gormDB, StubAcmeClientProvider(), &LEFakes.FakeAccountCreator{}, &LEFakes.FakeCertificateObtainer{}, )
 
 			route = &models.Route{
 				InstanceId:     instanceID,
@@ -830,15 +854,10 @@ var _ = Describe("Models", func() {
 			)
 
 			acmeProviderMock := StubAcmeClientProvider()
+			accountCreator := LEFakes.FakeAccountCreator{}
+			certObtainer := &LEFakes.FakeCertificateObtainer{}
 
-			manager := models.NewManager(
-				logger,
-				mui,
-				&utils.Distribution{settings, fakecf},
-				settings,
-				gormDB,
-				acmeProviderMock,
-			)
+			manager := models.NewManager(logger, mui, &utils.Distribution{settings, fakecf}, settings, gormDB, acmeProviderMock, &accountCreator, certObtainer)
 
 			routeID := 101
 			certificateID := 202
@@ -934,14 +953,10 @@ var _ = Describe("Models", func() {
 			acmeProviderMock.GetHTTP01ClientReturns(&mocks.FakeAcmeClient{}, nil)
 			acmeProviderMock.GetDNS01ClientReturns(fakeDNS01Client, nil)
 
-			manager := models.NewManager(
-				logger,
-				mui,
-				&utils.Distribution{settings, fakecf},
-				settings,
-				gormDB,
-				&acmeProviderMock,
-			)
+			accountCreator := LEFakes.FakeAccountCreator{}
+			certObtainer := &LEFakes.FakeCertificateObtainer{}
+
+			manager := models.NewManager(logger, mui, &utils.Distribution{settings, fakecf}, settings, gormDB, &acmeProviderMock, &accountCreator, certObtainer)
 
 			routeID := 101
 			certificateID := 202

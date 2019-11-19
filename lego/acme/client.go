@@ -3,6 +3,7 @@ package acme
 
 import (
 	"crypto"
+	"crypto/rsa"
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/json"
@@ -48,7 +49,7 @@ func logf(format string, args ...interface{}) {
 type User interface {
 	GetEmail() string
 	GetRegistration() *RegistrationResource
-	GetPrivateKey() crypto.PrivateKey
+	GetPrivateKey() *rsa.PrivateKey
 }
 
 // Interface for all challenge solvers to implement.
