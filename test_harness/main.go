@@ -6,20 +6,19 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
-	"fmt"
 	"github.com/18F/cf-cdn-service-broker/letsencrypt"
 	"github.com/18F/cf-cdn-service-broker/utils"
 	"golang.org/x/crypto/acme"
+	"io/ioutil"
 	"os"
-	"time"
 )
 
 func main() {
 	logger := lager.NewLogger("test-harness")
 	logger.RegisterSink(lager.NewWriterSink(os.Stdout, lager.INFO))
 	ctx := context.Background()
-	domain := os.Args[1]
-	timer := time.NewTimer(30 * time.Second)
+	out := os.Args[1]
+	//timer := time.NewTimer(30 * time.Second)
 
 	user := utils.User{
 		Email:        "andy.hunt+2@digital.cabinet-office.gov.uk",
@@ -33,34 +32,42 @@ func main() {
 	user.SetPrivateKey(*key)
 
 	accounter := letsencrypt.NewAccountCreator(logger)
-	_, client, err := accounter.EnsureAccount(ctx, user)
+	account, _, err := accounter.EnsureAccount(ctx, user)
 	if err != nil {
 		logger.Fatal("ensure-account", err)
 	}
 
-	obtainer := letsencrypt.NewDNSCertificateObtainer(logger)
-	order, err := obtainer.BeginCertificateOrder(ctx, client, []string{domain})
+	logger.Info("account", lager.Data{"account": account})
 
+	err = ioutil.WriteFile(out, x509.MarshalPKCS1PrivateKey(key), 0650)
 	if err != nil {
-		logger.Fatal("begin-certificate-order", err)
+		logger.Fatal("write-file", err)
 	}
 
-	for {
-		select {
-		case <-timer.C:
-			cert, pk, triedChallenges, err := trySolveAuthorizations(obtainer, ctx, client, order)
-			if triedChallenges == true && err == nil {
-				fmt.Printf("%v", cert)
-				fmt.Printf("%v", pk)
-				break
-			} else if err != nil {
-				logger.Error("try-solve-auths", err)
-				break
-			} else {
-				timer.Reset(30 * time.Second)
-			}
-		}
-	}
+
+	//obtainer := letsencrypt.NewDNSCertificateObtainer(logger)
+	//order, err := obtainer.BeginCertificateOrder(ctx, client, []string{domain})
+	//
+	//if err != nil {
+	//	logger.Fatal("begin-certificate-order", err)
+	//}
+	//
+	//for {
+	//	select {
+	//	case <-timer.C:
+	//		cert, pk, triedChallenges, err := trySolveAuthorizations(obtainer, ctx, client, order)
+	//		if triedChallenges == true && err == nil {
+	//			fmt.Printf("%v", cert)
+	//			fmt.Printf("%v", pk)
+	//			break
+	//		} else if err != nil {
+	//			logger.Error("try-solve-auths", err)
+	//			break
+	//		} else {
+	//			timer.Reset(30 * time.Second)
+	//		}
+	//	}
+	//}
 }
 
 func trySolveAuthorizations(obtainer letsencrypt.CertificateObtainerInterface, ctx context.Context, client letsencrypt.ClientInterface, order *acme.Order) (*x509.Certificate, *rsa.PrivateKey, bool, error) {
