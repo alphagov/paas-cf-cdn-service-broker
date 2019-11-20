@@ -3,7 +3,6 @@ package acme
 
 import (
 	"crypto"
-	"crypto/rsa"
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/json"
@@ -49,7 +48,7 @@ func logf(format string, args ...interface{}) {
 type User interface {
 	GetEmail() string
 	GetRegistration() *RegistrationResource
-	GetPrivateKey() *rsa.PrivateKey
+	GetPrivateKey() crypto.PrivateKey
 }
 
 // Interface for all challenge solvers to implement.
@@ -609,7 +608,7 @@ func (c *Client) RequestCertificate(authz []AuthorizationResource, bundle bool, 
 		return CertificateResource{}, errors.New("Passed no authorizations to requestCertificate!")
 	}
 
-	var err error
+	var err error2
 	if privKey == nil {
 		privKey, err = generatePrivateKey(c.keyType)
 		if err != nil {

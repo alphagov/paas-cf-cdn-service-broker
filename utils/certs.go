@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"crypto/rsa"
+	"crypto"
 	"fmt"
 	"net"
 
@@ -26,8 +26,7 @@ func init() {
 type User struct {
 	Email        string
 	Registration *acme.RegistrationResource
-	OrderURL     string
-	key          rsa.PrivateKey
+	key          crypto.PrivateKey
 }
 
 func (u *User) GetEmail() string {
@@ -38,10 +37,10 @@ func (u *User) GetRegistration() *acme.RegistrationResource {
 	return u.Registration
 }
 
-func (u *User) GetPrivateKey() *rsa.PrivateKey {
-	return &u.key
+func (u *User) GetPrivateKey() crypto.PrivateKey {
+	return u.key
 }
 
-func (u *User) SetPrivateKey(key rsa.PrivateKey) {
+func (u *User) SetPrivateKey(key crypto.PrivateKey) {
 	u.key = key
 }

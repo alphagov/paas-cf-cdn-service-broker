@@ -1,7 +1,6 @@
 package models
 
 import (
-	"context"
 	"crypto"
 	"crypto/ecdsa"
 	"crypto/rand"
@@ -11,8 +10,8 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"encoding/pem"
+	"errors"
 	"fmt"
-	"github.com/18F/cf-cdn-service-broker/letsencrypt"
 	"io/ioutil"
 	"net/http"
 	"path"
@@ -69,10 +68,9 @@ func (s *State) Scan(value interface{}) error {
 
 type UserData struct {
 	gorm.Model
-	Email    string `gorm:"not null"`
-	OrderURL string
-	Reg      []byte
-	Key      []byte
+	Email string `gorm:"not null"`
+	Reg   []byte
+	Key   []byte
 }
 
 func CreateUser(email string) (utils.User, error) {
@@ -83,7 +81,7 @@ func CreateUser(email string) (utils.User, error) {
 		helperLogger.Session("create-user").Error("rsa-generate-key", err)
 		return user, err
 	}
-	user.SetPrivateKey(*key)
+	user.SetPrivateKey(key)
 
 	return user, nil
 }
@@ -127,7 +125,7 @@ func LoadUser(userData UserData) (utils.User, error) {
 		lsession.Error("load-private-key", err)
 		return user, err
 	}
-	user.SetPrivateKey(*key)
+	user.SetPrivateKey(key)
 	return user, nil
 }
 
@@ -140,9 +138,17 @@ func Migrate(db *gorm.DB) error {
 }
 
 // loadPrivateKey loads a PEM-encoded ECC/RSA private key from an array of bytes.
-func loadPrivateKey(keyBytes []byte) (*rsa.PrivateKey, error) {
+func loadPrivateKey(keyBytes []byte) (crypto.PrivateKey, error) {
 	keyBlock, _ := pem.Decode(keyBytes)
-	return x509.ParsePKCS1PrivateKey(keyBlock.Bytes)
+
+	switch keyBlock.Type {
+	case "RSA PRIVATE KEY":
+		return x509.ParsePKCS1PrivateKey(keyBlock.Bytes)
+	case "EC PRIVATE KEY":
+		return x509.ParseECPrivateKey(keyBlock.Bytes)
+	}
+
+	return nil, errors.New("unknown private key type")
 }
 
 // savePrivateKey saves a PEM-encoded ECC/RSA private key to an array of bytes.
@@ -247,14 +253,12 @@ type RouteManagerIface interface {
 }
 
 type RouteManager struct {
-	logger              lager.Logger
-	iam                 utils.IamIface
-	cloudFront          utils.DistributionIface
-	settings            config.Settings
-	db                  *gorm.DB
-	acmeClientProvider  AcmeClientProviderInterface
-	accountCreator      letsencrypt.AccountCreatorInterface
-	certificateObtainer letsencrypt.CertificateObtainerInterface
+	logger             lager.Logger
+	iam                utils.IamIface
+	cloudFront         utils.DistributionIface
+	settings           config.Settings
+	db                 *gorm.DB
+	acmeClientProvider AcmeClientProviderInterface
 }
 
 func NewManager(
@@ -264,18 +268,14 @@ func NewManager(
 	settings config.Settings,
 	db *gorm.DB,
 	acmeClientProvider AcmeClientProviderInterface,
-	accountCreator letsencrypt.AccountCreatorInterface,
-	certificateObtainer letsencrypt.CertificateObtainerInterface,
 ) RouteManager {
 	return RouteManager{
-		logger:              logger,
-		iam:                 iam,
-		cloudFront:          cloudFront,
-		settings:            settings,
-		db:                  db,
-		acmeClientProvider:  acmeClientProvider,
-		accountCreator:      accountCreator,
-		certificateObtainer: certificateObtainer,
+		logger:             logger,
+		iam:                iam,
+		cloudFront:         cloudFront,
+		settings:           settings,
+		db:                 db,
+		acmeClientProvider: acmeClientProvider,
 	}
 }
 
@@ -305,7 +305,6 @@ func (m *RouteManager) Create(
 		"instance-id": instanceId,
 	})
 
-
 	lsession.Info("create-user")
 	user, err := CreateUser(m.settings.Email)
 	if err != nil {
@@ -313,19 +312,12 @@ func (m *RouteManager) Create(
 		return nil, err
 	}
 
-	lsession.Info("ensure-account")
-	_, LEclient, err := m.accountCreator.EnsureAccount(context.Background(), user)
+	lsession.Info("getting-dns01-client")
+	client, err := m.getDNS01Client(&user, m.settings)
 	if err != nil {
+		lsession.Error("get-dns-01-client", err)
 		return nil, err
 	}
-
-	lsession.Info("begin-certificate-order")
-	order, err := m.certificateObtainer.BeginCertificateOrder(context.Background(), LEclient, []string{domain})
-	if err != nil {
-		return nil, err
-	}
-
-	user.OrderURL = order.URI
 
 	lsession.Info("saving-user")
 	userData, err := SaveUser(m.db, user)
@@ -335,11 +327,10 @@ func (m *RouteManager) Create(
 	}
 
 	route.UserData = userData
-	lsession.Info("getting-dns01-client")
-	client, err := m.getDNS01Client(&user, m.settings) // TODO: this won't work - replace this with a V2 version
-	lsession.Info("ensure-challenges-are-saved")
+
+	lsession.Info("ensure-challenges-dns-01")
 	if err := m.ensureChallenges(route, client); err != nil {
-		lsession.Error("ensure-challenges-are-saved", err)
+		lsession.Error("ensure-challenges-dns-01", err)
 		return nil, err
 	}
 
@@ -1095,7 +1086,7 @@ func (m *RouteManager) ensureChallenges(
 		return nil
 	}
 
-	lsession.Info("get-authorizations")
+	lsession.Info("get-challenges")
 	challenges, errs := client.GetChallenges(route.GetDomains())
 	if len(errs) > 0 {
 		err := fmt.Errorf("Error(s) getting challenges: %v", errs)

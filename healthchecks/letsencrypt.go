@@ -1,7 +1,7 @@
 package healthchecks
 
 import (
-	"crypto/rsa"
+	"crypto"
 	"github.com/18F/cf-cdn-service-broker/lego/acme"
 
 	"github.com/18F/cf-cdn-service-broker/config"
@@ -10,7 +10,7 @@ import (
 type User struct {
 	Email        string
 	Registration *acme.RegistrationResource
-	key          rsa.PrivateKey
+	key          crypto.PrivateKey
 }
 
 func (u *User) GetEmail() string {
@@ -21,17 +21,12 @@ func (u *User) GetRegistration() *acme.RegistrationResource {
 	return u.Registration
 }
 
-func (u *User) GetPrivateKey() *rsa.PrivateKey {
-	return &u.key
+func (u *User) GetPrivateKey() crypto.PrivateKey {
+	return u.key
 }
 
 func LetsEncrypt(settings config.Settings) error {
-	user := &User{key: rsa.PrivateKey{
-		PublicKey:   rsa.PublicKey{},
-		D:           nil,
-		Primes:      nil,
-		Precomputed: rsa.PrecomputedValues{},
-	}}
+	user := &User{key: "cheese"}
 	_, err := acme.NewClient("https://acme-v01.api.letsencrypt.org/directory", user, acme.RSA2048)
 	return err
 }
