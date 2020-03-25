@@ -67,6 +67,11 @@ func (d *Distribution) getHeaders(headers []string) *cloudfront.Headers {
 func (d *Distribution) fillDistributionConfig(config *cloudfront.DistributionConfig, origin, path string,
 	insecureOrigin bool, callerReference *string, domains []string, forwardedHeaders []string, forwardCookies bool,
 	defaultTTL int64) {
+	var fieldLevelEncryptionID *string
+	if config.CacheBehaviors != nil && len(config.CacheBehaviors.Items) > 0 {
+		fieldLevelEncryptionID = config.CacheBehaviors.Items[0].FieldLevelEncryptionId
+	}
+
 	config.CallerReference = callerReference
 	config.Comment = aws.String("cdn route service")
 	config.Enabled = aws.Bool(true)
@@ -203,7 +208,8 @@ func (d *Distribution) fillDistributionConfig(config *cloudfront.DistributionCon
 					Enabled:  aws.Bool(false),
 					Quantity: aws.Int64(0),
 				},
-				ViewerProtocolPolicy: aws.String("allow-all"),
+				ViewerProtocolPolicy:   aws.String("allow-all"),
+				FieldLevelEncryptionId: fieldLevelEncryptionID,
 			},
 		},
 	}
