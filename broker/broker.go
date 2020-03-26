@@ -322,33 +322,7 @@ func (b *CdnServiceBroker) Update(
 		"details":     details,
 	})
 
-	if !asyncAllowed {
-		return brokerapi.UpdateServiceSpec{}, brokerapi.ErrAsyncRequired
-	}
-
-	options, err := b.parseUpdateDetails(details)
-	if err != nil {
-		return brokerapi.UpdateServiceSpec{}, err
-	}
-	b.logger.Info("update-options", lager.Data{"instance_id": instanceID, "options": options})
-
-	headers, err := b.getHeaders(options)
-	if err != nil {
-		return brokerapi.UpdateServiceSpec{}, err
-	}
-
-	provisioningAsync, err := b.manager.Update(
-		instanceID,
-		options.Domain, options.Origin, options.Path,
-		options.DefaultTTL,
-		options.InsecureOrigin,
-		headers, options.Cookies,
-	)
-	if err != nil {
-		return brokerapi.UpdateServiceSpec{}, err
-	}
-
-	return brokerapi.UpdateServiceSpec{IsAsync: provisioningAsync}, nil
+	return brokerapi.UpdateServiceSpec{}, errors.New("service no longer supports updates. please contact support with your query")
 }
 
 // createBrokerOptions will attempt to take raw json and convert it into the "Options" struct.
