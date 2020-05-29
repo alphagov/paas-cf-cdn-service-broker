@@ -57,6 +57,8 @@ var (
 	MAX_HEADER_COUNT = 10
 )
 
+const MaintenanceWindowMessage = "CDN route services are unavailable during this maintenance window. Please see https://status.cloud.service.gov.uk/"
+
 func (b *CdnServiceBroker) GetBinding(ctx context.Context, first, second string) (brokerapi.GetBindingSpec, error) {
 	return brokerapi.GetBindingSpec{}, fmt.Errorf("GetBinding method not implemented")
 }
@@ -99,6 +101,9 @@ func (b *CdnServiceBroker) Provision(
 		"details":     details,
 	})
 	lsession.Info("start")
+
+	lsession.Info("is-disabled-in-maintenance-window")
+	return brokerapi.ProvisionedServiceSpec{}, errors.New(MaintenanceWindowMessage)
 
 	spec := brokerapi.ProvisionedServiceSpec{}
 
@@ -166,6 +171,9 @@ func (b *CdnServiceBroker) LastOperation(
 		"operation_data": pollDetails.OperationData,
 	})
 	lsession.Info("start")
+
+	lsession.Info("is-disabled-in-maintenance-window")
+	return brokerapi.LastOperation{}, errors.New(MaintenanceWindowMessage)
 
 	route, err := b.manager.Get(instanceID)
 	if err != nil {
@@ -295,6 +303,9 @@ func (b *CdnServiceBroker) Deprovision(
 	})
 	lsession.Info("start")
 
+	lsession.Info("is-disabled-in-maintenance-window")
+	return brokerapi.DeprovisionServiceSpec{}, errors.New(MaintenanceWindowMessage)
+
 	if !asyncAllowed {
 		lsession.Error("async-not-allowed-err", brokerapi.ErrAsyncRequired)
 		return brokerapi.DeprovisionServiceSpec{}, brokerapi.ErrAsyncRequired
@@ -358,6 +369,9 @@ func (b *CdnServiceBroker) Update(
 		"instance_id": instanceID,
 		"details":     details,
 	})
+
+	b.logger.Info("is-disabled-in-maintenance-window")
+	return brokerapi.UpdateServiceSpec{}, errors.New(MaintenanceWindowMessage)
 
 	if !asyncAllowed {
 		return brokerapi.UpdateServiceSpec{}, brokerapi.ErrAsyncRequired
