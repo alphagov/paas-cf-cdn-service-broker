@@ -61,8 +61,19 @@ func (b *CdnServiceBroker) GetBinding(ctx context.Context, first, second string)
 	return brokerapi.GetBindingSpec{}, fmt.Errorf("GetBinding method not implemented")
 }
 
-func (b *CdnServiceBroker) GetInstance(ctx context.Context, first string) (brokerapi.GetInstanceDetailsSpec, error) {
-	return brokerapi.GetInstanceDetailsSpec{}, fmt.Errorf("GetInstance method not implemented")
+func (b *CdnServiceBroker) GetInstance(ctx context.Context, instanceID string) (brokerapi.GetInstanceDetailsSpec, error) {
+	route, err := b.manager.Get(instanceID)
+
+	if err != nil {
+		return brokerapi.GetInstanceDetailsSpec{}, err
+	}
+
+	return brokerapi.GetInstanceDetailsSpec{
+		Parameters: map[string]string {
+			"domains": route.DomainExternal,
+			"cloudfront_domain": route.DomainInternal,
+		},
+	}, nil
 }
 
 func (b *CdnServiceBroker) LastBindingOperation(ctx context.Context, first, second string, pollDetails brokerapi.PollDetails) (brokerapi.LastOperation, error) {
