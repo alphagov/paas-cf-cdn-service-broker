@@ -583,7 +583,7 @@ func (b *CdnServiceBroker) checkDomain(logger lager.Logger, domain, orgGUID stri
 	for i := range domains {
 		logger.Info("calling-get-domain-by-name", lager.Data{"domain": domains[i]})
 		if _, err := b.cfclient.GetDomainByName(domains[i]); err != nil {
-			logger.Error("get-domain-by-name-error", lager.Data{"error": err})
+			logger.Error("get-domain-by-name-error", err)
 
 			if orgName == "<organization>" {
 				org, err := b.cfclient.GetOrgByGuid(orgGUID)
