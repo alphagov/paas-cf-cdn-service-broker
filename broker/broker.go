@@ -518,7 +518,7 @@ func (b *CdnServiceBroker) Update(
 
 // parseProvisionDetails will attempt to parse the update details and then verify that BOTH least "domain" and "origin"
 // are provided.
-func (b *CdnServiceBroker) parseProvisionDetails(lager.Logger logger, details domain.ProvisionDetails) (CreateOptions, error) {
+func (b *CdnServiceBroker) parseProvisionDetails(logger lager.Logger, details domain.ProvisionDetails) (CreateOptions, error) {
 	var err error
 	options := CreateOptions{
 		Cookies:    true,
@@ -550,7 +550,7 @@ func (b *CdnServiceBroker) parseProvisionDetails(lager.Logger logger, details do
 
 // parseUpdateDetails will attempt to parse the update details and then verify that at least "domain" or "origin"
 // are provided.
-func (b *CdnServiceBroker) parseUpdateDetails(lager.Logger logger, details domain.UpdateDetails) (UpdateOptions, error) {
+func (b *CdnServiceBroker) parseUpdateDetails(logger lager.Logger, details domain.UpdateDetails) (UpdateOptions, error) {
 	var err error
 	options := UpdateOptions{}
 
@@ -573,7 +573,7 @@ func (b *CdnServiceBroker) parseUpdateDetails(lager.Logger logger, details domai
 	return options, err
 }
 
-func (b *CdnServiceBroker) checkDomain(lager.Logger logger, domain, orgGUID string) error {
+func (b *CdnServiceBroker) checkDomain(logger lager.Logger, domain, orgGUID string) error {
 	// domain can be a comma separated list so we need to check each one individually
 	domains := strings.Split(domain, ",")
 	var errorList []string
