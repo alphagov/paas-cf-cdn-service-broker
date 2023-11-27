@@ -26,7 +26,7 @@ import (
 //    // myFunc uses an SDK service client to make a request to
 //    // Amazon CloudFront.
 //    func myFunc(svc cloudfrontiface.CloudFrontAPI) bool {
-//        // Make svc.CreateCachePolicy request
+//        // Make svc.AssociateAlias request
 //    }
 //
 //    func main() {
@@ -42,7 +42,7 @@ import (
 //    type mockCloudFrontClient struct {
 //        cloudfrontiface.CloudFrontAPI
 //    }
-//    func (m *mockCloudFrontClient) CreateCachePolicy(input *cloudfront.CreateCachePolicyInput) (*cloudfront.CreateCachePolicyOutput, error) {
+//    func (m *mockCloudFrontClient) AssociateAlias(input *cloudfront.AssociateAliasInput) (*cloudfront.AssociateAliasOutput, error) {
 //        // mock response/functionality
 //    }
 //
@@ -60,6 +60,10 @@ import (
 // and waiters. Its suggested to use the pattern above for testing, or using
 // tooling to generate mocks to satisfy the interfaces.
 type CloudFrontAPI interface {
+	AssociateAlias(*cloudfront.AssociateAliasInput) (*cloudfront.AssociateAliasOutput, error)
+	AssociateAliasWithContext(aws.Context, *cloudfront.AssociateAliasInput, ...request.Option) (*cloudfront.AssociateAliasOutput, error)
+	AssociateAliasRequest(*cloudfront.AssociateAliasInput) (*request.Request, *cloudfront.AssociateAliasOutput)
+
 	CreateCachePolicy(*cloudfront.CreateCachePolicyInput) (*cloudfront.CreateCachePolicyOutput, error)
 	CreateCachePolicyWithContext(aws.Context, *cloudfront.CreateCachePolicyInput, ...request.Option) (*cloudfront.CreateCachePolicyOutput, error)
 	CreateCachePolicyRequest(*cloudfront.CreateCachePolicyInput) (*request.Request, *cloudfront.CreateCachePolicyOutput)
@@ -112,6 +116,10 @@ type CloudFrontAPI interface {
 	CreateRealtimeLogConfigWithContext(aws.Context, *cloudfront.CreateRealtimeLogConfigInput, ...request.Option) (*cloudfront.CreateRealtimeLogConfigOutput, error)
 	CreateRealtimeLogConfigRequest(*cloudfront.CreateRealtimeLogConfigInput) (*request.Request, *cloudfront.CreateRealtimeLogConfigOutput)
 
+	CreateResponseHeadersPolicy(*cloudfront.CreateResponseHeadersPolicyInput) (*cloudfront.CreateResponseHeadersPolicyOutput, error)
+	CreateResponseHeadersPolicyWithContext(aws.Context, *cloudfront.CreateResponseHeadersPolicyInput, ...request.Option) (*cloudfront.CreateResponseHeadersPolicyOutput, error)
+	CreateResponseHeadersPolicyRequest(*cloudfront.CreateResponseHeadersPolicyInput) (*request.Request, *cloudfront.CreateResponseHeadersPolicyOutput)
+
 	CreateStreamingDistribution(*cloudfront.CreateStreamingDistributionInput) (*cloudfront.CreateStreamingDistributionOutput, error)
 	CreateStreamingDistributionWithContext(aws.Context, *cloudfront.CreateStreamingDistributionInput, ...request.Option) (*cloudfront.CreateStreamingDistributionOutput, error)
 	CreateStreamingDistributionRequest(*cloudfront.CreateStreamingDistributionInput) (*request.Request, *cloudfront.CreateStreamingDistributionOutput)
@@ -163,6 +171,10 @@ type CloudFrontAPI interface {
 	DeleteRealtimeLogConfig(*cloudfront.DeleteRealtimeLogConfigInput) (*cloudfront.DeleteRealtimeLogConfigOutput, error)
 	DeleteRealtimeLogConfigWithContext(aws.Context, *cloudfront.DeleteRealtimeLogConfigInput, ...request.Option) (*cloudfront.DeleteRealtimeLogConfigOutput, error)
 	DeleteRealtimeLogConfigRequest(*cloudfront.DeleteRealtimeLogConfigInput) (*request.Request, *cloudfront.DeleteRealtimeLogConfigOutput)
+
+	DeleteResponseHeadersPolicy(*cloudfront.DeleteResponseHeadersPolicyInput) (*cloudfront.DeleteResponseHeadersPolicyOutput, error)
+	DeleteResponseHeadersPolicyWithContext(aws.Context, *cloudfront.DeleteResponseHeadersPolicyInput, ...request.Option) (*cloudfront.DeleteResponseHeadersPolicyOutput, error)
+	DeleteResponseHeadersPolicyRequest(*cloudfront.DeleteResponseHeadersPolicyInput) (*request.Request, *cloudfront.DeleteResponseHeadersPolicyOutput)
 
 	DeleteStreamingDistribution(*cloudfront.DeleteStreamingDistributionInput) (*cloudfront.DeleteStreamingDistributionOutput, error)
 	DeleteStreamingDistributionWithContext(aws.Context, *cloudfront.DeleteStreamingDistributionInput, ...request.Option) (*cloudfront.DeleteStreamingDistributionOutput, error)
@@ -252,6 +264,14 @@ type CloudFrontAPI interface {
 	GetRealtimeLogConfigWithContext(aws.Context, *cloudfront.GetRealtimeLogConfigInput, ...request.Option) (*cloudfront.GetRealtimeLogConfigOutput, error)
 	GetRealtimeLogConfigRequest(*cloudfront.GetRealtimeLogConfigInput) (*request.Request, *cloudfront.GetRealtimeLogConfigOutput)
 
+	GetResponseHeadersPolicy(*cloudfront.GetResponseHeadersPolicyInput) (*cloudfront.GetResponseHeadersPolicyOutput, error)
+	GetResponseHeadersPolicyWithContext(aws.Context, *cloudfront.GetResponseHeadersPolicyInput, ...request.Option) (*cloudfront.GetResponseHeadersPolicyOutput, error)
+	GetResponseHeadersPolicyRequest(*cloudfront.GetResponseHeadersPolicyInput) (*request.Request, *cloudfront.GetResponseHeadersPolicyOutput)
+
+	GetResponseHeadersPolicyConfig(*cloudfront.GetResponseHeadersPolicyConfigInput) (*cloudfront.GetResponseHeadersPolicyConfigOutput, error)
+	GetResponseHeadersPolicyConfigWithContext(aws.Context, *cloudfront.GetResponseHeadersPolicyConfigInput, ...request.Option) (*cloudfront.GetResponseHeadersPolicyConfigOutput, error)
+	GetResponseHeadersPolicyConfigRequest(*cloudfront.GetResponseHeadersPolicyConfigInput) (*request.Request, *cloudfront.GetResponseHeadersPolicyConfigOutput)
+
 	GetStreamingDistribution(*cloudfront.GetStreamingDistributionInput) (*cloudfront.GetStreamingDistributionOutput, error)
 	GetStreamingDistributionWithContext(aws.Context, *cloudfront.GetStreamingDistributionInput, ...request.Option) (*cloudfront.GetStreamingDistributionOutput, error)
 	GetStreamingDistributionRequest(*cloudfront.GetStreamingDistributionInput) (*request.Request, *cloudfront.GetStreamingDistributionOutput)
@@ -270,6 +290,10 @@ type CloudFrontAPI interface {
 
 	ListCloudFrontOriginAccessIdentitiesPages(*cloudfront.ListCloudFrontOriginAccessIdentitiesInput, func(*cloudfront.ListCloudFrontOriginAccessIdentitiesOutput, bool) bool) error
 	ListCloudFrontOriginAccessIdentitiesPagesWithContext(aws.Context, *cloudfront.ListCloudFrontOriginAccessIdentitiesInput, func(*cloudfront.ListCloudFrontOriginAccessIdentitiesOutput, bool) bool, ...request.Option) error
+
+	ListConflictingAliases(*cloudfront.ListConflictingAliasesInput) (*cloudfront.ListConflictingAliasesOutput, error)
+	ListConflictingAliasesWithContext(aws.Context, *cloudfront.ListConflictingAliasesInput, ...request.Option) (*cloudfront.ListConflictingAliasesOutput, error)
+	ListConflictingAliasesRequest(*cloudfront.ListConflictingAliasesInput) (*request.Request, *cloudfront.ListConflictingAliasesOutput)
 
 	ListDistributions(*cloudfront.ListDistributionsInput) (*cloudfront.ListDistributionsOutput, error)
 	ListDistributionsWithContext(aws.Context, *cloudfront.ListDistributionsInput, ...request.Option) (*cloudfront.ListDistributionsOutput, error)
@@ -293,6 +317,10 @@ type CloudFrontAPI interface {
 	ListDistributionsByRealtimeLogConfig(*cloudfront.ListDistributionsByRealtimeLogConfigInput) (*cloudfront.ListDistributionsByRealtimeLogConfigOutput, error)
 	ListDistributionsByRealtimeLogConfigWithContext(aws.Context, *cloudfront.ListDistributionsByRealtimeLogConfigInput, ...request.Option) (*cloudfront.ListDistributionsByRealtimeLogConfigOutput, error)
 	ListDistributionsByRealtimeLogConfigRequest(*cloudfront.ListDistributionsByRealtimeLogConfigInput) (*request.Request, *cloudfront.ListDistributionsByRealtimeLogConfigOutput)
+
+	ListDistributionsByResponseHeadersPolicyId(*cloudfront.ListDistributionsByResponseHeadersPolicyIdInput) (*cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput, error)
+	ListDistributionsByResponseHeadersPolicyIdWithContext(aws.Context, *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput, ...request.Option) (*cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput, error)
+	ListDistributionsByResponseHeadersPolicyIdRequest(*cloudfront.ListDistributionsByResponseHeadersPolicyIdInput) (*request.Request, *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput)
 
 	ListDistributionsByWebACLId(*cloudfront.ListDistributionsByWebACLIdInput) (*cloudfront.ListDistributionsByWebACLIdOutput, error)
 	ListDistributionsByWebACLIdWithContext(aws.Context, *cloudfront.ListDistributionsByWebACLIdInput, ...request.Option) (*cloudfront.ListDistributionsByWebACLIdOutput, error)
@@ -332,6 +360,10 @@ type CloudFrontAPI interface {
 	ListRealtimeLogConfigs(*cloudfront.ListRealtimeLogConfigsInput) (*cloudfront.ListRealtimeLogConfigsOutput, error)
 	ListRealtimeLogConfigsWithContext(aws.Context, *cloudfront.ListRealtimeLogConfigsInput, ...request.Option) (*cloudfront.ListRealtimeLogConfigsOutput, error)
 	ListRealtimeLogConfigsRequest(*cloudfront.ListRealtimeLogConfigsInput) (*request.Request, *cloudfront.ListRealtimeLogConfigsOutput)
+
+	ListResponseHeadersPolicies(*cloudfront.ListResponseHeadersPoliciesInput) (*cloudfront.ListResponseHeadersPoliciesOutput, error)
+	ListResponseHeadersPoliciesWithContext(aws.Context, *cloudfront.ListResponseHeadersPoliciesInput, ...request.Option) (*cloudfront.ListResponseHeadersPoliciesOutput, error)
+	ListResponseHeadersPoliciesRequest(*cloudfront.ListResponseHeadersPoliciesInput) (*request.Request, *cloudfront.ListResponseHeadersPoliciesOutput)
 
 	ListStreamingDistributions(*cloudfront.ListStreamingDistributionsInput) (*cloudfront.ListStreamingDistributionsOutput, error)
 	ListStreamingDistributionsWithContext(aws.Context, *cloudfront.ListStreamingDistributionsInput, ...request.Option) (*cloudfront.ListStreamingDistributionsOutput, error)
@@ -399,6 +431,10 @@ type CloudFrontAPI interface {
 	UpdateRealtimeLogConfig(*cloudfront.UpdateRealtimeLogConfigInput) (*cloudfront.UpdateRealtimeLogConfigOutput, error)
 	UpdateRealtimeLogConfigWithContext(aws.Context, *cloudfront.UpdateRealtimeLogConfigInput, ...request.Option) (*cloudfront.UpdateRealtimeLogConfigOutput, error)
 	UpdateRealtimeLogConfigRequest(*cloudfront.UpdateRealtimeLogConfigInput) (*request.Request, *cloudfront.UpdateRealtimeLogConfigOutput)
+
+	UpdateResponseHeadersPolicy(*cloudfront.UpdateResponseHeadersPolicyInput) (*cloudfront.UpdateResponseHeadersPolicyOutput, error)
+	UpdateResponseHeadersPolicyWithContext(aws.Context, *cloudfront.UpdateResponseHeadersPolicyInput, ...request.Option) (*cloudfront.UpdateResponseHeadersPolicyOutput, error)
+	UpdateResponseHeadersPolicyRequest(*cloudfront.UpdateResponseHeadersPolicyInput) (*request.Request, *cloudfront.UpdateResponseHeadersPolicyOutput)
 
 	UpdateStreamingDistribution(*cloudfront.UpdateStreamingDistributionInput) (*cloudfront.UpdateStreamingDistributionOutput, error)
 	UpdateStreamingDistributionWithContext(aws.Context, *cloudfront.UpdateStreamingDistributionInput, ...request.Option) (*cloudfront.UpdateStreamingDistributionOutput, error)

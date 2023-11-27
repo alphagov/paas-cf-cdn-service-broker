@@ -11,6 +11,47 @@ import (
 )
 
 type FakeCloudfront struct {
+	AssociateAliasStub        func(*cloudfront.AssociateAliasInput) (*cloudfront.AssociateAliasOutput, error)
+	associateAliasMutex       sync.RWMutex
+	associateAliasArgsForCall []struct {
+		arg1 *cloudfront.AssociateAliasInput
+	}
+	associateAliasReturns struct {
+		result1 *cloudfront.AssociateAliasOutput
+		result2 error
+	}
+	associateAliasReturnsOnCall map[int]struct {
+		result1 *cloudfront.AssociateAliasOutput
+		result2 error
+	}
+	AssociateAliasRequestStub        func(*cloudfront.AssociateAliasInput) (*request.Request, *cloudfront.AssociateAliasOutput)
+	associateAliasRequestMutex       sync.RWMutex
+	associateAliasRequestArgsForCall []struct {
+		arg1 *cloudfront.AssociateAliasInput
+	}
+	associateAliasRequestReturns struct {
+		result1 *request.Request
+		result2 *cloudfront.AssociateAliasOutput
+	}
+	associateAliasRequestReturnsOnCall map[int]struct {
+		result1 *request.Request
+		result2 *cloudfront.AssociateAliasOutput
+	}
+	AssociateAliasWithContextStub        func(context.Context, *cloudfront.AssociateAliasInput, ...request.Option) (*cloudfront.AssociateAliasOutput, error)
+	associateAliasWithContextMutex       sync.RWMutex
+	associateAliasWithContextArgsForCall []struct {
+		arg1 context.Context
+		arg2 *cloudfront.AssociateAliasInput
+		arg3 []request.Option
+	}
+	associateAliasWithContextReturns struct {
+		result1 *cloudfront.AssociateAliasOutput
+		result2 error
+	}
+	associateAliasWithContextReturnsOnCall map[int]struct {
+		result1 *cloudfront.AssociateAliasOutput
+		result2 error
+	}
 	CreateCachePolicyStub        func(*cloudfront.CreateCachePolicyInput) (*cloudfront.CreateCachePolicyOutput, error)
 	createCachePolicyMutex       sync.RWMutex
 	createCachePolicyArgsForCall []struct {
@@ -544,6 +585,47 @@ type FakeCloudfront struct {
 		result1 *cloudfront.CreateRealtimeLogConfigOutput
 		result2 error
 	}
+	CreateResponseHeadersPolicyStub        func(*cloudfront.CreateResponseHeadersPolicyInput) (*cloudfront.CreateResponseHeadersPolicyOutput, error)
+	createResponseHeadersPolicyMutex       sync.RWMutex
+	createResponseHeadersPolicyArgsForCall []struct {
+		arg1 *cloudfront.CreateResponseHeadersPolicyInput
+	}
+	createResponseHeadersPolicyReturns struct {
+		result1 *cloudfront.CreateResponseHeadersPolicyOutput
+		result2 error
+	}
+	createResponseHeadersPolicyReturnsOnCall map[int]struct {
+		result1 *cloudfront.CreateResponseHeadersPolicyOutput
+		result2 error
+	}
+	CreateResponseHeadersPolicyRequestStub        func(*cloudfront.CreateResponseHeadersPolicyInput) (*request.Request, *cloudfront.CreateResponseHeadersPolicyOutput)
+	createResponseHeadersPolicyRequestMutex       sync.RWMutex
+	createResponseHeadersPolicyRequestArgsForCall []struct {
+		arg1 *cloudfront.CreateResponseHeadersPolicyInput
+	}
+	createResponseHeadersPolicyRequestReturns struct {
+		result1 *request.Request
+		result2 *cloudfront.CreateResponseHeadersPolicyOutput
+	}
+	createResponseHeadersPolicyRequestReturnsOnCall map[int]struct {
+		result1 *request.Request
+		result2 *cloudfront.CreateResponseHeadersPolicyOutput
+	}
+	CreateResponseHeadersPolicyWithContextStub        func(context.Context, *cloudfront.CreateResponseHeadersPolicyInput, ...request.Option) (*cloudfront.CreateResponseHeadersPolicyOutput, error)
+	createResponseHeadersPolicyWithContextMutex       sync.RWMutex
+	createResponseHeadersPolicyWithContextArgsForCall []struct {
+		arg1 context.Context
+		arg2 *cloudfront.CreateResponseHeadersPolicyInput
+		arg3 []request.Option
+	}
+	createResponseHeadersPolicyWithContextReturns struct {
+		result1 *cloudfront.CreateResponseHeadersPolicyOutput
+		result2 error
+	}
+	createResponseHeadersPolicyWithContextReturnsOnCall map[int]struct {
+		result1 *cloudfront.CreateResponseHeadersPolicyOutput
+		result2 error
+	}
 	CreateStreamingDistributionStub        func(*cloudfront.CreateStreamingDistributionInput) (*cloudfront.CreateStreamingDistributionOutput, error)
 	createStreamingDistributionMutex       sync.RWMutex
 	createStreamingDistributionArgsForCall []struct {
@@ -1075,6 +1157,47 @@ type FakeCloudfront struct {
 	}
 	deleteRealtimeLogConfigWithContextReturnsOnCall map[int]struct {
 		result1 *cloudfront.DeleteRealtimeLogConfigOutput
+		result2 error
+	}
+	DeleteResponseHeadersPolicyStub        func(*cloudfront.DeleteResponseHeadersPolicyInput) (*cloudfront.DeleteResponseHeadersPolicyOutput, error)
+	deleteResponseHeadersPolicyMutex       sync.RWMutex
+	deleteResponseHeadersPolicyArgsForCall []struct {
+		arg1 *cloudfront.DeleteResponseHeadersPolicyInput
+	}
+	deleteResponseHeadersPolicyReturns struct {
+		result1 *cloudfront.DeleteResponseHeadersPolicyOutput
+		result2 error
+	}
+	deleteResponseHeadersPolicyReturnsOnCall map[int]struct {
+		result1 *cloudfront.DeleteResponseHeadersPolicyOutput
+		result2 error
+	}
+	DeleteResponseHeadersPolicyRequestStub        func(*cloudfront.DeleteResponseHeadersPolicyInput) (*request.Request, *cloudfront.DeleteResponseHeadersPolicyOutput)
+	deleteResponseHeadersPolicyRequestMutex       sync.RWMutex
+	deleteResponseHeadersPolicyRequestArgsForCall []struct {
+		arg1 *cloudfront.DeleteResponseHeadersPolicyInput
+	}
+	deleteResponseHeadersPolicyRequestReturns struct {
+		result1 *request.Request
+		result2 *cloudfront.DeleteResponseHeadersPolicyOutput
+	}
+	deleteResponseHeadersPolicyRequestReturnsOnCall map[int]struct {
+		result1 *request.Request
+		result2 *cloudfront.DeleteResponseHeadersPolicyOutput
+	}
+	DeleteResponseHeadersPolicyWithContextStub        func(context.Context, *cloudfront.DeleteResponseHeadersPolicyInput, ...request.Option) (*cloudfront.DeleteResponseHeadersPolicyOutput, error)
+	deleteResponseHeadersPolicyWithContextMutex       sync.RWMutex
+	deleteResponseHeadersPolicyWithContextArgsForCall []struct {
+		arg1 context.Context
+		arg2 *cloudfront.DeleteResponseHeadersPolicyInput
+		arg3 []request.Option
+	}
+	deleteResponseHeadersPolicyWithContextReturns struct {
+		result1 *cloudfront.DeleteResponseHeadersPolicyOutput
+		result2 error
+	}
+	deleteResponseHeadersPolicyWithContextReturnsOnCall map[int]struct {
+		result1 *cloudfront.DeleteResponseHeadersPolicyOutput
 		result2 error
 	}
 	DeleteStreamingDistributionStub        func(*cloudfront.DeleteStreamingDistributionInput) (*cloudfront.DeleteStreamingDistributionOutput, error)
@@ -1979,6 +2102,88 @@ type FakeCloudfront struct {
 		result1 *cloudfront.GetRealtimeLogConfigOutput
 		result2 error
 	}
+	GetResponseHeadersPolicyStub        func(*cloudfront.GetResponseHeadersPolicyInput) (*cloudfront.GetResponseHeadersPolicyOutput, error)
+	getResponseHeadersPolicyMutex       sync.RWMutex
+	getResponseHeadersPolicyArgsForCall []struct {
+		arg1 *cloudfront.GetResponseHeadersPolicyInput
+	}
+	getResponseHeadersPolicyReturns struct {
+		result1 *cloudfront.GetResponseHeadersPolicyOutput
+		result2 error
+	}
+	getResponseHeadersPolicyReturnsOnCall map[int]struct {
+		result1 *cloudfront.GetResponseHeadersPolicyOutput
+		result2 error
+	}
+	GetResponseHeadersPolicyConfigStub        func(*cloudfront.GetResponseHeadersPolicyConfigInput) (*cloudfront.GetResponseHeadersPolicyConfigOutput, error)
+	getResponseHeadersPolicyConfigMutex       sync.RWMutex
+	getResponseHeadersPolicyConfigArgsForCall []struct {
+		arg1 *cloudfront.GetResponseHeadersPolicyConfigInput
+	}
+	getResponseHeadersPolicyConfigReturns struct {
+		result1 *cloudfront.GetResponseHeadersPolicyConfigOutput
+		result2 error
+	}
+	getResponseHeadersPolicyConfigReturnsOnCall map[int]struct {
+		result1 *cloudfront.GetResponseHeadersPolicyConfigOutput
+		result2 error
+	}
+	GetResponseHeadersPolicyConfigRequestStub        func(*cloudfront.GetResponseHeadersPolicyConfigInput) (*request.Request, *cloudfront.GetResponseHeadersPolicyConfigOutput)
+	getResponseHeadersPolicyConfigRequestMutex       sync.RWMutex
+	getResponseHeadersPolicyConfigRequestArgsForCall []struct {
+		arg1 *cloudfront.GetResponseHeadersPolicyConfigInput
+	}
+	getResponseHeadersPolicyConfigRequestReturns struct {
+		result1 *request.Request
+		result2 *cloudfront.GetResponseHeadersPolicyConfigOutput
+	}
+	getResponseHeadersPolicyConfigRequestReturnsOnCall map[int]struct {
+		result1 *request.Request
+		result2 *cloudfront.GetResponseHeadersPolicyConfigOutput
+	}
+	GetResponseHeadersPolicyConfigWithContextStub        func(context.Context, *cloudfront.GetResponseHeadersPolicyConfigInput, ...request.Option) (*cloudfront.GetResponseHeadersPolicyConfigOutput, error)
+	getResponseHeadersPolicyConfigWithContextMutex       sync.RWMutex
+	getResponseHeadersPolicyConfigWithContextArgsForCall []struct {
+		arg1 context.Context
+		arg2 *cloudfront.GetResponseHeadersPolicyConfigInput
+		arg3 []request.Option
+	}
+	getResponseHeadersPolicyConfigWithContextReturns struct {
+		result1 *cloudfront.GetResponseHeadersPolicyConfigOutput
+		result2 error
+	}
+	getResponseHeadersPolicyConfigWithContextReturnsOnCall map[int]struct {
+		result1 *cloudfront.GetResponseHeadersPolicyConfigOutput
+		result2 error
+	}
+	GetResponseHeadersPolicyRequestStub        func(*cloudfront.GetResponseHeadersPolicyInput) (*request.Request, *cloudfront.GetResponseHeadersPolicyOutput)
+	getResponseHeadersPolicyRequestMutex       sync.RWMutex
+	getResponseHeadersPolicyRequestArgsForCall []struct {
+		arg1 *cloudfront.GetResponseHeadersPolicyInput
+	}
+	getResponseHeadersPolicyRequestReturns struct {
+		result1 *request.Request
+		result2 *cloudfront.GetResponseHeadersPolicyOutput
+	}
+	getResponseHeadersPolicyRequestReturnsOnCall map[int]struct {
+		result1 *request.Request
+		result2 *cloudfront.GetResponseHeadersPolicyOutput
+	}
+	GetResponseHeadersPolicyWithContextStub        func(context.Context, *cloudfront.GetResponseHeadersPolicyInput, ...request.Option) (*cloudfront.GetResponseHeadersPolicyOutput, error)
+	getResponseHeadersPolicyWithContextMutex       sync.RWMutex
+	getResponseHeadersPolicyWithContextArgsForCall []struct {
+		arg1 context.Context
+		arg2 *cloudfront.GetResponseHeadersPolicyInput
+		arg3 []request.Option
+	}
+	getResponseHeadersPolicyWithContextReturns struct {
+		result1 *cloudfront.GetResponseHeadersPolicyOutput
+		result2 error
+	}
+	getResponseHeadersPolicyWithContextReturnsOnCall map[int]struct {
+		result1 *cloudfront.GetResponseHeadersPolicyOutput
+		result2 error
+	}
 	GetStreamingDistributionStub        func(*cloudfront.GetStreamingDistributionInput) (*cloudfront.GetStreamingDistributionOutput, error)
 	getStreamingDistributionMutex       sync.RWMutex
 	getStreamingDistributionArgsForCall []struct {
@@ -2169,6 +2374,47 @@ type FakeCloudfront struct {
 		result1 *cloudfront.ListCloudFrontOriginAccessIdentitiesOutput
 		result2 error
 	}
+	ListConflictingAliasesStub        func(*cloudfront.ListConflictingAliasesInput) (*cloudfront.ListConflictingAliasesOutput, error)
+	listConflictingAliasesMutex       sync.RWMutex
+	listConflictingAliasesArgsForCall []struct {
+		arg1 *cloudfront.ListConflictingAliasesInput
+	}
+	listConflictingAliasesReturns struct {
+		result1 *cloudfront.ListConflictingAliasesOutput
+		result2 error
+	}
+	listConflictingAliasesReturnsOnCall map[int]struct {
+		result1 *cloudfront.ListConflictingAliasesOutput
+		result2 error
+	}
+	ListConflictingAliasesRequestStub        func(*cloudfront.ListConflictingAliasesInput) (*request.Request, *cloudfront.ListConflictingAliasesOutput)
+	listConflictingAliasesRequestMutex       sync.RWMutex
+	listConflictingAliasesRequestArgsForCall []struct {
+		arg1 *cloudfront.ListConflictingAliasesInput
+	}
+	listConflictingAliasesRequestReturns struct {
+		result1 *request.Request
+		result2 *cloudfront.ListConflictingAliasesOutput
+	}
+	listConflictingAliasesRequestReturnsOnCall map[int]struct {
+		result1 *request.Request
+		result2 *cloudfront.ListConflictingAliasesOutput
+	}
+	ListConflictingAliasesWithContextStub        func(context.Context, *cloudfront.ListConflictingAliasesInput, ...request.Option) (*cloudfront.ListConflictingAliasesOutput, error)
+	listConflictingAliasesWithContextMutex       sync.RWMutex
+	listConflictingAliasesWithContextArgsForCall []struct {
+		arg1 context.Context
+		arg2 *cloudfront.ListConflictingAliasesInput
+		arg3 []request.Option
+	}
+	listConflictingAliasesWithContextReturns struct {
+		result1 *cloudfront.ListConflictingAliasesOutput
+		result2 error
+	}
+	listConflictingAliasesWithContextReturnsOnCall map[int]struct {
+		result1 *cloudfront.ListConflictingAliasesOutput
+		result2 error
+	}
 	ListDistributionsStub        func(*cloudfront.ListDistributionsInput) (*cloudfront.ListDistributionsOutput, error)
 	listDistributionsMutex       sync.RWMutex
 	listDistributionsArgsForCall []struct {
@@ -2344,6 +2590,47 @@ type FakeCloudfront struct {
 	}
 	listDistributionsByRealtimeLogConfigWithContextReturnsOnCall map[int]struct {
 		result1 *cloudfront.ListDistributionsByRealtimeLogConfigOutput
+		result2 error
+	}
+	ListDistributionsByResponseHeadersPolicyIdStub        func(*cloudfront.ListDistributionsByResponseHeadersPolicyIdInput) (*cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput, error)
+	listDistributionsByResponseHeadersPolicyIdMutex       sync.RWMutex
+	listDistributionsByResponseHeadersPolicyIdArgsForCall []struct {
+		arg1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput
+	}
+	listDistributionsByResponseHeadersPolicyIdReturns struct {
+		result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
+		result2 error
+	}
+	listDistributionsByResponseHeadersPolicyIdReturnsOnCall map[int]struct {
+		result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
+		result2 error
+	}
+	ListDistributionsByResponseHeadersPolicyIdRequestStub        func(*cloudfront.ListDistributionsByResponseHeadersPolicyIdInput) (*request.Request, *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput)
+	listDistributionsByResponseHeadersPolicyIdRequestMutex       sync.RWMutex
+	listDistributionsByResponseHeadersPolicyIdRequestArgsForCall []struct {
+		arg1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput
+	}
+	listDistributionsByResponseHeadersPolicyIdRequestReturns struct {
+		result1 *request.Request
+		result2 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
+	}
+	listDistributionsByResponseHeadersPolicyIdRequestReturnsOnCall map[int]struct {
+		result1 *request.Request
+		result2 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
+	}
+	ListDistributionsByResponseHeadersPolicyIdWithContextStub        func(context.Context, *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput, ...request.Option) (*cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput, error)
+	listDistributionsByResponseHeadersPolicyIdWithContextMutex       sync.RWMutex
+	listDistributionsByResponseHeadersPolicyIdWithContextArgsForCall []struct {
+		arg1 context.Context
+		arg2 *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput
+		arg3 []request.Option
+	}
+	listDistributionsByResponseHeadersPolicyIdWithContextReturns struct {
+		result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
+		result2 error
+	}
+	listDistributionsByResponseHeadersPolicyIdWithContextReturnsOnCall map[int]struct {
+		result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
 		result2 error
 	}
 	ListDistributionsByWebACLIdStub        func(*cloudfront.ListDistributionsByWebACLIdInput) (*cloudfront.ListDistributionsByWebACLIdOutput, error)
@@ -2793,6 +3080,47 @@ type FakeCloudfront struct {
 	}
 	listRealtimeLogConfigsWithContextReturnsOnCall map[int]struct {
 		result1 *cloudfront.ListRealtimeLogConfigsOutput
+		result2 error
+	}
+	ListResponseHeadersPoliciesStub        func(*cloudfront.ListResponseHeadersPoliciesInput) (*cloudfront.ListResponseHeadersPoliciesOutput, error)
+	listResponseHeadersPoliciesMutex       sync.RWMutex
+	listResponseHeadersPoliciesArgsForCall []struct {
+		arg1 *cloudfront.ListResponseHeadersPoliciesInput
+	}
+	listResponseHeadersPoliciesReturns struct {
+		result1 *cloudfront.ListResponseHeadersPoliciesOutput
+		result2 error
+	}
+	listResponseHeadersPoliciesReturnsOnCall map[int]struct {
+		result1 *cloudfront.ListResponseHeadersPoliciesOutput
+		result2 error
+	}
+	ListResponseHeadersPoliciesRequestStub        func(*cloudfront.ListResponseHeadersPoliciesInput) (*request.Request, *cloudfront.ListResponseHeadersPoliciesOutput)
+	listResponseHeadersPoliciesRequestMutex       sync.RWMutex
+	listResponseHeadersPoliciesRequestArgsForCall []struct {
+		arg1 *cloudfront.ListResponseHeadersPoliciesInput
+	}
+	listResponseHeadersPoliciesRequestReturns struct {
+		result1 *request.Request
+		result2 *cloudfront.ListResponseHeadersPoliciesOutput
+	}
+	listResponseHeadersPoliciesRequestReturnsOnCall map[int]struct {
+		result1 *request.Request
+		result2 *cloudfront.ListResponseHeadersPoliciesOutput
+	}
+	ListResponseHeadersPoliciesWithContextStub        func(context.Context, *cloudfront.ListResponseHeadersPoliciesInput, ...request.Option) (*cloudfront.ListResponseHeadersPoliciesOutput, error)
+	listResponseHeadersPoliciesWithContextMutex       sync.RWMutex
+	listResponseHeadersPoliciesWithContextArgsForCall []struct {
+		arg1 context.Context
+		arg2 *cloudfront.ListResponseHeadersPoliciesInput
+		arg3 []request.Option
+	}
+	listResponseHeadersPoliciesWithContextReturns struct {
+		result1 *cloudfront.ListResponseHeadersPoliciesOutput
+		result2 error
+	}
+	listResponseHeadersPoliciesWithContextReturnsOnCall map[int]struct {
+		result1 *cloudfront.ListResponseHeadersPoliciesOutput
 		result2 error
 	}
 	ListStreamingDistributionsStub        func(*cloudfront.ListStreamingDistributionsInput) (*cloudfront.ListStreamingDistributionsOutput, error)
@@ -3477,6 +3805,47 @@ type FakeCloudfront struct {
 		result1 *cloudfront.UpdateRealtimeLogConfigOutput
 		result2 error
 	}
+	UpdateResponseHeadersPolicyStub        func(*cloudfront.UpdateResponseHeadersPolicyInput) (*cloudfront.UpdateResponseHeadersPolicyOutput, error)
+	updateResponseHeadersPolicyMutex       sync.RWMutex
+	updateResponseHeadersPolicyArgsForCall []struct {
+		arg1 *cloudfront.UpdateResponseHeadersPolicyInput
+	}
+	updateResponseHeadersPolicyReturns struct {
+		result1 *cloudfront.UpdateResponseHeadersPolicyOutput
+		result2 error
+	}
+	updateResponseHeadersPolicyReturnsOnCall map[int]struct {
+		result1 *cloudfront.UpdateResponseHeadersPolicyOutput
+		result2 error
+	}
+	UpdateResponseHeadersPolicyRequestStub        func(*cloudfront.UpdateResponseHeadersPolicyInput) (*request.Request, *cloudfront.UpdateResponseHeadersPolicyOutput)
+	updateResponseHeadersPolicyRequestMutex       sync.RWMutex
+	updateResponseHeadersPolicyRequestArgsForCall []struct {
+		arg1 *cloudfront.UpdateResponseHeadersPolicyInput
+	}
+	updateResponseHeadersPolicyRequestReturns struct {
+		result1 *request.Request
+		result2 *cloudfront.UpdateResponseHeadersPolicyOutput
+	}
+	updateResponseHeadersPolicyRequestReturnsOnCall map[int]struct {
+		result1 *request.Request
+		result2 *cloudfront.UpdateResponseHeadersPolicyOutput
+	}
+	UpdateResponseHeadersPolicyWithContextStub        func(context.Context, *cloudfront.UpdateResponseHeadersPolicyInput, ...request.Option) (*cloudfront.UpdateResponseHeadersPolicyOutput, error)
+	updateResponseHeadersPolicyWithContextMutex       sync.RWMutex
+	updateResponseHeadersPolicyWithContextArgsForCall []struct {
+		arg1 context.Context
+		arg2 *cloudfront.UpdateResponseHeadersPolicyInput
+		arg3 []request.Option
+	}
+	updateResponseHeadersPolicyWithContextReturns struct {
+		result1 *cloudfront.UpdateResponseHeadersPolicyOutput
+		result2 error
+	}
+	updateResponseHeadersPolicyWithContextReturnsOnCall map[int]struct {
+		result1 *cloudfront.UpdateResponseHeadersPolicyOutput
+		result2 error
+	}
 	UpdateStreamingDistributionStub        func(*cloudfront.UpdateStreamingDistributionInput) (*cloudfront.UpdateStreamingDistributionOutput, error)
 	updateStreamingDistributionMutex       sync.RWMutex
 	updateStreamingDistributionArgsForCall []struct {
@@ -3592,6 +3961,200 @@ type FakeCloudfront struct {
 	}
 	invocations      map[string][][]interface{}
 	invocationsMutex sync.RWMutex
+}
+
+func (fake *FakeCloudfront) AssociateAlias(arg1 *cloudfront.AssociateAliasInput) (*cloudfront.AssociateAliasOutput, error) {
+	fake.associateAliasMutex.Lock()
+	ret, specificReturn := fake.associateAliasReturnsOnCall[len(fake.associateAliasArgsForCall)]
+	fake.associateAliasArgsForCall = append(fake.associateAliasArgsForCall, struct {
+		arg1 *cloudfront.AssociateAliasInput
+	}{arg1})
+	stub := fake.AssociateAliasStub
+	fakeReturns := fake.associateAliasReturns
+	fake.recordInvocation("AssociateAlias", []interface{}{arg1})
+	fake.associateAliasMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) AssociateAliasCallCount() int {
+	fake.associateAliasMutex.RLock()
+	defer fake.associateAliasMutex.RUnlock()
+	return len(fake.associateAliasArgsForCall)
+}
+
+func (fake *FakeCloudfront) AssociateAliasCalls(stub func(*cloudfront.AssociateAliasInput) (*cloudfront.AssociateAliasOutput, error)) {
+	fake.associateAliasMutex.Lock()
+	defer fake.associateAliasMutex.Unlock()
+	fake.AssociateAliasStub = stub
+}
+
+func (fake *FakeCloudfront) AssociateAliasArgsForCall(i int) *cloudfront.AssociateAliasInput {
+	fake.associateAliasMutex.RLock()
+	defer fake.associateAliasMutex.RUnlock()
+	argsForCall := fake.associateAliasArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) AssociateAliasReturns(result1 *cloudfront.AssociateAliasOutput, result2 error) {
+	fake.associateAliasMutex.Lock()
+	defer fake.associateAliasMutex.Unlock()
+	fake.AssociateAliasStub = nil
+	fake.associateAliasReturns = struct {
+		result1 *cloudfront.AssociateAliasOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) AssociateAliasReturnsOnCall(i int, result1 *cloudfront.AssociateAliasOutput, result2 error) {
+	fake.associateAliasMutex.Lock()
+	defer fake.associateAliasMutex.Unlock()
+	fake.AssociateAliasStub = nil
+	if fake.associateAliasReturnsOnCall == nil {
+		fake.associateAliasReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.AssociateAliasOutput
+			result2 error
+		})
+	}
+	fake.associateAliasReturnsOnCall[i] = struct {
+		result1 *cloudfront.AssociateAliasOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) AssociateAliasRequest(arg1 *cloudfront.AssociateAliasInput) (*request.Request, *cloudfront.AssociateAliasOutput) {
+	fake.associateAliasRequestMutex.Lock()
+	ret, specificReturn := fake.associateAliasRequestReturnsOnCall[len(fake.associateAliasRequestArgsForCall)]
+	fake.associateAliasRequestArgsForCall = append(fake.associateAliasRequestArgsForCall, struct {
+		arg1 *cloudfront.AssociateAliasInput
+	}{arg1})
+	stub := fake.AssociateAliasRequestStub
+	fakeReturns := fake.associateAliasRequestReturns
+	fake.recordInvocation("AssociateAliasRequest", []interface{}{arg1})
+	fake.associateAliasRequestMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) AssociateAliasRequestCallCount() int {
+	fake.associateAliasRequestMutex.RLock()
+	defer fake.associateAliasRequestMutex.RUnlock()
+	return len(fake.associateAliasRequestArgsForCall)
+}
+
+func (fake *FakeCloudfront) AssociateAliasRequestCalls(stub func(*cloudfront.AssociateAliasInput) (*request.Request, *cloudfront.AssociateAliasOutput)) {
+	fake.associateAliasRequestMutex.Lock()
+	defer fake.associateAliasRequestMutex.Unlock()
+	fake.AssociateAliasRequestStub = stub
+}
+
+func (fake *FakeCloudfront) AssociateAliasRequestArgsForCall(i int) *cloudfront.AssociateAliasInput {
+	fake.associateAliasRequestMutex.RLock()
+	defer fake.associateAliasRequestMutex.RUnlock()
+	argsForCall := fake.associateAliasRequestArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) AssociateAliasRequestReturns(result1 *request.Request, result2 *cloudfront.AssociateAliasOutput) {
+	fake.associateAliasRequestMutex.Lock()
+	defer fake.associateAliasRequestMutex.Unlock()
+	fake.AssociateAliasRequestStub = nil
+	fake.associateAliasRequestReturns = struct {
+		result1 *request.Request
+		result2 *cloudfront.AssociateAliasOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) AssociateAliasRequestReturnsOnCall(i int, result1 *request.Request, result2 *cloudfront.AssociateAliasOutput) {
+	fake.associateAliasRequestMutex.Lock()
+	defer fake.associateAliasRequestMutex.Unlock()
+	fake.AssociateAliasRequestStub = nil
+	if fake.associateAliasRequestReturnsOnCall == nil {
+		fake.associateAliasRequestReturnsOnCall = make(map[int]struct {
+			result1 *request.Request
+			result2 *cloudfront.AssociateAliasOutput
+		})
+	}
+	fake.associateAliasRequestReturnsOnCall[i] = struct {
+		result1 *request.Request
+		result2 *cloudfront.AssociateAliasOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) AssociateAliasWithContext(arg1 context.Context, arg2 *cloudfront.AssociateAliasInput, arg3 ...request.Option) (*cloudfront.AssociateAliasOutput, error) {
+	fake.associateAliasWithContextMutex.Lock()
+	ret, specificReturn := fake.associateAliasWithContextReturnsOnCall[len(fake.associateAliasWithContextArgsForCall)]
+	fake.associateAliasWithContextArgsForCall = append(fake.associateAliasWithContextArgsForCall, struct {
+		arg1 context.Context
+		arg2 *cloudfront.AssociateAliasInput
+		arg3 []request.Option
+	}{arg1, arg2, arg3})
+	stub := fake.AssociateAliasWithContextStub
+	fakeReturns := fake.associateAliasWithContextReturns
+	fake.recordInvocation("AssociateAliasWithContext", []interface{}{arg1, arg2, arg3})
+	fake.associateAliasWithContextMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2, arg3...)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) AssociateAliasWithContextCallCount() int {
+	fake.associateAliasWithContextMutex.RLock()
+	defer fake.associateAliasWithContextMutex.RUnlock()
+	return len(fake.associateAliasWithContextArgsForCall)
+}
+
+func (fake *FakeCloudfront) AssociateAliasWithContextCalls(stub func(context.Context, *cloudfront.AssociateAliasInput, ...request.Option) (*cloudfront.AssociateAliasOutput, error)) {
+	fake.associateAliasWithContextMutex.Lock()
+	defer fake.associateAliasWithContextMutex.Unlock()
+	fake.AssociateAliasWithContextStub = stub
+}
+
+func (fake *FakeCloudfront) AssociateAliasWithContextArgsForCall(i int) (context.Context, *cloudfront.AssociateAliasInput, []request.Option) {
+	fake.associateAliasWithContextMutex.RLock()
+	defer fake.associateAliasWithContextMutex.RUnlock()
+	argsForCall := fake.associateAliasWithContextArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+}
+
+func (fake *FakeCloudfront) AssociateAliasWithContextReturns(result1 *cloudfront.AssociateAliasOutput, result2 error) {
+	fake.associateAliasWithContextMutex.Lock()
+	defer fake.associateAliasWithContextMutex.Unlock()
+	fake.AssociateAliasWithContextStub = nil
+	fake.associateAliasWithContextReturns = struct {
+		result1 *cloudfront.AssociateAliasOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) AssociateAliasWithContextReturnsOnCall(i int, result1 *cloudfront.AssociateAliasOutput, result2 error) {
+	fake.associateAliasWithContextMutex.Lock()
+	defer fake.associateAliasWithContextMutex.Unlock()
+	fake.AssociateAliasWithContextStub = nil
+	if fake.associateAliasWithContextReturnsOnCall == nil {
+		fake.associateAliasWithContextReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.AssociateAliasOutput
+			result2 error
+		})
+	}
+	fake.associateAliasWithContextReturnsOnCall[i] = struct {
+		result1 *cloudfront.AssociateAliasOutput
+		result2 error
+	}{result1, result2}
 }
 
 func (fake *FakeCloudfront) CreateCachePolicy(arg1 *cloudfront.CreateCachePolicyInput) (*cloudfront.CreateCachePolicyOutput, error) {
@@ -6116,6 +6679,200 @@ func (fake *FakeCloudfront) CreateRealtimeLogConfigWithContextReturnsOnCall(i in
 	}{result1, result2}
 }
 
+func (fake *FakeCloudfront) CreateResponseHeadersPolicy(arg1 *cloudfront.CreateResponseHeadersPolicyInput) (*cloudfront.CreateResponseHeadersPolicyOutput, error) {
+	fake.createResponseHeadersPolicyMutex.Lock()
+	ret, specificReturn := fake.createResponseHeadersPolicyReturnsOnCall[len(fake.createResponseHeadersPolicyArgsForCall)]
+	fake.createResponseHeadersPolicyArgsForCall = append(fake.createResponseHeadersPolicyArgsForCall, struct {
+		arg1 *cloudfront.CreateResponseHeadersPolicyInput
+	}{arg1})
+	stub := fake.CreateResponseHeadersPolicyStub
+	fakeReturns := fake.createResponseHeadersPolicyReturns
+	fake.recordInvocation("CreateResponseHeadersPolicy", []interface{}{arg1})
+	fake.createResponseHeadersPolicyMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyCallCount() int {
+	fake.createResponseHeadersPolicyMutex.RLock()
+	defer fake.createResponseHeadersPolicyMutex.RUnlock()
+	return len(fake.createResponseHeadersPolicyArgsForCall)
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyCalls(stub func(*cloudfront.CreateResponseHeadersPolicyInput) (*cloudfront.CreateResponseHeadersPolicyOutput, error)) {
+	fake.createResponseHeadersPolicyMutex.Lock()
+	defer fake.createResponseHeadersPolicyMutex.Unlock()
+	fake.CreateResponseHeadersPolicyStub = stub
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyArgsForCall(i int) *cloudfront.CreateResponseHeadersPolicyInput {
+	fake.createResponseHeadersPolicyMutex.RLock()
+	defer fake.createResponseHeadersPolicyMutex.RUnlock()
+	argsForCall := fake.createResponseHeadersPolicyArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyReturns(result1 *cloudfront.CreateResponseHeadersPolicyOutput, result2 error) {
+	fake.createResponseHeadersPolicyMutex.Lock()
+	defer fake.createResponseHeadersPolicyMutex.Unlock()
+	fake.CreateResponseHeadersPolicyStub = nil
+	fake.createResponseHeadersPolicyReturns = struct {
+		result1 *cloudfront.CreateResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyReturnsOnCall(i int, result1 *cloudfront.CreateResponseHeadersPolicyOutput, result2 error) {
+	fake.createResponseHeadersPolicyMutex.Lock()
+	defer fake.createResponseHeadersPolicyMutex.Unlock()
+	fake.CreateResponseHeadersPolicyStub = nil
+	if fake.createResponseHeadersPolicyReturnsOnCall == nil {
+		fake.createResponseHeadersPolicyReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.CreateResponseHeadersPolicyOutput
+			result2 error
+		})
+	}
+	fake.createResponseHeadersPolicyReturnsOnCall[i] = struct {
+		result1 *cloudfront.CreateResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyRequest(arg1 *cloudfront.CreateResponseHeadersPolicyInput) (*request.Request, *cloudfront.CreateResponseHeadersPolicyOutput) {
+	fake.createResponseHeadersPolicyRequestMutex.Lock()
+	ret, specificReturn := fake.createResponseHeadersPolicyRequestReturnsOnCall[len(fake.createResponseHeadersPolicyRequestArgsForCall)]
+	fake.createResponseHeadersPolicyRequestArgsForCall = append(fake.createResponseHeadersPolicyRequestArgsForCall, struct {
+		arg1 *cloudfront.CreateResponseHeadersPolicyInput
+	}{arg1})
+	stub := fake.CreateResponseHeadersPolicyRequestStub
+	fakeReturns := fake.createResponseHeadersPolicyRequestReturns
+	fake.recordInvocation("CreateResponseHeadersPolicyRequest", []interface{}{arg1})
+	fake.createResponseHeadersPolicyRequestMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyRequestCallCount() int {
+	fake.createResponseHeadersPolicyRequestMutex.RLock()
+	defer fake.createResponseHeadersPolicyRequestMutex.RUnlock()
+	return len(fake.createResponseHeadersPolicyRequestArgsForCall)
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyRequestCalls(stub func(*cloudfront.CreateResponseHeadersPolicyInput) (*request.Request, *cloudfront.CreateResponseHeadersPolicyOutput)) {
+	fake.createResponseHeadersPolicyRequestMutex.Lock()
+	defer fake.createResponseHeadersPolicyRequestMutex.Unlock()
+	fake.CreateResponseHeadersPolicyRequestStub = stub
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyRequestArgsForCall(i int) *cloudfront.CreateResponseHeadersPolicyInput {
+	fake.createResponseHeadersPolicyRequestMutex.RLock()
+	defer fake.createResponseHeadersPolicyRequestMutex.RUnlock()
+	argsForCall := fake.createResponseHeadersPolicyRequestArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyRequestReturns(result1 *request.Request, result2 *cloudfront.CreateResponseHeadersPolicyOutput) {
+	fake.createResponseHeadersPolicyRequestMutex.Lock()
+	defer fake.createResponseHeadersPolicyRequestMutex.Unlock()
+	fake.CreateResponseHeadersPolicyRequestStub = nil
+	fake.createResponseHeadersPolicyRequestReturns = struct {
+		result1 *request.Request
+		result2 *cloudfront.CreateResponseHeadersPolicyOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyRequestReturnsOnCall(i int, result1 *request.Request, result2 *cloudfront.CreateResponseHeadersPolicyOutput) {
+	fake.createResponseHeadersPolicyRequestMutex.Lock()
+	defer fake.createResponseHeadersPolicyRequestMutex.Unlock()
+	fake.CreateResponseHeadersPolicyRequestStub = nil
+	if fake.createResponseHeadersPolicyRequestReturnsOnCall == nil {
+		fake.createResponseHeadersPolicyRequestReturnsOnCall = make(map[int]struct {
+			result1 *request.Request
+			result2 *cloudfront.CreateResponseHeadersPolicyOutput
+		})
+	}
+	fake.createResponseHeadersPolicyRequestReturnsOnCall[i] = struct {
+		result1 *request.Request
+		result2 *cloudfront.CreateResponseHeadersPolicyOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyWithContext(arg1 context.Context, arg2 *cloudfront.CreateResponseHeadersPolicyInput, arg3 ...request.Option) (*cloudfront.CreateResponseHeadersPolicyOutput, error) {
+	fake.createResponseHeadersPolicyWithContextMutex.Lock()
+	ret, specificReturn := fake.createResponseHeadersPolicyWithContextReturnsOnCall[len(fake.createResponseHeadersPolicyWithContextArgsForCall)]
+	fake.createResponseHeadersPolicyWithContextArgsForCall = append(fake.createResponseHeadersPolicyWithContextArgsForCall, struct {
+		arg1 context.Context
+		arg2 *cloudfront.CreateResponseHeadersPolicyInput
+		arg3 []request.Option
+	}{arg1, arg2, arg3})
+	stub := fake.CreateResponseHeadersPolicyWithContextStub
+	fakeReturns := fake.createResponseHeadersPolicyWithContextReturns
+	fake.recordInvocation("CreateResponseHeadersPolicyWithContext", []interface{}{arg1, arg2, arg3})
+	fake.createResponseHeadersPolicyWithContextMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2, arg3...)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyWithContextCallCount() int {
+	fake.createResponseHeadersPolicyWithContextMutex.RLock()
+	defer fake.createResponseHeadersPolicyWithContextMutex.RUnlock()
+	return len(fake.createResponseHeadersPolicyWithContextArgsForCall)
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyWithContextCalls(stub func(context.Context, *cloudfront.CreateResponseHeadersPolicyInput, ...request.Option) (*cloudfront.CreateResponseHeadersPolicyOutput, error)) {
+	fake.createResponseHeadersPolicyWithContextMutex.Lock()
+	defer fake.createResponseHeadersPolicyWithContextMutex.Unlock()
+	fake.CreateResponseHeadersPolicyWithContextStub = stub
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyWithContextArgsForCall(i int) (context.Context, *cloudfront.CreateResponseHeadersPolicyInput, []request.Option) {
+	fake.createResponseHeadersPolicyWithContextMutex.RLock()
+	defer fake.createResponseHeadersPolicyWithContextMutex.RUnlock()
+	argsForCall := fake.createResponseHeadersPolicyWithContextArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyWithContextReturns(result1 *cloudfront.CreateResponseHeadersPolicyOutput, result2 error) {
+	fake.createResponseHeadersPolicyWithContextMutex.Lock()
+	defer fake.createResponseHeadersPolicyWithContextMutex.Unlock()
+	fake.CreateResponseHeadersPolicyWithContextStub = nil
+	fake.createResponseHeadersPolicyWithContextReturns = struct {
+		result1 *cloudfront.CreateResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) CreateResponseHeadersPolicyWithContextReturnsOnCall(i int, result1 *cloudfront.CreateResponseHeadersPolicyOutput, result2 error) {
+	fake.createResponseHeadersPolicyWithContextMutex.Lock()
+	defer fake.createResponseHeadersPolicyWithContextMutex.Unlock()
+	fake.CreateResponseHeadersPolicyWithContextStub = nil
+	if fake.createResponseHeadersPolicyWithContextReturnsOnCall == nil {
+		fake.createResponseHeadersPolicyWithContextReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.CreateResponseHeadersPolicyOutput
+			result2 error
+		})
+	}
+	fake.createResponseHeadersPolicyWithContextReturnsOnCall[i] = struct {
+		result1 *cloudfront.CreateResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
 func (fake *FakeCloudfront) CreateStreamingDistribution(arg1 *cloudfront.CreateStreamingDistributionInput) (*cloudfront.CreateStreamingDistributionOutput, error) {
 	fake.createStreamingDistributionMutex.Lock()
 	ret, specificReturn := fake.createStreamingDistributionReturnsOnCall[len(fake.createStreamingDistributionArgsForCall)]
@@ -8634,6 +9391,200 @@ func (fake *FakeCloudfront) DeleteRealtimeLogConfigWithContextReturnsOnCall(i in
 	}
 	fake.deleteRealtimeLogConfigWithContextReturnsOnCall[i] = struct {
 		result1 *cloudfront.DeleteRealtimeLogConfigOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicy(arg1 *cloudfront.DeleteResponseHeadersPolicyInput) (*cloudfront.DeleteResponseHeadersPolicyOutput, error) {
+	fake.deleteResponseHeadersPolicyMutex.Lock()
+	ret, specificReturn := fake.deleteResponseHeadersPolicyReturnsOnCall[len(fake.deleteResponseHeadersPolicyArgsForCall)]
+	fake.deleteResponseHeadersPolicyArgsForCall = append(fake.deleteResponseHeadersPolicyArgsForCall, struct {
+		arg1 *cloudfront.DeleteResponseHeadersPolicyInput
+	}{arg1})
+	stub := fake.DeleteResponseHeadersPolicyStub
+	fakeReturns := fake.deleteResponseHeadersPolicyReturns
+	fake.recordInvocation("DeleteResponseHeadersPolicy", []interface{}{arg1})
+	fake.deleteResponseHeadersPolicyMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyCallCount() int {
+	fake.deleteResponseHeadersPolicyMutex.RLock()
+	defer fake.deleteResponseHeadersPolicyMutex.RUnlock()
+	return len(fake.deleteResponseHeadersPolicyArgsForCall)
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyCalls(stub func(*cloudfront.DeleteResponseHeadersPolicyInput) (*cloudfront.DeleteResponseHeadersPolicyOutput, error)) {
+	fake.deleteResponseHeadersPolicyMutex.Lock()
+	defer fake.deleteResponseHeadersPolicyMutex.Unlock()
+	fake.DeleteResponseHeadersPolicyStub = stub
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyArgsForCall(i int) *cloudfront.DeleteResponseHeadersPolicyInput {
+	fake.deleteResponseHeadersPolicyMutex.RLock()
+	defer fake.deleteResponseHeadersPolicyMutex.RUnlock()
+	argsForCall := fake.deleteResponseHeadersPolicyArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyReturns(result1 *cloudfront.DeleteResponseHeadersPolicyOutput, result2 error) {
+	fake.deleteResponseHeadersPolicyMutex.Lock()
+	defer fake.deleteResponseHeadersPolicyMutex.Unlock()
+	fake.DeleteResponseHeadersPolicyStub = nil
+	fake.deleteResponseHeadersPolicyReturns = struct {
+		result1 *cloudfront.DeleteResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyReturnsOnCall(i int, result1 *cloudfront.DeleteResponseHeadersPolicyOutput, result2 error) {
+	fake.deleteResponseHeadersPolicyMutex.Lock()
+	defer fake.deleteResponseHeadersPolicyMutex.Unlock()
+	fake.DeleteResponseHeadersPolicyStub = nil
+	if fake.deleteResponseHeadersPolicyReturnsOnCall == nil {
+		fake.deleteResponseHeadersPolicyReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.DeleteResponseHeadersPolicyOutput
+			result2 error
+		})
+	}
+	fake.deleteResponseHeadersPolicyReturnsOnCall[i] = struct {
+		result1 *cloudfront.DeleteResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyRequest(arg1 *cloudfront.DeleteResponseHeadersPolicyInput) (*request.Request, *cloudfront.DeleteResponseHeadersPolicyOutput) {
+	fake.deleteResponseHeadersPolicyRequestMutex.Lock()
+	ret, specificReturn := fake.deleteResponseHeadersPolicyRequestReturnsOnCall[len(fake.deleteResponseHeadersPolicyRequestArgsForCall)]
+	fake.deleteResponseHeadersPolicyRequestArgsForCall = append(fake.deleteResponseHeadersPolicyRequestArgsForCall, struct {
+		arg1 *cloudfront.DeleteResponseHeadersPolicyInput
+	}{arg1})
+	stub := fake.DeleteResponseHeadersPolicyRequestStub
+	fakeReturns := fake.deleteResponseHeadersPolicyRequestReturns
+	fake.recordInvocation("DeleteResponseHeadersPolicyRequest", []interface{}{arg1})
+	fake.deleteResponseHeadersPolicyRequestMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyRequestCallCount() int {
+	fake.deleteResponseHeadersPolicyRequestMutex.RLock()
+	defer fake.deleteResponseHeadersPolicyRequestMutex.RUnlock()
+	return len(fake.deleteResponseHeadersPolicyRequestArgsForCall)
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyRequestCalls(stub func(*cloudfront.DeleteResponseHeadersPolicyInput) (*request.Request, *cloudfront.DeleteResponseHeadersPolicyOutput)) {
+	fake.deleteResponseHeadersPolicyRequestMutex.Lock()
+	defer fake.deleteResponseHeadersPolicyRequestMutex.Unlock()
+	fake.DeleteResponseHeadersPolicyRequestStub = stub
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyRequestArgsForCall(i int) *cloudfront.DeleteResponseHeadersPolicyInput {
+	fake.deleteResponseHeadersPolicyRequestMutex.RLock()
+	defer fake.deleteResponseHeadersPolicyRequestMutex.RUnlock()
+	argsForCall := fake.deleteResponseHeadersPolicyRequestArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyRequestReturns(result1 *request.Request, result2 *cloudfront.DeleteResponseHeadersPolicyOutput) {
+	fake.deleteResponseHeadersPolicyRequestMutex.Lock()
+	defer fake.deleteResponseHeadersPolicyRequestMutex.Unlock()
+	fake.DeleteResponseHeadersPolicyRequestStub = nil
+	fake.deleteResponseHeadersPolicyRequestReturns = struct {
+		result1 *request.Request
+		result2 *cloudfront.DeleteResponseHeadersPolicyOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyRequestReturnsOnCall(i int, result1 *request.Request, result2 *cloudfront.DeleteResponseHeadersPolicyOutput) {
+	fake.deleteResponseHeadersPolicyRequestMutex.Lock()
+	defer fake.deleteResponseHeadersPolicyRequestMutex.Unlock()
+	fake.DeleteResponseHeadersPolicyRequestStub = nil
+	if fake.deleteResponseHeadersPolicyRequestReturnsOnCall == nil {
+		fake.deleteResponseHeadersPolicyRequestReturnsOnCall = make(map[int]struct {
+			result1 *request.Request
+			result2 *cloudfront.DeleteResponseHeadersPolicyOutput
+		})
+	}
+	fake.deleteResponseHeadersPolicyRequestReturnsOnCall[i] = struct {
+		result1 *request.Request
+		result2 *cloudfront.DeleteResponseHeadersPolicyOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyWithContext(arg1 context.Context, arg2 *cloudfront.DeleteResponseHeadersPolicyInput, arg3 ...request.Option) (*cloudfront.DeleteResponseHeadersPolicyOutput, error) {
+	fake.deleteResponseHeadersPolicyWithContextMutex.Lock()
+	ret, specificReturn := fake.deleteResponseHeadersPolicyWithContextReturnsOnCall[len(fake.deleteResponseHeadersPolicyWithContextArgsForCall)]
+	fake.deleteResponseHeadersPolicyWithContextArgsForCall = append(fake.deleteResponseHeadersPolicyWithContextArgsForCall, struct {
+		arg1 context.Context
+		arg2 *cloudfront.DeleteResponseHeadersPolicyInput
+		arg3 []request.Option
+	}{arg1, arg2, arg3})
+	stub := fake.DeleteResponseHeadersPolicyWithContextStub
+	fakeReturns := fake.deleteResponseHeadersPolicyWithContextReturns
+	fake.recordInvocation("DeleteResponseHeadersPolicyWithContext", []interface{}{arg1, arg2, arg3})
+	fake.deleteResponseHeadersPolicyWithContextMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2, arg3...)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyWithContextCallCount() int {
+	fake.deleteResponseHeadersPolicyWithContextMutex.RLock()
+	defer fake.deleteResponseHeadersPolicyWithContextMutex.RUnlock()
+	return len(fake.deleteResponseHeadersPolicyWithContextArgsForCall)
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyWithContextCalls(stub func(context.Context, *cloudfront.DeleteResponseHeadersPolicyInput, ...request.Option) (*cloudfront.DeleteResponseHeadersPolicyOutput, error)) {
+	fake.deleteResponseHeadersPolicyWithContextMutex.Lock()
+	defer fake.deleteResponseHeadersPolicyWithContextMutex.Unlock()
+	fake.DeleteResponseHeadersPolicyWithContextStub = stub
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyWithContextArgsForCall(i int) (context.Context, *cloudfront.DeleteResponseHeadersPolicyInput, []request.Option) {
+	fake.deleteResponseHeadersPolicyWithContextMutex.RLock()
+	defer fake.deleteResponseHeadersPolicyWithContextMutex.RUnlock()
+	argsForCall := fake.deleteResponseHeadersPolicyWithContextArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyWithContextReturns(result1 *cloudfront.DeleteResponseHeadersPolicyOutput, result2 error) {
+	fake.deleteResponseHeadersPolicyWithContextMutex.Lock()
+	defer fake.deleteResponseHeadersPolicyWithContextMutex.Unlock()
+	fake.DeleteResponseHeadersPolicyWithContextStub = nil
+	fake.deleteResponseHeadersPolicyWithContextReturns = struct {
+		result1 *cloudfront.DeleteResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) DeleteResponseHeadersPolicyWithContextReturnsOnCall(i int, result1 *cloudfront.DeleteResponseHeadersPolicyOutput, result2 error) {
+	fake.deleteResponseHeadersPolicyWithContextMutex.Lock()
+	defer fake.deleteResponseHeadersPolicyWithContextMutex.Unlock()
+	fake.DeleteResponseHeadersPolicyWithContextStub = nil
+	if fake.deleteResponseHeadersPolicyWithContextReturnsOnCall == nil {
+		fake.deleteResponseHeadersPolicyWithContextReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.DeleteResponseHeadersPolicyOutput
+			result2 error
+		})
+	}
+	fake.deleteResponseHeadersPolicyWithContextReturnsOnCall[i] = struct {
+		result1 *cloudfront.DeleteResponseHeadersPolicyOutput
 		result2 error
 	}{result1, result2}
 }
@@ -12906,6 +13857,394 @@ func (fake *FakeCloudfront) GetRealtimeLogConfigWithContextReturnsOnCall(i int, 
 	}{result1, result2}
 }
 
+func (fake *FakeCloudfront) GetResponseHeadersPolicy(arg1 *cloudfront.GetResponseHeadersPolicyInput) (*cloudfront.GetResponseHeadersPolicyOutput, error) {
+	fake.getResponseHeadersPolicyMutex.Lock()
+	ret, specificReturn := fake.getResponseHeadersPolicyReturnsOnCall[len(fake.getResponseHeadersPolicyArgsForCall)]
+	fake.getResponseHeadersPolicyArgsForCall = append(fake.getResponseHeadersPolicyArgsForCall, struct {
+		arg1 *cloudfront.GetResponseHeadersPolicyInput
+	}{arg1})
+	stub := fake.GetResponseHeadersPolicyStub
+	fakeReturns := fake.getResponseHeadersPolicyReturns
+	fake.recordInvocation("GetResponseHeadersPolicy", []interface{}{arg1})
+	fake.getResponseHeadersPolicyMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyCallCount() int {
+	fake.getResponseHeadersPolicyMutex.RLock()
+	defer fake.getResponseHeadersPolicyMutex.RUnlock()
+	return len(fake.getResponseHeadersPolicyArgsForCall)
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyCalls(stub func(*cloudfront.GetResponseHeadersPolicyInput) (*cloudfront.GetResponseHeadersPolicyOutput, error)) {
+	fake.getResponseHeadersPolicyMutex.Lock()
+	defer fake.getResponseHeadersPolicyMutex.Unlock()
+	fake.GetResponseHeadersPolicyStub = stub
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyArgsForCall(i int) *cloudfront.GetResponseHeadersPolicyInput {
+	fake.getResponseHeadersPolicyMutex.RLock()
+	defer fake.getResponseHeadersPolicyMutex.RUnlock()
+	argsForCall := fake.getResponseHeadersPolicyArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyReturns(result1 *cloudfront.GetResponseHeadersPolicyOutput, result2 error) {
+	fake.getResponseHeadersPolicyMutex.Lock()
+	defer fake.getResponseHeadersPolicyMutex.Unlock()
+	fake.GetResponseHeadersPolicyStub = nil
+	fake.getResponseHeadersPolicyReturns = struct {
+		result1 *cloudfront.GetResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyReturnsOnCall(i int, result1 *cloudfront.GetResponseHeadersPolicyOutput, result2 error) {
+	fake.getResponseHeadersPolicyMutex.Lock()
+	defer fake.getResponseHeadersPolicyMutex.Unlock()
+	fake.GetResponseHeadersPolicyStub = nil
+	if fake.getResponseHeadersPolicyReturnsOnCall == nil {
+		fake.getResponseHeadersPolicyReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.GetResponseHeadersPolicyOutput
+			result2 error
+		})
+	}
+	fake.getResponseHeadersPolicyReturnsOnCall[i] = struct {
+		result1 *cloudfront.GetResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfig(arg1 *cloudfront.GetResponseHeadersPolicyConfigInput) (*cloudfront.GetResponseHeadersPolicyConfigOutput, error) {
+	fake.getResponseHeadersPolicyConfigMutex.Lock()
+	ret, specificReturn := fake.getResponseHeadersPolicyConfigReturnsOnCall[len(fake.getResponseHeadersPolicyConfigArgsForCall)]
+	fake.getResponseHeadersPolicyConfigArgsForCall = append(fake.getResponseHeadersPolicyConfigArgsForCall, struct {
+		arg1 *cloudfront.GetResponseHeadersPolicyConfigInput
+	}{arg1})
+	stub := fake.GetResponseHeadersPolicyConfigStub
+	fakeReturns := fake.getResponseHeadersPolicyConfigReturns
+	fake.recordInvocation("GetResponseHeadersPolicyConfig", []interface{}{arg1})
+	fake.getResponseHeadersPolicyConfigMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigCallCount() int {
+	fake.getResponseHeadersPolicyConfigMutex.RLock()
+	defer fake.getResponseHeadersPolicyConfigMutex.RUnlock()
+	return len(fake.getResponseHeadersPolicyConfigArgsForCall)
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigCalls(stub func(*cloudfront.GetResponseHeadersPolicyConfigInput) (*cloudfront.GetResponseHeadersPolicyConfigOutput, error)) {
+	fake.getResponseHeadersPolicyConfigMutex.Lock()
+	defer fake.getResponseHeadersPolicyConfigMutex.Unlock()
+	fake.GetResponseHeadersPolicyConfigStub = stub
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigArgsForCall(i int) *cloudfront.GetResponseHeadersPolicyConfigInput {
+	fake.getResponseHeadersPolicyConfigMutex.RLock()
+	defer fake.getResponseHeadersPolicyConfigMutex.RUnlock()
+	argsForCall := fake.getResponseHeadersPolicyConfigArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigReturns(result1 *cloudfront.GetResponseHeadersPolicyConfigOutput, result2 error) {
+	fake.getResponseHeadersPolicyConfigMutex.Lock()
+	defer fake.getResponseHeadersPolicyConfigMutex.Unlock()
+	fake.GetResponseHeadersPolicyConfigStub = nil
+	fake.getResponseHeadersPolicyConfigReturns = struct {
+		result1 *cloudfront.GetResponseHeadersPolicyConfigOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigReturnsOnCall(i int, result1 *cloudfront.GetResponseHeadersPolicyConfigOutput, result2 error) {
+	fake.getResponseHeadersPolicyConfigMutex.Lock()
+	defer fake.getResponseHeadersPolicyConfigMutex.Unlock()
+	fake.GetResponseHeadersPolicyConfigStub = nil
+	if fake.getResponseHeadersPolicyConfigReturnsOnCall == nil {
+		fake.getResponseHeadersPolicyConfigReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.GetResponseHeadersPolicyConfigOutput
+			result2 error
+		})
+	}
+	fake.getResponseHeadersPolicyConfigReturnsOnCall[i] = struct {
+		result1 *cloudfront.GetResponseHeadersPolicyConfigOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigRequest(arg1 *cloudfront.GetResponseHeadersPolicyConfigInput) (*request.Request, *cloudfront.GetResponseHeadersPolicyConfigOutput) {
+	fake.getResponseHeadersPolicyConfigRequestMutex.Lock()
+	ret, specificReturn := fake.getResponseHeadersPolicyConfigRequestReturnsOnCall[len(fake.getResponseHeadersPolicyConfigRequestArgsForCall)]
+	fake.getResponseHeadersPolicyConfigRequestArgsForCall = append(fake.getResponseHeadersPolicyConfigRequestArgsForCall, struct {
+		arg1 *cloudfront.GetResponseHeadersPolicyConfigInput
+	}{arg1})
+	stub := fake.GetResponseHeadersPolicyConfigRequestStub
+	fakeReturns := fake.getResponseHeadersPolicyConfigRequestReturns
+	fake.recordInvocation("GetResponseHeadersPolicyConfigRequest", []interface{}{arg1})
+	fake.getResponseHeadersPolicyConfigRequestMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigRequestCallCount() int {
+	fake.getResponseHeadersPolicyConfigRequestMutex.RLock()
+	defer fake.getResponseHeadersPolicyConfigRequestMutex.RUnlock()
+	return len(fake.getResponseHeadersPolicyConfigRequestArgsForCall)
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigRequestCalls(stub func(*cloudfront.GetResponseHeadersPolicyConfigInput) (*request.Request, *cloudfront.GetResponseHeadersPolicyConfigOutput)) {
+	fake.getResponseHeadersPolicyConfigRequestMutex.Lock()
+	defer fake.getResponseHeadersPolicyConfigRequestMutex.Unlock()
+	fake.GetResponseHeadersPolicyConfigRequestStub = stub
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigRequestArgsForCall(i int) *cloudfront.GetResponseHeadersPolicyConfigInput {
+	fake.getResponseHeadersPolicyConfigRequestMutex.RLock()
+	defer fake.getResponseHeadersPolicyConfigRequestMutex.RUnlock()
+	argsForCall := fake.getResponseHeadersPolicyConfigRequestArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigRequestReturns(result1 *request.Request, result2 *cloudfront.GetResponseHeadersPolicyConfigOutput) {
+	fake.getResponseHeadersPolicyConfigRequestMutex.Lock()
+	defer fake.getResponseHeadersPolicyConfigRequestMutex.Unlock()
+	fake.GetResponseHeadersPolicyConfigRequestStub = nil
+	fake.getResponseHeadersPolicyConfigRequestReturns = struct {
+		result1 *request.Request
+		result2 *cloudfront.GetResponseHeadersPolicyConfigOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigRequestReturnsOnCall(i int, result1 *request.Request, result2 *cloudfront.GetResponseHeadersPolicyConfigOutput) {
+	fake.getResponseHeadersPolicyConfigRequestMutex.Lock()
+	defer fake.getResponseHeadersPolicyConfigRequestMutex.Unlock()
+	fake.GetResponseHeadersPolicyConfigRequestStub = nil
+	if fake.getResponseHeadersPolicyConfigRequestReturnsOnCall == nil {
+		fake.getResponseHeadersPolicyConfigRequestReturnsOnCall = make(map[int]struct {
+			result1 *request.Request
+			result2 *cloudfront.GetResponseHeadersPolicyConfigOutput
+		})
+	}
+	fake.getResponseHeadersPolicyConfigRequestReturnsOnCall[i] = struct {
+		result1 *request.Request
+		result2 *cloudfront.GetResponseHeadersPolicyConfigOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigWithContext(arg1 context.Context, arg2 *cloudfront.GetResponseHeadersPolicyConfigInput, arg3 ...request.Option) (*cloudfront.GetResponseHeadersPolicyConfigOutput, error) {
+	fake.getResponseHeadersPolicyConfigWithContextMutex.Lock()
+	ret, specificReturn := fake.getResponseHeadersPolicyConfigWithContextReturnsOnCall[len(fake.getResponseHeadersPolicyConfigWithContextArgsForCall)]
+	fake.getResponseHeadersPolicyConfigWithContextArgsForCall = append(fake.getResponseHeadersPolicyConfigWithContextArgsForCall, struct {
+		arg1 context.Context
+		arg2 *cloudfront.GetResponseHeadersPolicyConfigInput
+		arg3 []request.Option
+	}{arg1, arg2, arg3})
+	stub := fake.GetResponseHeadersPolicyConfigWithContextStub
+	fakeReturns := fake.getResponseHeadersPolicyConfigWithContextReturns
+	fake.recordInvocation("GetResponseHeadersPolicyConfigWithContext", []interface{}{arg1, arg2, arg3})
+	fake.getResponseHeadersPolicyConfigWithContextMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2, arg3...)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigWithContextCallCount() int {
+	fake.getResponseHeadersPolicyConfigWithContextMutex.RLock()
+	defer fake.getResponseHeadersPolicyConfigWithContextMutex.RUnlock()
+	return len(fake.getResponseHeadersPolicyConfigWithContextArgsForCall)
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigWithContextCalls(stub func(context.Context, *cloudfront.GetResponseHeadersPolicyConfigInput, ...request.Option) (*cloudfront.GetResponseHeadersPolicyConfigOutput, error)) {
+	fake.getResponseHeadersPolicyConfigWithContextMutex.Lock()
+	defer fake.getResponseHeadersPolicyConfigWithContextMutex.Unlock()
+	fake.GetResponseHeadersPolicyConfigWithContextStub = stub
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigWithContextArgsForCall(i int) (context.Context, *cloudfront.GetResponseHeadersPolicyConfigInput, []request.Option) {
+	fake.getResponseHeadersPolicyConfigWithContextMutex.RLock()
+	defer fake.getResponseHeadersPolicyConfigWithContextMutex.RUnlock()
+	argsForCall := fake.getResponseHeadersPolicyConfigWithContextArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigWithContextReturns(result1 *cloudfront.GetResponseHeadersPolicyConfigOutput, result2 error) {
+	fake.getResponseHeadersPolicyConfigWithContextMutex.Lock()
+	defer fake.getResponseHeadersPolicyConfigWithContextMutex.Unlock()
+	fake.GetResponseHeadersPolicyConfigWithContextStub = nil
+	fake.getResponseHeadersPolicyConfigWithContextReturns = struct {
+		result1 *cloudfront.GetResponseHeadersPolicyConfigOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyConfigWithContextReturnsOnCall(i int, result1 *cloudfront.GetResponseHeadersPolicyConfigOutput, result2 error) {
+	fake.getResponseHeadersPolicyConfigWithContextMutex.Lock()
+	defer fake.getResponseHeadersPolicyConfigWithContextMutex.Unlock()
+	fake.GetResponseHeadersPolicyConfigWithContextStub = nil
+	if fake.getResponseHeadersPolicyConfigWithContextReturnsOnCall == nil {
+		fake.getResponseHeadersPolicyConfigWithContextReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.GetResponseHeadersPolicyConfigOutput
+			result2 error
+		})
+	}
+	fake.getResponseHeadersPolicyConfigWithContextReturnsOnCall[i] = struct {
+		result1 *cloudfront.GetResponseHeadersPolicyConfigOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyRequest(arg1 *cloudfront.GetResponseHeadersPolicyInput) (*request.Request, *cloudfront.GetResponseHeadersPolicyOutput) {
+	fake.getResponseHeadersPolicyRequestMutex.Lock()
+	ret, specificReturn := fake.getResponseHeadersPolicyRequestReturnsOnCall[len(fake.getResponseHeadersPolicyRequestArgsForCall)]
+	fake.getResponseHeadersPolicyRequestArgsForCall = append(fake.getResponseHeadersPolicyRequestArgsForCall, struct {
+		arg1 *cloudfront.GetResponseHeadersPolicyInput
+	}{arg1})
+	stub := fake.GetResponseHeadersPolicyRequestStub
+	fakeReturns := fake.getResponseHeadersPolicyRequestReturns
+	fake.recordInvocation("GetResponseHeadersPolicyRequest", []interface{}{arg1})
+	fake.getResponseHeadersPolicyRequestMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyRequestCallCount() int {
+	fake.getResponseHeadersPolicyRequestMutex.RLock()
+	defer fake.getResponseHeadersPolicyRequestMutex.RUnlock()
+	return len(fake.getResponseHeadersPolicyRequestArgsForCall)
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyRequestCalls(stub func(*cloudfront.GetResponseHeadersPolicyInput) (*request.Request, *cloudfront.GetResponseHeadersPolicyOutput)) {
+	fake.getResponseHeadersPolicyRequestMutex.Lock()
+	defer fake.getResponseHeadersPolicyRequestMutex.Unlock()
+	fake.GetResponseHeadersPolicyRequestStub = stub
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyRequestArgsForCall(i int) *cloudfront.GetResponseHeadersPolicyInput {
+	fake.getResponseHeadersPolicyRequestMutex.RLock()
+	defer fake.getResponseHeadersPolicyRequestMutex.RUnlock()
+	argsForCall := fake.getResponseHeadersPolicyRequestArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyRequestReturns(result1 *request.Request, result2 *cloudfront.GetResponseHeadersPolicyOutput) {
+	fake.getResponseHeadersPolicyRequestMutex.Lock()
+	defer fake.getResponseHeadersPolicyRequestMutex.Unlock()
+	fake.GetResponseHeadersPolicyRequestStub = nil
+	fake.getResponseHeadersPolicyRequestReturns = struct {
+		result1 *request.Request
+		result2 *cloudfront.GetResponseHeadersPolicyOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyRequestReturnsOnCall(i int, result1 *request.Request, result2 *cloudfront.GetResponseHeadersPolicyOutput) {
+	fake.getResponseHeadersPolicyRequestMutex.Lock()
+	defer fake.getResponseHeadersPolicyRequestMutex.Unlock()
+	fake.GetResponseHeadersPolicyRequestStub = nil
+	if fake.getResponseHeadersPolicyRequestReturnsOnCall == nil {
+		fake.getResponseHeadersPolicyRequestReturnsOnCall = make(map[int]struct {
+			result1 *request.Request
+			result2 *cloudfront.GetResponseHeadersPolicyOutput
+		})
+	}
+	fake.getResponseHeadersPolicyRequestReturnsOnCall[i] = struct {
+		result1 *request.Request
+		result2 *cloudfront.GetResponseHeadersPolicyOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyWithContext(arg1 context.Context, arg2 *cloudfront.GetResponseHeadersPolicyInput, arg3 ...request.Option) (*cloudfront.GetResponseHeadersPolicyOutput, error) {
+	fake.getResponseHeadersPolicyWithContextMutex.Lock()
+	ret, specificReturn := fake.getResponseHeadersPolicyWithContextReturnsOnCall[len(fake.getResponseHeadersPolicyWithContextArgsForCall)]
+	fake.getResponseHeadersPolicyWithContextArgsForCall = append(fake.getResponseHeadersPolicyWithContextArgsForCall, struct {
+		arg1 context.Context
+		arg2 *cloudfront.GetResponseHeadersPolicyInput
+		arg3 []request.Option
+	}{arg1, arg2, arg3})
+	stub := fake.GetResponseHeadersPolicyWithContextStub
+	fakeReturns := fake.getResponseHeadersPolicyWithContextReturns
+	fake.recordInvocation("GetResponseHeadersPolicyWithContext", []interface{}{arg1, arg2, arg3})
+	fake.getResponseHeadersPolicyWithContextMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2, arg3...)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyWithContextCallCount() int {
+	fake.getResponseHeadersPolicyWithContextMutex.RLock()
+	defer fake.getResponseHeadersPolicyWithContextMutex.RUnlock()
+	return len(fake.getResponseHeadersPolicyWithContextArgsForCall)
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyWithContextCalls(stub func(context.Context, *cloudfront.GetResponseHeadersPolicyInput, ...request.Option) (*cloudfront.GetResponseHeadersPolicyOutput, error)) {
+	fake.getResponseHeadersPolicyWithContextMutex.Lock()
+	defer fake.getResponseHeadersPolicyWithContextMutex.Unlock()
+	fake.GetResponseHeadersPolicyWithContextStub = stub
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyWithContextArgsForCall(i int) (context.Context, *cloudfront.GetResponseHeadersPolicyInput, []request.Option) {
+	fake.getResponseHeadersPolicyWithContextMutex.RLock()
+	defer fake.getResponseHeadersPolicyWithContextMutex.RUnlock()
+	argsForCall := fake.getResponseHeadersPolicyWithContextArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyWithContextReturns(result1 *cloudfront.GetResponseHeadersPolicyOutput, result2 error) {
+	fake.getResponseHeadersPolicyWithContextMutex.Lock()
+	defer fake.getResponseHeadersPolicyWithContextMutex.Unlock()
+	fake.GetResponseHeadersPolicyWithContextStub = nil
+	fake.getResponseHeadersPolicyWithContextReturns = struct {
+		result1 *cloudfront.GetResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) GetResponseHeadersPolicyWithContextReturnsOnCall(i int, result1 *cloudfront.GetResponseHeadersPolicyOutput, result2 error) {
+	fake.getResponseHeadersPolicyWithContextMutex.Lock()
+	defer fake.getResponseHeadersPolicyWithContextMutex.Unlock()
+	fake.GetResponseHeadersPolicyWithContextStub = nil
+	if fake.getResponseHeadersPolicyWithContextReturnsOnCall == nil {
+		fake.getResponseHeadersPolicyWithContextReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.GetResponseHeadersPolicyOutput
+			result2 error
+		})
+	}
+	fake.getResponseHeadersPolicyWithContextReturnsOnCall[i] = struct {
+		result1 *cloudfront.GetResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
 func (fake *FakeCloudfront) GetStreamingDistribution(arg1 *cloudfront.GetStreamingDistributionInput) (*cloudfront.GetStreamingDistributionOutput, error) {
 	fake.getStreamingDistributionMutex.Lock()
 	ret, specificReturn := fake.getStreamingDistributionReturnsOnCall[len(fake.getStreamingDistributionArgsForCall)]
@@ -13808,6 +15147,200 @@ func (fake *FakeCloudfront) ListCloudFrontOriginAccessIdentitiesWithContextRetur
 	}{result1, result2}
 }
 
+func (fake *FakeCloudfront) ListConflictingAliases(arg1 *cloudfront.ListConflictingAliasesInput) (*cloudfront.ListConflictingAliasesOutput, error) {
+	fake.listConflictingAliasesMutex.Lock()
+	ret, specificReturn := fake.listConflictingAliasesReturnsOnCall[len(fake.listConflictingAliasesArgsForCall)]
+	fake.listConflictingAliasesArgsForCall = append(fake.listConflictingAliasesArgsForCall, struct {
+		arg1 *cloudfront.ListConflictingAliasesInput
+	}{arg1})
+	stub := fake.ListConflictingAliasesStub
+	fakeReturns := fake.listConflictingAliasesReturns
+	fake.recordInvocation("ListConflictingAliases", []interface{}{arg1})
+	fake.listConflictingAliasesMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesCallCount() int {
+	fake.listConflictingAliasesMutex.RLock()
+	defer fake.listConflictingAliasesMutex.RUnlock()
+	return len(fake.listConflictingAliasesArgsForCall)
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesCalls(stub func(*cloudfront.ListConflictingAliasesInput) (*cloudfront.ListConflictingAliasesOutput, error)) {
+	fake.listConflictingAliasesMutex.Lock()
+	defer fake.listConflictingAliasesMutex.Unlock()
+	fake.ListConflictingAliasesStub = stub
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesArgsForCall(i int) *cloudfront.ListConflictingAliasesInput {
+	fake.listConflictingAliasesMutex.RLock()
+	defer fake.listConflictingAliasesMutex.RUnlock()
+	argsForCall := fake.listConflictingAliasesArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesReturns(result1 *cloudfront.ListConflictingAliasesOutput, result2 error) {
+	fake.listConflictingAliasesMutex.Lock()
+	defer fake.listConflictingAliasesMutex.Unlock()
+	fake.ListConflictingAliasesStub = nil
+	fake.listConflictingAliasesReturns = struct {
+		result1 *cloudfront.ListConflictingAliasesOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesReturnsOnCall(i int, result1 *cloudfront.ListConflictingAliasesOutput, result2 error) {
+	fake.listConflictingAliasesMutex.Lock()
+	defer fake.listConflictingAliasesMutex.Unlock()
+	fake.ListConflictingAliasesStub = nil
+	if fake.listConflictingAliasesReturnsOnCall == nil {
+		fake.listConflictingAliasesReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.ListConflictingAliasesOutput
+			result2 error
+		})
+	}
+	fake.listConflictingAliasesReturnsOnCall[i] = struct {
+		result1 *cloudfront.ListConflictingAliasesOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesRequest(arg1 *cloudfront.ListConflictingAliasesInput) (*request.Request, *cloudfront.ListConflictingAliasesOutput) {
+	fake.listConflictingAliasesRequestMutex.Lock()
+	ret, specificReturn := fake.listConflictingAliasesRequestReturnsOnCall[len(fake.listConflictingAliasesRequestArgsForCall)]
+	fake.listConflictingAliasesRequestArgsForCall = append(fake.listConflictingAliasesRequestArgsForCall, struct {
+		arg1 *cloudfront.ListConflictingAliasesInput
+	}{arg1})
+	stub := fake.ListConflictingAliasesRequestStub
+	fakeReturns := fake.listConflictingAliasesRequestReturns
+	fake.recordInvocation("ListConflictingAliasesRequest", []interface{}{arg1})
+	fake.listConflictingAliasesRequestMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesRequestCallCount() int {
+	fake.listConflictingAliasesRequestMutex.RLock()
+	defer fake.listConflictingAliasesRequestMutex.RUnlock()
+	return len(fake.listConflictingAliasesRequestArgsForCall)
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesRequestCalls(stub func(*cloudfront.ListConflictingAliasesInput) (*request.Request, *cloudfront.ListConflictingAliasesOutput)) {
+	fake.listConflictingAliasesRequestMutex.Lock()
+	defer fake.listConflictingAliasesRequestMutex.Unlock()
+	fake.ListConflictingAliasesRequestStub = stub
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesRequestArgsForCall(i int) *cloudfront.ListConflictingAliasesInput {
+	fake.listConflictingAliasesRequestMutex.RLock()
+	defer fake.listConflictingAliasesRequestMutex.RUnlock()
+	argsForCall := fake.listConflictingAliasesRequestArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesRequestReturns(result1 *request.Request, result2 *cloudfront.ListConflictingAliasesOutput) {
+	fake.listConflictingAliasesRequestMutex.Lock()
+	defer fake.listConflictingAliasesRequestMutex.Unlock()
+	fake.ListConflictingAliasesRequestStub = nil
+	fake.listConflictingAliasesRequestReturns = struct {
+		result1 *request.Request
+		result2 *cloudfront.ListConflictingAliasesOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesRequestReturnsOnCall(i int, result1 *request.Request, result2 *cloudfront.ListConflictingAliasesOutput) {
+	fake.listConflictingAliasesRequestMutex.Lock()
+	defer fake.listConflictingAliasesRequestMutex.Unlock()
+	fake.ListConflictingAliasesRequestStub = nil
+	if fake.listConflictingAliasesRequestReturnsOnCall == nil {
+		fake.listConflictingAliasesRequestReturnsOnCall = make(map[int]struct {
+			result1 *request.Request
+			result2 *cloudfront.ListConflictingAliasesOutput
+		})
+	}
+	fake.listConflictingAliasesRequestReturnsOnCall[i] = struct {
+		result1 *request.Request
+		result2 *cloudfront.ListConflictingAliasesOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesWithContext(arg1 context.Context, arg2 *cloudfront.ListConflictingAliasesInput, arg3 ...request.Option) (*cloudfront.ListConflictingAliasesOutput, error) {
+	fake.listConflictingAliasesWithContextMutex.Lock()
+	ret, specificReturn := fake.listConflictingAliasesWithContextReturnsOnCall[len(fake.listConflictingAliasesWithContextArgsForCall)]
+	fake.listConflictingAliasesWithContextArgsForCall = append(fake.listConflictingAliasesWithContextArgsForCall, struct {
+		arg1 context.Context
+		arg2 *cloudfront.ListConflictingAliasesInput
+		arg3 []request.Option
+	}{arg1, arg2, arg3})
+	stub := fake.ListConflictingAliasesWithContextStub
+	fakeReturns := fake.listConflictingAliasesWithContextReturns
+	fake.recordInvocation("ListConflictingAliasesWithContext", []interface{}{arg1, arg2, arg3})
+	fake.listConflictingAliasesWithContextMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2, arg3...)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesWithContextCallCount() int {
+	fake.listConflictingAliasesWithContextMutex.RLock()
+	defer fake.listConflictingAliasesWithContextMutex.RUnlock()
+	return len(fake.listConflictingAliasesWithContextArgsForCall)
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesWithContextCalls(stub func(context.Context, *cloudfront.ListConflictingAliasesInput, ...request.Option) (*cloudfront.ListConflictingAliasesOutput, error)) {
+	fake.listConflictingAliasesWithContextMutex.Lock()
+	defer fake.listConflictingAliasesWithContextMutex.Unlock()
+	fake.ListConflictingAliasesWithContextStub = stub
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesWithContextArgsForCall(i int) (context.Context, *cloudfront.ListConflictingAliasesInput, []request.Option) {
+	fake.listConflictingAliasesWithContextMutex.RLock()
+	defer fake.listConflictingAliasesWithContextMutex.RUnlock()
+	argsForCall := fake.listConflictingAliasesWithContextArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesWithContextReturns(result1 *cloudfront.ListConflictingAliasesOutput, result2 error) {
+	fake.listConflictingAliasesWithContextMutex.Lock()
+	defer fake.listConflictingAliasesWithContextMutex.Unlock()
+	fake.ListConflictingAliasesWithContextStub = nil
+	fake.listConflictingAliasesWithContextReturns = struct {
+		result1 *cloudfront.ListConflictingAliasesOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListConflictingAliasesWithContextReturnsOnCall(i int, result1 *cloudfront.ListConflictingAliasesOutput, result2 error) {
+	fake.listConflictingAliasesWithContextMutex.Lock()
+	defer fake.listConflictingAliasesWithContextMutex.Unlock()
+	fake.ListConflictingAliasesWithContextStub = nil
+	if fake.listConflictingAliasesWithContextReturnsOnCall == nil {
+		fake.listConflictingAliasesWithContextReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.ListConflictingAliasesOutput
+			result2 error
+		})
+	}
+	fake.listConflictingAliasesWithContextReturnsOnCall[i] = struct {
+		result1 *cloudfront.ListConflictingAliasesOutput
+		result2 error
+	}{result1, result2}
+}
+
 func (fake *FakeCloudfront) ListDistributions(arg1 *cloudfront.ListDistributionsInput) (*cloudfront.ListDistributionsOutput, error) {
 	fake.listDistributionsMutex.Lock()
 	ret, specificReturn := fake.listDistributionsReturnsOnCall[len(fake.listDistributionsArgsForCall)]
@@ -14644,6 +16177,200 @@ func (fake *FakeCloudfront) ListDistributionsByRealtimeLogConfigWithContextRetur
 	}
 	fake.listDistributionsByRealtimeLogConfigWithContextReturnsOnCall[i] = struct {
 		result1 *cloudfront.ListDistributionsByRealtimeLogConfigOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyId(arg1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput) (*cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput, error) {
+	fake.listDistributionsByResponseHeadersPolicyIdMutex.Lock()
+	ret, specificReturn := fake.listDistributionsByResponseHeadersPolicyIdReturnsOnCall[len(fake.listDistributionsByResponseHeadersPolicyIdArgsForCall)]
+	fake.listDistributionsByResponseHeadersPolicyIdArgsForCall = append(fake.listDistributionsByResponseHeadersPolicyIdArgsForCall, struct {
+		arg1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput
+	}{arg1})
+	stub := fake.ListDistributionsByResponseHeadersPolicyIdStub
+	fakeReturns := fake.listDistributionsByResponseHeadersPolicyIdReturns
+	fake.recordInvocation("ListDistributionsByResponseHeadersPolicyId", []interface{}{arg1})
+	fake.listDistributionsByResponseHeadersPolicyIdMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdCallCount() int {
+	fake.listDistributionsByResponseHeadersPolicyIdMutex.RLock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdMutex.RUnlock()
+	return len(fake.listDistributionsByResponseHeadersPolicyIdArgsForCall)
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdCalls(stub func(*cloudfront.ListDistributionsByResponseHeadersPolicyIdInput) (*cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput, error)) {
+	fake.listDistributionsByResponseHeadersPolicyIdMutex.Lock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdMutex.Unlock()
+	fake.ListDistributionsByResponseHeadersPolicyIdStub = stub
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdArgsForCall(i int) *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput {
+	fake.listDistributionsByResponseHeadersPolicyIdMutex.RLock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdMutex.RUnlock()
+	argsForCall := fake.listDistributionsByResponseHeadersPolicyIdArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdReturns(result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput, result2 error) {
+	fake.listDistributionsByResponseHeadersPolicyIdMutex.Lock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdMutex.Unlock()
+	fake.ListDistributionsByResponseHeadersPolicyIdStub = nil
+	fake.listDistributionsByResponseHeadersPolicyIdReturns = struct {
+		result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdReturnsOnCall(i int, result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput, result2 error) {
+	fake.listDistributionsByResponseHeadersPolicyIdMutex.Lock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdMutex.Unlock()
+	fake.ListDistributionsByResponseHeadersPolicyIdStub = nil
+	if fake.listDistributionsByResponseHeadersPolicyIdReturnsOnCall == nil {
+		fake.listDistributionsByResponseHeadersPolicyIdReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
+			result2 error
+		})
+	}
+	fake.listDistributionsByResponseHeadersPolicyIdReturnsOnCall[i] = struct {
+		result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdRequest(arg1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput) (*request.Request, *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput) {
+	fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.Lock()
+	ret, specificReturn := fake.listDistributionsByResponseHeadersPolicyIdRequestReturnsOnCall[len(fake.listDistributionsByResponseHeadersPolicyIdRequestArgsForCall)]
+	fake.listDistributionsByResponseHeadersPolicyIdRequestArgsForCall = append(fake.listDistributionsByResponseHeadersPolicyIdRequestArgsForCall, struct {
+		arg1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput
+	}{arg1})
+	stub := fake.ListDistributionsByResponseHeadersPolicyIdRequestStub
+	fakeReturns := fake.listDistributionsByResponseHeadersPolicyIdRequestReturns
+	fake.recordInvocation("ListDistributionsByResponseHeadersPolicyIdRequest", []interface{}{arg1})
+	fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdRequestCallCount() int {
+	fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.RLock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.RUnlock()
+	return len(fake.listDistributionsByResponseHeadersPolicyIdRequestArgsForCall)
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdRequestCalls(stub func(*cloudfront.ListDistributionsByResponseHeadersPolicyIdInput) (*request.Request, *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput)) {
+	fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.Lock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.Unlock()
+	fake.ListDistributionsByResponseHeadersPolicyIdRequestStub = stub
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdRequestArgsForCall(i int) *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput {
+	fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.RLock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.RUnlock()
+	argsForCall := fake.listDistributionsByResponseHeadersPolicyIdRequestArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdRequestReturns(result1 *request.Request, result2 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput) {
+	fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.Lock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.Unlock()
+	fake.ListDistributionsByResponseHeadersPolicyIdRequestStub = nil
+	fake.listDistributionsByResponseHeadersPolicyIdRequestReturns = struct {
+		result1 *request.Request
+		result2 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdRequestReturnsOnCall(i int, result1 *request.Request, result2 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput) {
+	fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.Lock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.Unlock()
+	fake.ListDistributionsByResponseHeadersPolicyIdRequestStub = nil
+	if fake.listDistributionsByResponseHeadersPolicyIdRequestReturnsOnCall == nil {
+		fake.listDistributionsByResponseHeadersPolicyIdRequestReturnsOnCall = make(map[int]struct {
+			result1 *request.Request
+			result2 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
+		})
+	}
+	fake.listDistributionsByResponseHeadersPolicyIdRequestReturnsOnCall[i] = struct {
+		result1 *request.Request
+		result2 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdWithContext(arg1 context.Context, arg2 *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput, arg3 ...request.Option) (*cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput, error) {
+	fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.Lock()
+	ret, specificReturn := fake.listDistributionsByResponseHeadersPolicyIdWithContextReturnsOnCall[len(fake.listDistributionsByResponseHeadersPolicyIdWithContextArgsForCall)]
+	fake.listDistributionsByResponseHeadersPolicyIdWithContextArgsForCall = append(fake.listDistributionsByResponseHeadersPolicyIdWithContextArgsForCall, struct {
+		arg1 context.Context
+		arg2 *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput
+		arg3 []request.Option
+	}{arg1, arg2, arg3})
+	stub := fake.ListDistributionsByResponseHeadersPolicyIdWithContextStub
+	fakeReturns := fake.listDistributionsByResponseHeadersPolicyIdWithContextReturns
+	fake.recordInvocation("ListDistributionsByResponseHeadersPolicyIdWithContext", []interface{}{arg1, arg2, arg3})
+	fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2, arg3...)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdWithContextCallCount() int {
+	fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.RLock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.RUnlock()
+	return len(fake.listDistributionsByResponseHeadersPolicyIdWithContextArgsForCall)
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdWithContextCalls(stub func(context.Context, *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput, ...request.Option) (*cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput, error)) {
+	fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.Lock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.Unlock()
+	fake.ListDistributionsByResponseHeadersPolicyIdWithContextStub = stub
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdWithContextArgsForCall(i int) (context.Context, *cloudfront.ListDistributionsByResponseHeadersPolicyIdInput, []request.Option) {
+	fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.RLock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.RUnlock()
+	argsForCall := fake.listDistributionsByResponseHeadersPolicyIdWithContextArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdWithContextReturns(result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput, result2 error) {
+	fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.Lock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.Unlock()
+	fake.ListDistributionsByResponseHeadersPolicyIdWithContextStub = nil
+	fake.listDistributionsByResponseHeadersPolicyIdWithContextReturns = struct {
+		result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListDistributionsByResponseHeadersPolicyIdWithContextReturnsOnCall(i int, result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput, result2 error) {
+	fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.Lock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.Unlock()
+	fake.ListDistributionsByResponseHeadersPolicyIdWithContextStub = nil
+	if fake.listDistributionsByResponseHeadersPolicyIdWithContextReturnsOnCall == nil {
+		fake.listDistributionsByResponseHeadersPolicyIdWithContextReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
+			result2 error
+		})
+	}
+	fake.listDistributionsByResponseHeadersPolicyIdWithContextReturnsOnCall[i] = struct {
+		result1 *cloudfront.ListDistributionsByResponseHeadersPolicyIdOutput
 		result2 error
 	}{result1, result2}
 }
@@ -16772,6 +18499,200 @@ func (fake *FakeCloudfront) ListRealtimeLogConfigsWithContextReturnsOnCall(i int
 	}
 	fake.listRealtimeLogConfigsWithContextReturnsOnCall[i] = struct {
 		result1 *cloudfront.ListRealtimeLogConfigsOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPolicies(arg1 *cloudfront.ListResponseHeadersPoliciesInput) (*cloudfront.ListResponseHeadersPoliciesOutput, error) {
+	fake.listResponseHeadersPoliciesMutex.Lock()
+	ret, specificReturn := fake.listResponseHeadersPoliciesReturnsOnCall[len(fake.listResponseHeadersPoliciesArgsForCall)]
+	fake.listResponseHeadersPoliciesArgsForCall = append(fake.listResponseHeadersPoliciesArgsForCall, struct {
+		arg1 *cloudfront.ListResponseHeadersPoliciesInput
+	}{arg1})
+	stub := fake.ListResponseHeadersPoliciesStub
+	fakeReturns := fake.listResponseHeadersPoliciesReturns
+	fake.recordInvocation("ListResponseHeadersPolicies", []interface{}{arg1})
+	fake.listResponseHeadersPoliciesMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesCallCount() int {
+	fake.listResponseHeadersPoliciesMutex.RLock()
+	defer fake.listResponseHeadersPoliciesMutex.RUnlock()
+	return len(fake.listResponseHeadersPoliciesArgsForCall)
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesCalls(stub func(*cloudfront.ListResponseHeadersPoliciesInput) (*cloudfront.ListResponseHeadersPoliciesOutput, error)) {
+	fake.listResponseHeadersPoliciesMutex.Lock()
+	defer fake.listResponseHeadersPoliciesMutex.Unlock()
+	fake.ListResponseHeadersPoliciesStub = stub
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesArgsForCall(i int) *cloudfront.ListResponseHeadersPoliciesInput {
+	fake.listResponseHeadersPoliciesMutex.RLock()
+	defer fake.listResponseHeadersPoliciesMutex.RUnlock()
+	argsForCall := fake.listResponseHeadersPoliciesArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesReturns(result1 *cloudfront.ListResponseHeadersPoliciesOutput, result2 error) {
+	fake.listResponseHeadersPoliciesMutex.Lock()
+	defer fake.listResponseHeadersPoliciesMutex.Unlock()
+	fake.ListResponseHeadersPoliciesStub = nil
+	fake.listResponseHeadersPoliciesReturns = struct {
+		result1 *cloudfront.ListResponseHeadersPoliciesOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesReturnsOnCall(i int, result1 *cloudfront.ListResponseHeadersPoliciesOutput, result2 error) {
+	fake.listResponseHeadersPoliciesMutex.Lock()
+	defer fake.listResponseHeadersPoliciesMutex.Unlock()
+	fake.ListResponseHeadersPoliciesStub = nil
+	if fake.listResponseHeadersPoliciesReturnsOnCall == nil {
+		fake.listResponseHeadersPoliciesReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.ListResponseHeadersPoliciesOutput
+			result2 error
+		})
+	}
+	fake.listResponseHeadersPoliciesReturnsOnCall[i] = struct {
+		result1 *cloudfront.ListResponseHeadersPoliciesOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesRequest(arg1 *cloudfront.ListResponseHeadersPoliciesInput) (*request.Request, *cloudfront.ListResponseHeadersPoliciesOutput) {
+	fake.listResponseHeadersPoliciesRequestMutex.Lock()
+	ret, specificReturn := fake.listResponseHeadersPoliciesRequestReturnsOnCall[len(fake.listResponseHeadersPoliciesRequestArgsForCall)]
+	fake.listResponseHeadersPoliciesRequestArgsForCall = append(fake.listResponseHeadersPoliciesRequestArgsForCall, struct {
+		arg1 *cloudfront.ListResponseHeadersPoliciesInput
+	}{arg1})
+	stub := fake.ListResponseHeadersPoliciesRequestStub
+	fakeReturns := fake.listResponseHeadersPoliciesRequestReturns
+	fake.recordInvocation("ListResponseHeadersPoliciesRequest", []interface{}{arg1})
+	fake.listResponseHeadersPoliciesRequestMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesRequestCallCount() int {
+	fake.listResponseHeadersPoliciesRequestMutex.RLock()
+	defer fake.listResponseHeadersPoliciesRequestMutex.RUnlock()
+	return len(fake.listResponseHeadersPoliciesRequestArgsForCall)
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesRequestCalls(stub func(*cloudfront.ListResponseHeadersPoliciesInput) (*request.Request, *cloudfront.ListResponseHeadersPoliciesOutput)) {
+	fake.listResponseHeadersPoliciesRequestMutex.Lock()
+	defer fake.listResponseHeadersPoliciesRequestMutex.Unlock()
+	fake.ListResponseHeadersPoliciesRequestStub = stub
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesRequestArgsForCall(i int) *cloudfront.ListResponseHeadersPoliciesInput {
+	fake.listResponseHeadersPoliciesRequestMutex.RLock()
+	defer fake.listResponseHeadersPoliciesRequestMutex.RUnlock()
+	argsForCall := fake.listResponseHeadersPoliciesRequestArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesRequestReturns(result1 *request.Request, result2 *cloudfront.ListResponseHeadersPoliciesOutput) {
+	fake.listResponseHeadersPoliciesRequestMutex.Lock()
+	defer fake.listResponseHeadersPoliciesRequestMutex.Unlock()
+	fake.ListResponseHeadersPoliciesRequestStub = nil
+	fake.listResponseHeadersPoliciesRequestReturns = struct {
+		result1 *request.Request
+		result2 *cloudfront.ListResponseHeadersPoliciesOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesRequestReturnsOnCall(i int, result1 *request.Request, result2 *cloudfront.ListResponseHeadersPoliciesOutput) {
+	fake.listResponseHeadersPoliciesRequestMutex.Lock()
+	defer fake.listResponseHeadersPoliciesRequestMutex.Unlock()
+	fake.ListResponseHeadersPoliciesRequestStub = nil
+	if fake.listResponseHeadersPoliciesRequestReturnsOnCall == nil {
+		fake.listResponseHeadersPoliciesRequestReturnsOnCall = make(map[int]struct {
+			result1 *request.Request
+			result2 *cloudfront.ListResponseHeadersPoliciesOutput
+		})
+	}
+	fake.listResponseHeadersPoliciesRequestReturnsOnCall[i] = struct {
+		result1 *request.Request
+		result2 *cloudfront.ListResponseHeadersPoliciesOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesWithContext(arg1 context.Context, arg2 *cloudfront.ListResponseHeadersPoliciesInput, arg3 ...request.Option) (*cloudfront.ListResponseHeadersPoliciesOutput, error) {
+	fake.listResponseHeadersPoliciesWithContextMutex.Lock()
+	ret, specificReturn := fake.listResponseHeadersPoliciesWithContextReturnsOnCall[len(fake.listResponseHeadersPoliciesWithContextArgsForCall)]
+	fake.listResponseHeadersPoliciesWithContextArgsForCall = append(fake.listResponseHeadersPoliciesWithContextArgsForCall, struct {
+		arg1 context.Context
+		arg2 *cloudfront.ListResponseHeadersPoliciesInput
+		arg3 []request.Option
+	}{arg1, arg2, arg3})
+	stub := fake.ListResponseHeadersPoliciesWithContextStub
+	fakeReturns := fake.listResponseHeadersPoliciesWithContextReturns
+	fake.recordInvocation("ListResponseHeadersPoliciesWithContext", []interface{}{arg1, arg2, arg3})
+	fake.listResponseHeadersPoliciesWithContextMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2, arg3...)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesWithContextCallCount() int {
+	fake.listResponseHeadersPoliciesWithContextMutex.RLock()
+	defer fake.listResponseHeadersPoliciesWithContextMutex.RUnlock()
+	return len(fake.listResponseHeadersPoliciesWithContextArgsForCall)
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesWithContextCalls(stub func(context.Context, *cloudfront.ListResponseHeadersPoliciesInput, ...request.Option) (*cloudfront.ListResponseHeadersPoliciesOutput, error)) {
+	fake.listResponseHeadersPoliciesWithContextMutex.Lock()
+	defer fake.listResponseHeadersPoliciesWithContextMutex.Unlock()
+	fake.ListResponseHeadersPoliciesWithContextStub = stub
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesWithContextArgsForCall(i int) (context.Context, *cloudfront.ListResponseHeadersPoliciesInput, []request.Option) {
+	fake.listResponseHeadersPoliciesWithContextMutex.RLock()
+	defer fake.listResponseHeadersPoliciesWithContextMutex.RUnlock()
+	argsForCall := fake.listResponseHeadersPoliciesWithContextArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesWithContextReturns(result1 *cloudfront.ListResponseHeadersPoliciesOutput, result2 error) {
+	fake.listResponseHeadersPoliciesWithContextMutex.Lock()
+	defer fake.listResponseHeadersPoliciesWithContextMutex.Unlock()
+	fake.ListResponseHeadersPoliciesWithContextStub = nil
+	fake.listResponseHeadersPoliciesWithContextReturns = struct {
+		result1 *cloudfront.ListResponseHeadersPoliciesOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) ListResponseHeadersPoliciesWithContextReturnsOnCall(i int, result1 *cloudfront.ListResponseHeadersPoliciesOutput, result2 error) {
+	fake.listResponseHeadersPoliciesWithContextMutex.Lock()
+	defer fake.listResponseHeadersPoliciesWithContextMutex.Unlock()
+	fake.ListResponseHeadersPoliciesWithContextStub = nil
+	if fake.listResponseHeadersPoliciesWithContextReturnsOnCall == nil {
+		fake.listResponseHeadersPoliciesWithContextReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.ListResponseHeadersPoliciesOutput
+			result2 error
+		})
+	}
+	fake.listResponseHeadersPoliciesWithContextReturnsOnCall[i] = struct {
+		result1 *cloudfront.ListResponseHeadersPoliciesOutput
 		result2 error
 	}{result1, result2}
 }
@@ -20006,6 +21927,200 @@ func (fake *FakeCloudfront) UpdateRealtimeLogConfigWithContextReturnsOnCall(i in
 	}{result1, result2}
 }
 
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicy(arg1 *cloudfront.UpdateResponseHeadersPolicyInput) (*cloudfront.UpdateResponseHeadersPolicyOutput, error) {
+	fake.updateResponseHeadersPolicyMutex.Lock()
+	ret, specificReturn := fake.updateResponseHeadersPolicyReturnsOnCall[len(fake.updateResponseHeadersPolicyArgsForCall)]
+	fake.updateResponseHeadersPolicyArgsForCall = append(fake.updateResponseHeadersPolicyArgsForCall, struct {
+		arg1 *cloudfront.UpdateResponseHeadersPolicyInput
+	}{arg1})
+	stub := fake.UpdateResponseHeadersPolicyStub
+	fakeReturns := fake.updateResponseHeadersPolicyReturns
+	fake.recordInvocation("UpdateResponseHeadersPolicy", []interface{}{arg1})
+	fake.updateResponseHeadersPolicyMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyCallCount() int {
+	fake.updateResponseHeadersPolicyMutex.RLock()
+	defer fake.updateResponseHeadersPolicyMutex.RUnlock()
+	return len(fake.updateResponseHeadersPolicyArgsForCall)
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyCalls(stub func(*cloudfront.UpdateResponseHeadersPolicyInput) (*cloudfront.UpdateResponseHeadersPolicyOutput, error)) {
+	fake.updateResponseHeadersPolicyMutex.Lock()
+	defer fake.updateResponseHeadersPolicyMutex.Unlock()
+	fake.UpdateResponseHeadersPolicyStub = stub
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyArgsForCall(i int) *cloudfront.UpdateResponseHeadersPolicyInput {
+	fake.updateResponseHeadersPolicyMutex.RLock()
+	defer fake.updateResponseHeadersPolicyMutex.RUnlock()
+	argsForCall := fake.updateResponseHeadersPolicyArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyReturns(result1 *cloudfront.UpdateResponseHeadersPolicyOutput, result2 error) {
+	fake.updateResponseHeadersPolicyMutex.Lock()
+	defer fake.updateResponseHeadersPolicyMutex.Unlock()
+	fake.UpdateResponseHeadersPolicyStub = nil
+	fake.updateResponseHeadersPolicyReturns = struct {
+		result1 *cloudfront.UpdateResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyReturnsOnCall(i int, result1 *cloudfront.UpdateResponseHeadersPolicyOutput, result2 error) {
+	fake.updateResponseHeadersPolicyMutex.Lock()
+	defer fake.updateResponseHeadersPolicyMutex.Unlock()
+	fake.UpdateResponseHeadersPolicyStub = nil
+	if fake.updateResponseHeadersPolicyReturnsOnCall == nil {
+		fake.updateResponseHeadersPolicyReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.UpdateResponseHeadersPolicyOutput
+			result2 error
+		})
+	}
+	fake.updateResponseHeadersPolicyReturnsOnCall[i] = struct {
+		result1 *cloudfront.UpdateResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyRequest(arg1 *cloudfront.UpdateResponseHeadersPolicyInput) (*request.Request, *cloudfront.UpdateResponseHeadersPolicyOutput) {
+	fake.updateResponseHeadersPolicyRequestMutex.Lock()
+	ret, specificReturn := fake.updateResponseHeadersPolicyRequestReturnsOnCall[len(fake.updateResponseHeadersPolicyRequestArgsForCall)]
+	fake.updateResponseHeadersPolicyRequestArgsForCall = append(fake.updateResponseHeadersPolicyRequestArgsForCall, struct {
+		arg1 *cloudfront.UpdateResponseHeadersPolicyInput
+	}{arg1})
+	stub := fake.UpdateResponseHeadersPolicyRequestStub
+	fakeReturns := fake.updateResponseHeadersPolicyRequestReturns
+	fake.recordInvocation("UpdateResponseHeadersPolicyRequest", []interface{}{arg1})
+	fake.updateResponseHeadersPolicyRequestMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyRequestCallCount() int {
+	fake.updateResponseHeadersPolicyRequestMutex.RLock()
+	defer fake.updateResponseHeadersPolicyRequestMutex.RUnlock()
+	return len(fake.updateResponseHeadersPolicyRequestArgsForCall)
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyRequestCalls(stub func(*cloudfront.UpdateResponseHeadersPolicyInput) (*request.Request, *cloudfront.UpdateResponseHeadersPolicyOutput)) {
+	fake.updateResponseHeadersPolicyRequestMutex.Lock()
+	defer fake.updateResponseHeadersPolicyRequestMutex.Unlock()
+	fake.UpdateResponseHeadersPolicyRequestStub = stub
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyRequestArgsForCall(i int) *cloudfront.UpdateResponseHeadersPolicyInput {
+	fake.updateResponseHeadersPolicyRequestMutex.RLock()
+	defer fake.updateResponseHeadersPolicyRequestMutex.RUnlock()
+	argsForCall := fake.updateResponseHeadersPolicyRequestArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyRequestReturns(result1 *request.Request, result2 *cloudfront.UpdateResponseHeadersPolicyOutput) {
+	fake.updateResponseHeadersPolicyRequestMutex.Lock()
+	defer fake.updateResponseHeadersPolicyRequestMutex.Unlock()
+	fake.UpdateResponseHeadersPolicyRequestStub = nil
+	fake.updateResponseHeadersPolicyRequestReturns = struct {
+		result1 *request.Request
+		result2 *cloudfront.UpdateResponseHeadersPolicyOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyRequestReturnsOnCall(i int, result1 *request.Request, result2 *cloudfront.UpdateResponseHeadersPolicyOutput) {
+	fake.updateResponseHeadersPolicyRequestMutex.Lock()
+	defer fake.updateResponseHeadersPolicyRequestMutex.Unlock()
+	fake.UpdateResponseHeadersPolicyRequestStub = nil
+	if fake.updateResponseHeadersPolicyRequestReturnsOnCall == nil {
+		fake.updateResponseHeadersPolicyRequestReturnsOnCall = make(map[int]struct {
+			result1 *request.Request
+			result2 *cloudfront.UpdateResponseHeadersPolicyOutput
+		})
+	}
+	fake.updateResponseHeadersPolicyRequestReturnsOnCall[i] = struct {
+		result1 *request.Request
+		result2 *cloudfront.UpdateResponseHeadersPolicyOutput
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyWithContext(arg1 context.Context, arg2 *cloudfront.UpdateResponseHeadersPolicyInput, arg3 ...request.Option) (*cloudfront.UpdateResponseHeadersPolicyOutput, error) {
+	fake.updateResponseHeadersPolicyWithContextMutex.Lock()
+	ret, specificReturn := fake.updateResponseHeadersPolicyWithContextReturnsOnCall[len(fake.updateResponseHeadersPolicyWithContextArgsForCall)]
+	fake.updateResponseHeadersPolicyWithContextArgsForCall = append(fake.updateResponseHeadersPolicyWithContextArgsForCall, struct {
+		arg1 context.Context
+		arg2 *cloudfront.UpdateResponseHeadersPolicyInput
+		arg3 []request.Option
+	}{arg1, arg2, arg3})
+	stub := fake.UpdateResponseHeadersPolicyWithContextStub
+	fakeReturns := fake.updateResponseHeadersPolicyWithContextReturns
+	fake.recordInvocation("UpdateResponseHeadersPolicyWithContext", []interface{}{arg1, arg2, arg3})
+	fake.updateResponseHeadersPolicyWithContextMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2, arg3...)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyWithContextCallCount() int {
+	fake.updateResponseHeadersPolicyWithContextMutex.RLock()
+	defer fake.updateResponseHeadersPolicyWithContextMutex.RUnlock()
+	return len(fake.updateResponseHeadersPolicyWithContextArgsForCall)
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyWithContextCalls(stub func(context.Context, *cloudfront.UpdateResponseHeadersPolicyInput, ...request.Option) (*cloudfront.UpdateResponseHeadersPolicyOutput, error)) {
+	fake.updateResponseHeadersPolicyWithContextMutex.Lock()
+	defer fake.updateResponseHeadersPolicyWithContextMutex.Unlock()
+	fake.UpdateResponseHeadersPolicyWithContextStub = stub
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyWithContextArgsForCall(i int) (context.Context, *cloudfront.UpdateResponseHeadersPolicyInput, []request.Option) {
+	fake.updateResponseHeadersPolicyWithContextMutex.RLock()
+	defer fake.updateResponseHeadersPolicyWithContextMutex.RUnlock()
+	argsForCall := fake.updateResponseHeadersPolicyWithContextArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyWithContextReturns(result1 *cloudfront.UpdateResponseHeadersPolicyOutput, result2 error) {
+	fake.updateResponseHeadersPolicyWithContextMutex.Lock()
+	defer fake.updateResponseHeadersPolicyWithContextMutex.Unlock()
+	fake.UpdateResponseHeadersPolicyWithContextStub = nil
+	fake.updateResponseHeadersPolicyWithContextReturns = struct {
+		result1 *cloudfront.UpdateResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeCloudfront) UpdateResponseHeadersPolicyWithContextReturnsOnCall(i int, result1 *cloudfront.UpdateResponseHeadersPolicyOutput, result2 error) {
+	fake.updateResponseHeadersPolicyWithContextMutex.Lock()
+	defer fake.updateResponseHeadersPolicyWithContextMutex.Unlock()
+	fake.UpdateResponseHeadersPolicyWithContextStub = nil
+	if fake.updateResponseHeadersPolicyWithContextReturnsOnCall == nil {
+		fake.updateResponseHeadersPolicyWithContextReturnsOnCall = make(map[int]struct {
+			result1 *cloudfront.UpdateResponseHeadersPolicyOutput
+			result2 error
+		})
+	}
+	fake.updateResponseHeadersPolicyWithContextReturnsOnCall[i] = struct {
+		result1 *cloudfront.UpdateResponseHeadersPolicyOutput
+		result2 error
+	}{result1, result2}
+}
+
 func (fake *FakeCloudfront) UpdateStreamingDistribution(arg1 *cloudfront.UpdateStreamingDistributionInput) (*cloudfront.UpdateStreamingDistributionOutput, error) {
 	fake.updateStreamingDistributionMutex.Lock()
 	ret, specificReturn := fake.updateStreamingDistributionReturnsOnCall[len(fake.updateStreamingDistributionArgsForCall)]
@@ -20575,6 +22690,12 @@ func (fake *FakeCloudfront) WaitUntilStreamingDistributionDeployedWithContextRet
 func (fake *FakeCloudfront) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
+	fake.associateAliasMutex.RLock()
+	defer fake.associateAliasMutex.RUnlock()
+	fake.associateAliasRequestMutex.RLock()
+	defer fake.associateAliasRequestMutex.RUnlock()
+	fake.associateAliasWithContextMutex.RLock()
+	defer fake.associateAliasWithContextMutex.RUnlock()
 	fake.createCachePolicyMutex.RLock()
 	defer fake.createCachePolicyMutex.RUnlock()
 	fake.createCachePolicyRequestMutex.RLock()
@@ -20653,6 +22774,12 @@ func (fake *FakeCloudfront) Invocations() map[string][][]interface{} {
 	defer fake.createRealtimeLogConfigRequestMutex.RUnlock()
 	fake.createRealtimeLogConfigWithContextMutex.RLock()
 	defer fake.createRealtimeLogConfigWithContextMutex.RUnlock()
+	fake.createResponseHeadersPolicyMutex.RLock()
+	defer fake.createResponseHeadersPolicyMutex.RUnlock()
+	fake.createResponseHeadersPolicyRequestMutex.RLock()
+	defer fake.createResponseHeadersPolicyRequestMutex.RUnlock()
+	fake.createResponseHeadersPolicyWithContextMutex.RLock()
+	defer fake.createResponseHeadersPolicyWithContextMutex.RUnlock()
 	fake.createStreamingDistributionMutex.RLock()
 	defer fake.createStreamingDistributionMutex.RUnlock()
 	fake.createStreamingDistributionRequestMutex.RLock()
@@ -20731,6 +22858,12 @@ func (fake *FakeCloudfront) Invocations() map[string][][]interface{} {
 	defer fake.deleteRealtimeLogConfigRequestMutex.RUnlock()
 	fake.deleteRealtimeLogConfigWithContextMutex.RLock()
 	defer fake.deleteRealtimeLogConfigWithContextMutex.RUnlock()
+	fake.deleteResponseHeadersPolicyMutex.RLock()
+	defer fake.deleteResponseHeadersPolicyMutex.RUnlock()
+	fake.deleteResponseHeadersPolicyRequestMutex.RLock()
+	defer fake.deleteResponseHeadersPolicyRequestMutex.RUnlock()
+	fake.deleteResponseHeadersPolicyWithContextMutex.RLock()
+	defer fake.deleteResponseHeadersPolicyWithContextMutex.RUnlock()
 	fake.deleteStreamingDistributionMutex.RLock()
 	defer fake.deleteStreamingDistributionMutex.RUnlock()
 	fake.deleteStreamingDistributionRequestMutex.RLock()
@@ -20863,6 +22996,18 @@ func (fake *FakeCloudfront) Invocations() map[string][][]interface{} {
 	defer fake.getRealtimeLogConfigRequestMutex.RUnlock()
 	fake.getRealtimeLogConfigWithContextMutex.RLock()
 	defer fake.getRealtimeLogConfigWithContextMutex.RUnlock()
+	fake.getResponseHeadersPolicyMutex.RLock()
+	defer fake.getResponseHeadersPolicyMutex.RUnlock()
+	fake.getResponseHeadersPolicyConfigMutex.RLock()
+	defer fake.getResponseHeadersPolicyConfigMutex.RUnlock()
+	fake.getResponseHeadersPolicyConfigRequestMutex.RLock()
+	defer fake.getResponseHeadersPolicyConfigRequestMutex.RUnlock()
+	fake.getResponseHeadersPolicyConfigWithContextMutex.RLock()
+	defer fake.getResponseHeadersPolicyConfigWithContextMutex.RUnlock()
+	fake.getResponseHeadersPolicyRequestMutex.RLock()
+	defer fake.getResponseHeadersPolicyRequestMutex.RUnlock()
+	fake.getResponseHeadersPolicyWithContextMutex.RLock()
+	defer fake.getResponseHeadersPolicyWithContextMutex.RUnlock()
 	fake.getStreamingDistributionMutex.RLock()
 	defer fake.getStreamingDistributionMutex.RUnlock()
 	fake.getStreamingDistributionConfigMutex.RLock()
@@ -20891,6 +23036,12 @@ func (fake *FakeCloudfront) Invocations() map[string][][]interface{} {
 	defer fake.listCloudFrontOriginAccessIdentitiesRequestMutex.RUnlock()
 	fake.listCloudFrontOriginAccessIdentitiesWithContextMutex.RLock()
 	defer fake.listCloudFrontOriginAccessIdentitiesWithContextMutex.RUnlock()
+	fake.listConflictingAliasesMutex.RLock()
+	defer fake.listConflictingAliasesMutex.RUnlock()
+	fake.listConflictingAliasesRequestMutex.RLock()
+	defer fake.listConflictingAliasesRequestMutex.RUnlock()
+	fake.listConflictingAliasesWithContextMutex.RLock()
+	defer fake.listConflictingAliasesWithContextMutex.RUnlock()
 	fake.listDistributionsMutex.RLock()
 	defer fake.listDistributionsMutex.RUnlock()
 	fake.listDistributionsByCachePolicyIdMutex.RLock()
@@ -20917,6 +23068,12 @@ func (fake *FakeCloudfront) Invocations() map[string][][]interface{} {
 	defer fake.listDistributionsByRealtimeLogConfigRequestMutex.RUnlock()
 	fake.listDistributionsByRealtimeLogConfigWithContextMutex.RLock()
 	defer fake.listDistributionsByRealtimeLogConfigWithContextMutex.RUnlock()
+	fake.listDistributionsByResponseHeadersPolicyIdMutex.RLock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdMutex.RUnlock()
+	fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.RLock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdRequestMutex.RUnlock()
+	fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.RLock()
+	defer fake.listDistributionsByResponseHeadersPolicyIdWithContextMutex.RUnlock()
 	fake.listDistributionsByWebACLIdMutex.RLock()
 	defer fake.listDistributionsByWebACLIdMutex.RUnlock()
 	fake.listDistributionsByWebACLIdRequestMutex.RLock()
@@ -20983,6 +23140,12 @@ func (fake *FakeCloudfront) Invocations() map[string][][]interface{} {
 	defer fake.listRealtimeLogConfigsRequestMutex.RUnlock()
 	fake.listRealtimeLogConfigsWithContextMutex.RLock()
 	defer fake.listRealtimeLogConfigsWithContextMutex.RUnlock()
+	fake.listResponseHeadersPoliciesMutex.RLock()
+	defer fake.listResponseHeadersPoliciesMutex.RUnlock()
+	fake.listResponseHeadersPoliciesRequestMutex.RLock()
+	defer fake.listResponseHeadersPoliciesRequestMutex.RUnlock()
+	fake.listResponseHeadersPoliciesWithContextMutex.RLock()
+	defer fake.listResponseHeadersPoliciesWithContextMutex.RUnlock()
 	fake.listStreamingDistributionsMutex.RLock()
 	defer fake.listStreamingDistributionsMutex.RUnlock()
 	fake.listStreamingDistributionsPagesMutex.RLock()
@@ -21083,6 +23246,12 @@ func (fake *FakeCloudfront) Invocations() map[string][][]interface{} {
 	defer fake.updateRealtimeLogConfigRequestMutex.RUnlock()
 	fake.updateRealtimeLogConfigWithContextMutex.RLock()
 	defer fake.updateRealtimeLogConfigWithContextMutex.RUnlock()
+	fake.updateResponseHeadersPolicyMutex.RLock()
+	defer fake.updateResponseHeadersPolicyMutex.RUnlock()
+	fake.updateResponseHeadersPolicyRequestMutex.RLock()
+	defer fake.updateResponseHeadersPolicyRequestMutex.RUnlock()
+	fake.updateResponseHeadersPolicyWithContextMutex.RLock()
+	defer fake.updateResponseHeadersPolicyWithContextMutex.RUnlock()
 	fake.updateStreamingDistributionMutex.RLock()
 	defer fake.updateStreamingDistributionMutex.RUnlock()
 	fake.updateStreamingDistributionRequestMutex.RLock()
