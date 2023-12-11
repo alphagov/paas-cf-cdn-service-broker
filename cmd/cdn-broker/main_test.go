@@ -78,7 +78,7 @@ var _ = Describe("TLS Configuration", func() {
 			models.RouteStore{Database: &db, Logger: logger.Session("route-store", lager.Data{"entry-point": "broker"})},
 			utils.NewCertificateManager(logger, cfg, session),
 		)
-		Expect(err).NotTo(HaveOccurred())
+		Expect(manager).NotTo(BeNil())
 
 		CdnBroker = broker.New(
 			&manager,
@@ -86,16 +86,17 @@ var _ = Describe("TLS Configuration", func() {
 			cfg,
 			logger,
 		)
-		Expect(err).NotTo(HaveOccurred())
+		Expect(CdnBroker).NotTo(BeNil())
 
 		tlsConfig, err = testConfig.GenerateTLSConfig()
 		Expect(err).NotTo(HaveOccurred())
 		Expect(tlsConfig).NotTo(BeNil())
 
 		tlsConfig.RootCAs = caCertPool
-		Expect(err).NotTo(HaveOccurred())
+		Expect(tlsConfig.RootCAs).ToNot(BeNil())
 
 		server = BuildHTTPHandler(CdnBroker, logger, &cfg, &db)
+		Expect(server).ToNot(BeNil())
 
 		go func() {
 			err = StartHTTPServer(&cfg, server, logger)

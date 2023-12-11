@@ -8,7 +8,6 @@ import (
 type TLSConfig struct {
 	Certificate string `json:"certificate"`
 	PrivateKey  string `json:"private_key"`
-	caCert      string
 }
 
 // GenerateTLSConfig produces a tls.Config structure out of TLSConfig.
@@ -34,28 +33,6 @@ func (t *TLSConfig) GenerateTLSConfig() (*tls.Config, error) {
 		},
 	}, nil
 }
-
-// func (t *TLSConfig) GenerateTLSConfig() (*tls.Config, error) {
-// 	certContent, err := os.ReadFile(t.Certificate)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("error reading certificate file: %v", err)
-// 	}
-
-// 	keyContent, err := os.ReadFile(t.PrivateKey)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("error reading private key file: %v", err)
-// 	}
-
-// 	certificate, err := tls.X509KeyPair(certContent, keyContent)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("error loading certificate and private key: %v", err)
-// 	}
-
-// 	return &tls.Config{
-// 		Certificates: []tls.Certificate{certificate},
-// 		// ... rest of your TLS configuration ...
-// 	}, nil
-// }
 
 func (t *TLSConfig) validate() error {
 	if t.Certificate == "" {
