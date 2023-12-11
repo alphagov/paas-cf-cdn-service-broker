@@ -4,7 +4,6 @@ import (
 	"crypto/tls"
 	"flag"
 	"fmt"
-	"log"
 	"net"
 	"net/http"
 	"os"
@@ -27,15 +26,16 @@ import (
 )
 
 func main() {
+	logger := lager.NewLogger("cdn-service-broker")
+	logger.RegisterSink(lager.NewWriterSink(os.Stderr, lager.INFO))
+
 	configFilePath := flag.String("config", "", "Location of the config file")
 	flag.Parse()
 
 	cfg, err := config.LoadConfig(*configFilePath)
 	if err != nil {
-		log.Fatalf("Error loading config file: %s", err)
+		logger.Fatal("Error loading config file: %s", err)
 	}
-	logger := lager.NewLogger("cdn-service-broker")
-	logger.RegisterSink(lager.NewWriterSink(os.Stderr, lager.INFO))
 
 	db, err := config.Connect(*cfg)
 	if err != nil {
@@ -68,6 +68,7 @@ func main() {
 		models.RouteStore{Database: db, Logger: logger.Session("route-store", lager.Data{"entry-point": "broker"})},
 		utils.NewCertificateManager(logger, *cfg, session),
 	)
+
 	broker := broker.New(
 		&manager,
 		cfClient,
@@ -75,7 +76,9 @@ func main() {
 		logger,
 	)
 
-	err = startHTTPServer(cfg, broker, db, logger)
+	server := BuildHTTPHandler(broker, logger, cfg, db)
+
+	err = StartHTTPServer(cfg, server, logger)
 	if err != nil {
 		logger.Fatal("Failed to start broker process: %s", err)
 	}
@@ -94,14 +97,11 @@ func BuildHTTPHandler(serviceBroker *broker.CdnServiceBroker, logger lager.Logge
 	return mux
 }
 
-func startHTTPServer(
+func StartHTTPServer(
 	cfg *config.Settings,
-	serviceBroker *broker.CdnServiceBroker,
-	db *gorm.DB,
+	server http.Handler,
 	logger lager.Logger,
 ) error {
-	server := BuildHTTPHandler(serviceBroker, logger, cfg, db)
-
 	listenAddress := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
 	// We don't use http.ListenAndServe here so that the "start" log message is
 	// logged after the socket is listening. This log message is used by the

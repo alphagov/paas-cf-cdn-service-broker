@@ -1,0 +1,25 @@
+{
+    "broker_username": "cdn-broker",
+    "broker_password": "password",
+    "host": "0.0.0.0",
+    "port": "",
+    "database_url": "postgres://postgres:foobar@localhost/postgres?sslmode=disable",
+    "database_conn_max_lifetime": "1h",
+    "database_max_idle_conns": 1,
+    "cloudfront_prefix": "integration-test-cdn",
+    "aws_access_key_id": "",
+    "aws_secret_access_key": "",
+    "aws_region": "eu-west-1",
+    "server_side_encryption": "AES256",
+    "api_address": "",
+    "client_id": "",
+    "client_secret": "",
+    "default_origin": "example.com",
+    "default_default_ttl": 0,
+    "schedule": "0 0 * * * *",
+    "extra_request_headers": [ {} ],
+    "tls": {
+      "certificate": "",
+      "private_key": ""
+    }
+  }
